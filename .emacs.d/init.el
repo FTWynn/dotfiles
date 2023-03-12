@@ -25,6 +25,16 @@
 
 ;; Let's get some packages
 (straight-use-package 'org)
+(straight-use-package 'org-roam)
+(use-package magit)
+
+;; Some Mastering Emacs lifts
+;; Change switch buffers to ibuffer
+;; TODO: explore different completion frameworks
+(global-set-key [remap list-buffers] 'ibuffer)
+(global-set-key (kbd "M-o") 'other-window)
+;; Remember M-j takes your current typings and runs with it
+(fido-vertical-mode 1)
 
 ;; Chromebook specific
 ;; TODO: Need to detect chromebook environment before setting these
