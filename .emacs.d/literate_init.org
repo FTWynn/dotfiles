@@ -1,0 +1,194 @@
+#+TITLE Literate Init File for FTWynn
+#+PROPERTY: header-args:emacs-lisp 
+
+* Startup and Display Properties
+
+Start out maximized with no splash screen
+
+#+begin_src emacs-lisp
+  (setq default-frame-alist '((fullscreen . maximized)))
+  (setq inhibit-startup-screen t)
+#+end_src
+
+Turning off most of the frame stuff
+
+Leaving menu-bar on for discoverability as I re-learn
+
+#+begin_src emacs-lisp
+  (menu-bar-mode 1) 
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+#+end_src
+
+Nicer font please! Height is 1/10th of a point here.
+
+They both *should* work, but the latter seems more modern
+
+#+begin_src emacs-lisp
+  ;;(set-frame-font "Fira Code 18")
+  (set-face-attribute 'default nil :font "Fira Code" :height 180)
+
+#+end_src
+
+I'm tinkering with a visible bell. It's nice feedback when I
+don't have headphones on
+
+#+begin_src emacs-lisp
+  (setq visible-bell t)
+#+end_src
+
+Don't display line numbers in every buffer... but I'm not sure
+I really need this
+
+;;(global-display-line-numbers-mode -1)
+
+Don't pop up UI dialogs when prompting, sticking to the more kweyboard native stuff
+#+begin_src emacs-lisp
+  (setq use-dialog-box nil)
+#+end_src
+
+Watch files on disk and generally keep them in sync with buffers
+
+#+begin_src emacs-lisp
+  ;; Revert buffers when the underlying file has changed
+  ;; aka, watch files on disk and reload those changes if another program messes with them
+  (global-auto-revert-mode 1)
+
+  ;; Revert Dired and other buffers
+  (setq global-auto-revert-non-file-buffers t)
+#+end_src
+
+
+* Some Basic Org Setup
+
+Tempo (from contrib) makes the `<s <TAB>` shortcode work
+
+Gotta get org-roam in there too of course
+
+#+begin_src emacs-lisp
+  (straight-use-package 'org-contrib)
+  (require 'org-tempo)
+  
+  (straight-use-package 'org-roam)
+#+end_src
+
+* Magit
+
+It's magit. Enough said.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package magit)
+#+END_SRC
+
+* Mastering Emacs Lifts
+
+** TODO Explore different completion frameworks
+
+Remember M-j takes your current typings and runs with it to make new files
+
+Fido is the easiest drop in replacement for now.
+
+Vertico seems to be what the cool kids are using.
+
+#+begin_src emacs-lisp
+  (fido-vertical-mode 1)
+#+end_src
+
+
+** Change Buffer List to ibuffer
+
+Seems nicer. I'll keep it for now.
+
+#+begin_src emacs-lisp
+  (global-set-key [remap list-buffers] 'ibuffer)
+  (global-set-key (kbd "M-o") 'other-window)
+#+end_src
+
+** Minibuffer History
+
+;; Save what you enter into minibuffer prompts to cycle thorugh with M-p and M-n
+#+begin_src emacs-lisp
+  (setq history-length 25)
+  (savehist-mode 1)
+#+end_src
+
+** Remember Cursor Placement
+
+Remember and restore the last cursor location of opened files
+
+#+begin_src emacs-lisp
+  (save-place-mode 1)
+#+end_src
+
+** Recent Files
+
+;; Make recent files a thing with M-x recentf-open-files
+#+begin_src emacs-lisp
+  (recentf-mode 1)
+#+end_src
+
+* Cleaning Up Files
+
+** Need to look into the nolitter package
+
+** Set Customize vars in a different file
+
+Move automated customization variables to a separate file and load it
+#+begin_src emacs-lisp
+  (setq custom-file (locate-user-emacs-file "custom-vars.el"))
+  (load custom-file 'noerror 'nomessage)
+#+end_src
+
+
+* Chromebook Platform Specific
+
+** TODO Need to remap Page Up and Down
+
+This org-mode-map doesn't seem to work anymore... needs more homework
+
+;(define-key org-mode-map (kbd "<prior>") 'org-metaup)
+;(define-key org-mode-map (kbd "<next>") 'org-metadown)
+
+* Windows Platform Specific
+* Themes
+** Modus Theme Customizations
+
+There's a lot of configs in here...
+
+There are someone else's suggestions... they seem ok
+
+Not sure if I want to reskin the colors at some point
+
+There's also a *lot* that borders on non-theme stuff
+- Rainbow parens
+- Completions
+- Etc
+
+#+begin_src emacs-lisp
+(setq modus-themes-mode-line '(accented borderless)
+      modus-themes-bold-constructs t
+      modus-themes-italic-constructs t
+      modus-themes-fringes 'subtle
+      modus-themes-tabs-accented t
+      modus-themes-paren-match '(bold intense)
+      modus-themes-prompts '(bold intense)
+      modus-themes-completions 'opinionated
+      modus-themes-org-blocks 'tinted-background
+      modus-themes-scale-headings t
+      modus-themes-region '(bg-only)
+      modus-themes-headings
+      '((1 . (rainbow overline background 1.4))
+        (2 . (rainbow background 1.3))
+        (3 . (rainbow bold 1.2))
+	(4 . (rainbow bold 1.2))
+	(5 . (rainbow bold 1.2))
+	(6 . (rainbow bold 1.2))
+	(7 . (rainbow bold 1.2))
+	(8 . (rainbow bold 1.2))
+        (t . (semilight 1.1))))
+#+end_src
+
+#+begin_src emacs-lisp
+  (load-theme 'modus-vivendi)
+#+end_src
+
