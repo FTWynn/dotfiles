@@ -64,6 +64,7 @@
 ;; Configure the Modus Themes' appearance
 ;; There's a lot in here that borders on non-theme stuff
 ;; Rainbow parens, completions, etc
+
 (setq modus-themes-mode-line '(accented borderless)
       modus-themes-bold-constructs t
       modus-themes-italic-constructs t
@@ -82,6 +83,26 @@
         (t . (semilight 1.1))))
 
 (load-theme 'modus-vivendi)
+
+
+;; (use-package doom-themes
+;;   :config
+;;   ;; Global settings (defaults)
+;;   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+;;         doom-themes-enable-italic t) ; if nil, italics is universally disabled
+;;   (load-theme 'doom-ayu-dark t)
+
+;;   ;; Enable flashing mode-line on errors
+;;   (doom-themes-visual-bell-config)
+;;   ;; Enable custom neotree theme (all-the-icons must be installed!)
+;;   ;(doom-themes-neotree-config)
+;;   ;; or for treemacs users
+;;   ;(setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+;;   ;(doom-themes-treemacs-config)
+;;   ;; Corrects (and improves) org-mode's native fontification.
+;;   (doom-themes-org-config))
+
+
 
 ;; These both get to the same place
 ;; Height is in 1/10th of a point... so add dat zero
