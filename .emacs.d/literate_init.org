@@ -225,7 +225,7 @@ Dat sweet sweet wtf does this key-combo do
     :init (which-key-mode)
     :diminish which-key-mode
     :config
-    (setq which-key-idle-delay 0.1))
+    (setq which-key-idle-delay 0.05))
 #+end_src
 
 ** Vertico
