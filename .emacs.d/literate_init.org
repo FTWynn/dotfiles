@@ -1,16 +1,27 @@
 #+TITLE Literate Init File for FTWynn
 #+PROPERTY: header-args:emacs-lisp 
 
+* General.el
+
+This seems to be a big keybinding library everyone uses.
+
+Putting it first because a bunch of use-package definitions might need it.
+
+#+begin_src emacs-lisp
+  (straight-use-package 'general)
+  (require 'general)
+#+end_src
+
 * Startup and Display Properties
 
-Start out maximized with no splash screen
+** Start out maximized with no splash screen
 
 #+begin_src emacs-lisp
   (setq default-frame-alist '((fullscreen . maximized)))
   (setq inhibit-startup-screen t)
 #+end_src
 
-Turning off most of the frame stuff
+** Turning off most of the frame stuff
 
 Leaving menu-bar on for discoverability as I re-learn
 
@@ -20,7 +31,9 @@ Leaving menu-bar on for discoverability as I re-learn
   (scroll-bar-mode -1)
 #+end_src
 
-Nicer font please! Height is 1/10th of a point here.
+** Nicer font please!
+
+Height is 1/10th of a point here.
 
 They both *should* work, but the latter seems more modern
 
@@ -30,6 +43,8 @@ They both *should* work, but the latter seems more modern
 
 #+end_src
 
+** Visible Bell
+
 I'm tinkering with a visible bell. It's nice feedback when I
 don't have headphones on
 
@@ -37,10 +52,32 @@ don't have headphones on
   (setq visible-bell t)
 #+end_src
 
+** Line and Column Numbers
 Don't display line numbers in every buffer... but I'm not sure
 I really need this
 
-;;(global-display-line-numbers-mode -1)
+#+begin_src emacs-lisp
+  (global-display-line-numbers-mode 1)
+  (column-number-mode)
+#+end_src
+
+Disable in some buffers
+
+#+begin_src emacs-lisp
+    (dolist (mode '(term-mode-hook
+		    eshell-mode-hook
+		    shell-mode-hook))
+      (add-hook mode (lambda () (display-line-numbers-mode 0))))
+#+end_src
+
+** Rainbow Delimeters
+
+#+begin_src emacs-lisp
+  (use-package rainbow-delimiters
+    :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+
+** Native Dialog Boxes
 
 Don't pop up UI dialogs when prompting, sticking to the more kweyboard native stuff
 #+begin_src emacs-lisp
@@ -57,7 +94,6 @@ Watch files on disk and generally keep them in sync with buffers
   ;; Revert Dired and other buffers
   (setq global-auto-revert-non-file-buffers t)
 #+end_src
-
 
 * Some Basic Org Setup
 
@@ -139,12 +175,16 @@ Move automated customization variables to a separate file and load it
   (load custom-file 'noerror 'nomessage)
 #+end_src
 
-
 * Chromebook Platform Specific
 
 ** TODO Need to remap Page Up and Down
 
 This org-mode-map doesn't seem to work anymore... needs more homework
+
+shell-command of uname -r should give similar to:
+5.10.159-20950-g396322d9eb4
+
+The g looks to be consistent
 
 ;(define-key org-mode-map (kbd "<prior>") 'org-metaup)
 ;(define-key org-mode-map (kbd "<next>") 'org-metadown)
@@ -225,7 +265,7 @@ Dat sweet sweet wtf does this key-combo do
     :init (which-key-mode)
     :diminish which-key-mode
     :config
-    (setq which-key-idle-delay 0.05))
+    (setq which-key-idle-delay 0.3))
 #+end_src
 
 ** Vertico
@@ -242,22 +282,30 @@ It's more idiomatic emacs... a wonder it took this long to get popular
     ;; (setq vertico-scroll-margin 0)
 
     ;; Show more candidates
-    ;; (setq vertico-count 20)
+    (setq vertico-count 15)
 
     ;; Grow and shrink the Vertico minibuffer
-    ;; (setq vertico-resize t)
+    (setq vertico-resize t)
 
     ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-    ;; (setq vertico-cycle t)
+    (setq vertico-cycle nil)
+
+    :general
+    (:keymaps 'vertico-map
+	      "<tab>" #'vertico-insert  ; Insert selected candidate into text area
+	      "<escape>" #'minibuffer-keyboard-quit ; Close minibuffer
+	      ;; NOTE 2022-02-05: Cycle through candidate groups
+	      "C-M-n" #'vertico-next-group
+	      "C-M-p" #'vertico-previous-group)
     )
 
 #+end_src
 
 ** Orderless
 
-This appears to be important for... fuzzy matchingI think?
+This appears to be important for... fuzzy matching I think?
 
-#+begin_src emacs-lisp
+;;#+begin_src emacs-lisp
   ;; Optionally use the `orderless' completion style.
   (use-package orderless
     :init
@@ -268,10 +316,121 @@ This appears to be important for... fuzzy matchingI think?
 	  completion-category-defaults nil
 	  completion-category-overrides '((file (styles partial-completion)))))
 
+;;#+end_src
+
+Trying a much more involved version from a blog post to see how it feels.
+
+The above is just the docs' basic recommendation.
+
+#+begin_src emacs-lisp
+  (use-package orderless
+    :custom
+    (completion-styles '(orderless))
+    (completion-category-defaults nil)    ; I want to be in control!
+    (completion-category-overrides
+     '((file (styles basic-remote ; For `tramp' hostname completion with `vertico'
+		     orderless
+		     ))
+       ))
+    
+    (orderless-component-separator 'orderless-escapable-split-on-space)
+    (orderless-matching-styles
+     '(orderless-literal
+       orderless-prefixes
+       orderless-initialism
+       orderless-regexp
+       ;; orderless-flex
+       ;; orderless-strict-leading-initialism
+       ;; orderless-strict-initialism
+       ;; orderless-strict-full-initialism
+       ;; orderless-without-literal          ; Recommended for dispatches instead
+       ))
+    (orderless-style-dispatchers
+     '(prot-orderless-literal-dispatcher
+       prot-orderless-strict-initialism-dispatcher
+       prot-orderless-flex-dispatcher
+       ))
+    :init
+    (defun orderless--strict-*-initialism (component &optional anchored)
+      "Match a COMPONENT as a strict initialism, optionally ANCHORED.
+  The characters in COMPONENT must occur in the candidate in that
+  order at the beginning of subsequent words comprised of letters.
+  Only non-letters can be in between the words that start with the
+  initials.
+
+  If ANCHORED is `start' require that the first initial appear in
+  the first word of the candidate.  If ANCHORED is `both' require
+  that the first and last initials appear in the first and last
+  words of the candidate, respectively."
+      (orderless--separated-by
+	  '(seq (zero-or-more alpha) word-end (zero-or-more (not alpha)))
+	(cl-loop for char across component collect `(seq word-start ,char))
+	(when anchored '(seq (group buffer-start) (zero-or-more (not alpha))))
+	(when (eq anchored 'both)
+	  '(seq (zero-or-more alpha) word-end (zero-or-more (not alpha)) eol))))
+
+    (defun orderless-strict-initialism (component)
+      "Match a COMPONENT as a strict initialism.
+  This means the characters in COMPONENT must occur in the
+  candidate in that order at the beginning of subsequent words
+  comprised of letters.  Only non-letters can be in between the
+  words that start with the initials."
+      (orderless--strict-*-initialism component))
+
+    (defun prot-orderless-literal-dispatcher (pattern _index _total)
+      "Literal style dispatcher using the equals sign as a suffix.
+  It matches PATTERN _INDEX and _TOTAL according to how Orderless
+  parses its input."
+      (when (string-suffix-p "=" pattern)
+	`(orderless-literal . ,(substring pattern 0 -1))))
+
+    (defun prot-orderless-strict-initialism-dispatcher (pattern _index _total)
+      "Leading initialism  dispatcher using the comma suffix.
+  It matches PATTERN _INDEX and _TOTAL according to how Orderless
+  parses its input."
+      (when (string-suffix-p "," pattern)
+	`(orderless-strict-initialism . ,(substring pattern 0 -1))))
+
+    (defun prot-orderless-flex-dispatcher (pattern _index _total)
+      "Flex  dispatcher using the tilde suffix.
+  It matches PATTERN _INDEX and _TOTAL according to how Orderless
+  parses its input."
+      (when (string-suffix-p "." pattern)
+	`(orderless-flex . ,(substring pattern 0 -1))))
+    )
 #+end_src
 
 
 ** Consult
 
+This may not be necessary with marginalia?
+
+https://kristofferbalintona.me/posts/202202211546/
+
+The above post doesn't use it... I'd have to check what it does to see if I really need it
 
 ** Marginalia
+
+#+begin_src emacs-lisp
+  (use-package marginalia
+    ;:general
+    ;(:keymaps 'minibuffer-local-map
+	      ;"M-A" 'marginalia-cycle)
+    :custom
+    (marginalia-max-relative-age 0)
+    (marginalia-align 'right)
+    :init
+    (marginalia-mode))
+
+#+end_src
+
+That gives nice text, but there's icons too with all-the-icons!
+
+#+begin_src emacs-lisp
+  (use-package all-the-icons-completion
+    :after (marginalia all-the-icons)
+    :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
+    :init
+    (all-the-icons-completion-mode))
+#+end_src
+
