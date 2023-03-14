@@ -91,7 +91,7 @@ Fido is the easiest drop in replacement for now.
 Vertico seems to be what the cool kids are using.
 
 #+begin_src emacs-lisp
-  (fido-vertical-mode 1)
+  ;(fido-vertical-mode 1)
 #+end_src
 
 
@@ -192,3 +192,86 @@ There's also a *lot* that borders on non-theme stuff
   (load-theme 'modus-vivendi)
 #+end_src
 
+* Doom Steals
+
+** Doom Modeline
+
+It's prettier by default, let's try it!
+
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+    :init (doom-modeline-mode 1))
+#+end_src
+
+It apparently needs some fonts
+
+*Need to run*
+M-x all-the-icons-install-fonts
+AFTER this is installed the first time on a new system (Linux or OSX)
+
+#+begin_src emacs-lisp
+  (use-package all-the-icons
+    :if (display-graphic-p))
+#+end_src
+
+* Completions
+
+** Which-key
+
+Dat sweet sweet wtf does this key-combo do
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :init (which-key-mode)
+    :diminish which-key-mode
+    :config
+    (setq which-key-idle-delay 0.1))
+#+end_src
+
+** Vertico
+
+It's more idiomatic emacs... a wonder it took this long to get popular
+
+#+begin_src emacs-lisp
+  ;; Enable vertico
+  (use-package vertico
+    :init
+    (vertico-mode)
+
+    ;; Different scroll margin
+    ;; (setq vertico-scroll-margin 0)
+
+    ;; Show more candidates
+    ;; (setq vertico-count 20)
+
+    ;; Grow and shrink the Vertico minibuffer
+    ;; (setq vertico-resize t)
+
+    ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+    ;; (setq vertico-cycle t)
+    )
+
+#+end_src
+
+** Orderless
+
+This appears to be important for... fuzzy matchingI think?
+
+#+begin_src emacs-lisp
+  ;; Optionally use the `orderless' completion style.
+  (use-package orderless
+    :init
+    ;; Configure a custom style dispatcher (see the Consult wiki)
+    ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
+    ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+    (setq completion-styles '(orderless basic)
+	  completion-category-defaults nil
+	  completion-category-overrides '((file (styles partial-completion)))))
+
+#+end_src
+
+
+** Consult
+
+
+** Marginalia

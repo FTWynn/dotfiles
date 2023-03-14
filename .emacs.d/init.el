@@ -3,7 +3,7 @@
 ;; =================================
 
 ;; Mostly this has moved to the literate_init.org file
-;; I'm leaving here anything to do with package management and getting to org
+;; I'm leaving here anything to do with package management and getting to org for the translation
 ;; Namely straight.el, use-package, and org
 ;; The rest... to the org file!
 
