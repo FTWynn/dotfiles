@@ -84,6 +84,8 @@ Don't pop up UI dialogs when prompting, sticking to the more kweyboard native st
   (setq use-dialog-box nil)
 #+end_src
 
+** Watch Files on Disk (aka Revert)
+
 Watch files on disk and generally keep them in sync with buffers
 
 #+begin_src emacs-lisp
@@ -95,9 +97,19 @@ Watch files on disk and generally keep them in sync with buffers
   (setq global-auto-revert-non-file-buffers t)
 #+end_src
 
+** Word Wrapping
+
+~visual-line-mode~ is what we're looking for
+
+Note, some operations work on these virtual "screen" lines, like C-k, C-a, and C-e. M- prefixes do the logical lines... or maybe sentences?
+
+#+begin_src emacs-lisp
+  (global-visual-line-mode 1)
+#+end_src
+
 * Some Basic Org Setup
 
-Tempo (from contrib) makes the `<s <TAB>` shortcode work
+Tempo (from contrib) makes the ~<s <TAB>~ shortcode work
 
 Gotta get org-roam in there too of course
 
@@ -434,3 +446,12 @@ That gives nice text, but there's icons too with all-the-icons!
     (all-the-icons-completion-mode))
 #+end_src
 
+* TODOs
+
+** TODO Look into God mode to cut down on the modifier keys
+
+** TODO look into Avy for onscreen text jumping instead of isearch
+
+** TODO look into swiper or isearch or CTRLF for searching within a buffer
+
+** TODO Look into directory wide searching and stuff with rg or projectile or whatever
