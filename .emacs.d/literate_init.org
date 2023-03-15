@@ -138,10 +138,7 @@ Fido is the easiest drop in replacement for now.
 
 Vertico seems to be what the cool kids are using.
 
-#+begin_src emacs-lisp
-  ;(fido-vertical-mode 1)
-#+end_src
-
+;(fido-vertical-mode 1)
 
 ** Change Buffer List to ibuffer
 
@@ -202,6 +199,7 @@ The g looks to be consistent
 ;(define-key org-mode-map (kbd "<next>") 'org-metadown)
 
 * Windows Platform Specific
+* OSX Platform Specific
 * Themes
 ** Modus Theme Customizations
 
@@ -444,6 +442,47 @@ That gives nice text, but there's icons too with all-the-icons!
     :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
     :init
     (all-the-icons-completion-mode))
+#+end_src
+
+* Evil Mode
+
+I'm not philosophicaly opposed to emacs bindings, but I do think my hands, even with remapping the CAPS LOCK key, can't quite take it. I'll take the inefficiencies of figuring out the evilness of things and the occaisional longer keystrokes over constant chords.
+
+TODO I'll want to make sure it plays nice with ~which-key~
+
+** Base Evil mode
+
+https://www.youtube.com/watch?v=xaZMwNELaJY&list=PLEoMzSkcN8oPH1au7H6B7bBJ4ZO7BXjSZ&index=3
+
+Taking lots of config cues from the above. Basically targeting buffer editing for vim, then emacs for the rest.
+
+Remember C-z switches to emacs mode. C-w does window operations
+
+#+begin_src emacs-lisp
+  (use-package evil
+    :init
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    (setq evil-want-c-u-scroll t)
+    :config
+    (evil-mode 1)
+    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+    (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+
+    ;; Use visual line motions even outside of visual-line mode, because they use logical lines otherwise
+    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+    (evil-global-set-key 'motion "k" 'evil-previous-visual-line))
+#+end_src
+
+** Evil-collection
+
+Lots of premade bindings. We'll see if I like them.
+
+#+begin_src emacs-lisp
+  (use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
 #+end_src
 
 * TODOs
