@@ -24,7 +24,7 @@
 ;; Use straight.el for use-package expressions
 (straight-use-package 'use-package)
 ;; Remove the need to put straight: t in use use-package,
-;; whilealso removes the need for ensure: t 
+;; while also removes the need for ensure: t 
 (setq straight-use-package-by-default t)
 
 ;; Let's get some packages
