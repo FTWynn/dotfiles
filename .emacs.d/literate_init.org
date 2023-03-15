@@ -9,7 +9,40 @@ Putting it first because a bunch of use-package definitions might need it.
 
 #+begin_src emacs-lisp
   (straight-use-package 'general)
-  (require 'general)
+
+  (use-package general
+  :config
+  (general-evil-setup t)
+
+  (general-create-definer ftwynn/leader-key-def
+    :keymaps '(normal insert visual emacs)
+    :prefix "SPC"
+    :global-prefix "C-SPC")
+
+  (general-create-definer ftwynn/ctrl-c-keys
+    :prefix "C-c"))
+  
+  ;;(require 'general)
+#+end_src
+
+I can just add whatever I want to the leader-key-def to set up the map. It works in any block just as below.
+
+#+begin_src emacs-lisp
+    (ftwynn/leader-key-def
+    "fn" '((lambda () (interactive) (find-file "~/org-roam-repo/")) :which-key "org-roam files")
+    "fd"  '(:ignore t :which-key "dotfiles")
+    "fdl" '((lambda () (interactive) (find-file "~/dotfiles/.emacs/literate_init.org")) :which-key "literate init")
+    "fr" '((lambda () (interactive) (recentf-open-files )) :which-key "recent files")
+    ;;"fde" '((lambda () (interactive) (find-file (expand-file-name "~/.dotfiles/Emacs.org"))) :which-key "edit config")
+    ;;"fdE" '((lambda () (interactive) (dw/org-file-show-headings "~/.dotfiles/Emacs.org")) :which-key "edit config")
+    ;;"fdm" '((lambda () (interactive) (find-file "~/.dotfiles/Mail.org")) :which-key "mail")
+    ;;"fdM" '((lambda () (interactive) (counsel-find-file "~/.dotfiles/.config/guix/manifests/")) :which-key "manifests")
+    ;;"fds" '((lambda () (interactive) (dw/org-file-jump-to-heading "~/.dotfiles/Systems.org" "Base Configuration")) :which-key "base system")
+    ;;"fdS" '((lambda () (interactive) (dw/org-file-jump-to-heading "~/.dotfiles/Systems.org" system-name)) :which-key "this system")
+    ;;"fdp" '((lambda () (interactive) (dw/org-file-jump-to-heading "~/.dotfiles/Desktop.org" "Panel via Polybar")) :which-key "polybar")
+    ;;"fdw" '((lambda () (interactive) (find-file (expand-file-name "~/.dotfiles/Workflow.org"))) :which-key "workflow")
+    ;;"fdv" '((lambda () (interactive) (find-file "~/.dotfiles/.config/vimb/config")) :which-key "vimb")
+  )
 #+end_src
 
 * Startup and Display Properties
@@ -275,7 +308,7 @@ Dat sweet sweet wtf does this key-combo do
     :init (which-key-mode)
     :diminish which-key-mode
     :config
-    (setq which-key-idle-delay 0.3))
+    (setq which-key-idle-delay 0.03))
 #+end_src
 
 ** Vertico
@@ -459,19 +492,36 @@ Taking lots of config cues from the above. Basically targeting buffer editing fo
 Remember C-z switches to emacs mode. C-w does window operations
 
 #+begin_src emacs-lisp
-  (use-package evil
-    :init
-    (setq evil-want-integration t)
-    (setq evil-want-keybinding nil)
-    (setq evil-want-c-u-scroll t)
-    :config
-    (evil-mode 1)
-    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-    (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+  (defun ftwynn/evil-emacs-mode-selections ()
+    (dolist (mode '(custom-mode
+		    eshell-mode
+		    git-rebase-mode
+		    erc-mode
+		    circe-server-mode
+		    circe-chat-mode
+		    circe-query-mode
+		    sauron-mode
+		    term-mode))
+    (add-to-list 'evil-emacs-state-modes mode)))
 
-    ;; Use visual line motions even outside of visual-line mode, because they use logical lines otherwise
-    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-    (evil-global-set-key 'motion "k" 'evil-previous-visual-line))
+
+
+
+    (use-package evil
+	:init
+	(setq evil-want-integration t)
+	(setq evil-want-keybinding nil)
+	(setq evil-want-c-u-scroll t)
+	(setq evil-respect-visual-line-mode t)
+	:config
+	(add-hook 'evil-mode-hook 'ftwynn/evil-emacs-mode-selections)
+	(evil-mode 1)
+	(define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+	(define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+
+	;; Use visual line motions even outside of visual-line mode, because they use logical lines otherwise
+	(evil-global-set-key 'motion "j" 'evil-next-visual-line)
+	(evil-global-set-key 'motion "k" 'evil-previous-visual-line))
 #+end_src
 
 ** Evil-collection
