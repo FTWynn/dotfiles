@@ -1,4 +1,4 @@
-#+TITLE Literate Init File for FTWynn
+#+TITLE: Literate Init File for FTWynn
 #+PROPERTY: header-args:emacs-lisp 
 
 * General.el
@@ -29,10 +29,11 @@ I can just add whatever I want to the leader-key-def to set up the map. It works
 
 #+begin_src emacs-lisp
     (ftwynn/leader-key-def
-    "fn" '((lambda () (interactive) (find-file "~/org-roam-repo/")) :which-key "org-roam files")
+    ;;"ff" '((lambda () (interactive) (find-file "~/org-roam-repo/")) :which-key "org-roam files")
+    "ff" '(find-file :which-key "org-roam files")
     "fd"  '(:ignore t :which-key "dotfiles")
     "fdl" '((lambda () (interactive) (find-file "~/dotfiles/.emacs/literate_init.org")) :which-key "literate init")
-    "fr" '((lambda () (interactive) (recentf-open-files )) :which-key "recent files")
+    "fr" 'recentf-open-files
     ;;"fde" '((lambda () (interactive) (find-file (expand-file-name "~/.dotfiles/Emacs.org"))) :which-key "edit config")
     ;;"fdE" '((lambda () (interactive) (dw/org-file-show-headings "~/.dotfiles/Emacs.org")) :which-key "edit config")
     ;;"fdm" '((lambda () (interactive) (find-file "~/.dotfiles/Mail.org")) :which-key "mail")
@@ -42,6 +43,19 @@ I can just add whatever I want to the leader-key-def to set up the map. It works
     ;;"fdp" '((lambda () (interactive) (dw/org-file-jump-to-heading "~/.dotfiles/Desktop.org" "Panel via Polybar")) :which-key "polybar")
     ;;"fdw" '((lambda () (interactive) (find-file (expand-file-name "~/.dotfiles/Workflow.org"))) :which-key "workflow")
     ;;"fdv" '((lambda () (interactive) (find-file "~/.dotfiles/.config/vimb/config")) :which-key "vimb")
+  )
+#+end_src
+
+** Buffer Shortcuts
+
+Save doesn't work here... not totally sure why. But then, I can't find the function exactly either
+- Works now! Had to get the right command name through describe-key
+
+#+begin_src emacs-lisp
+    (ftwynn/leader-key-def
+    "b"  '(:ignore t :which-key "buffer")
+    "bs" 'save-buffer
+    "bb" 'switch-to-buffer
   )
 #+end_src
 
@@ -140,7 +154,66 @@ Note, some operations work on these virtual "screen" lines, like C-k, C-a, and C
   (global-visual-line-mode 1)
 #+end_src
 
-* Some Basic Org Setup
+* Org Mode
+
+** Basic Org Mode
+
+Org indent mode gives some nice left aligned spacing to indentation, but takes away the leading stars, which I'm kind of a fan of.
+
+Variable pitch seems to be for fonts to be non-mono
+
+
+#+begin_src emacs-lisp
+  (defun ftwynn/org-mode-setup ()
+  (org-indent-mode)
+  (variable-pitch-mode 1)
+  (auto-fill-mode 0)
+  ;;(visual-line-mode 1)
+  (setq evil-auto-indent nil))
+
+  (use-package org
+  :defer t
+  :hook (org-mode . ftwynn/org-mode-setup)
+  :config
+  (setq org-ellipsis " ▾"
+        ;;org-hide-emphasis-markers t
+        org-src-fontify-natively t
+        org-fontify-quote-and-verse-blocks t
+        org-src-tab-acts-natively t
+        org-edit-src-content-indentation 2
+        org-hide-block-startup nil
+        org-src-preserve-indentation nil
+        org-startup-folded 'content
+        org-cycle-separator-lines 2)
+
+  (setq org-modules
+    '(org-crypt
+        org-habit
+        org-bookmark
+        org-eshell
+        org-irc))
+
+  (setq org-refile-targets '((nil :maxlevel . 1)
+                             (org-agenda-files :maxlevel . 1)))
+
+  (setq org-outline-path-complete-in-steps nil)
+  (setq org-refile-use-outline-path t)
+
+  ;; Good ideas but this remap comand doesn't seem to work. Maybe use general?
+  ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "C-j") 'org-next-visible-heading)
+  ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "C-k") 'org-previous-visible-heading)
+
+  ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "M-j") 'org-metadown)
+  ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "M-k") 'org-metaup)
+
+  (org-babel-do-load-languages
+    'org-babel-load-languages
+    '((emacs-lisp . t)
+      (ledger . t)))
+  )
+#+end_src
+
+** Block Shortcodes
 
 Tempo (from contrib) makes the ~<s <TAB>~ shortcode work
 
@@ -149,7 +222,20 @@ Gotta get org-roam in there too of course
 #+begin_src emacs-lisp
   (straight-use-package 'org-contrib)
   (require 'org-tempo)
-  
+
+  (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+  (add-to-list 'org-structure-template-alist '("sc" . "src scheme"))
+  (add-to-list 'org-structure-template-alist '("ts" . "src typescript"))
+  (add-to-list 'org-structure-template-alist '("py" . "src python"))
+  (add-to-list 'org-structure-template-alist '("go" . "src go"))
+  (add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
+  (add-to-list 'org-structure-template-alist '("json" . "src json"))
+    #+end_src
+
+** Org Roam
+
+#+begin_src emacs-lisp
   (straight-use-package 'org-roam)
 #+end_src
 
@@ -166,6 +252,7 @@ It's magit. Enough said.
 
   (ftwynn/leader-key-def
     "g"   '(:ignore t :which-key "git")
+    "gg"  'magit-status
     "gs"  'magit-status
     "gd"  'magit-diff-unstaged
     "gc"  'magit-branch-or-checkout
@@ -225,9 +312,9 @@ Seems nicer. I'll keep it for now.
 
 Remember and restore the last cursor location of opened files
 
-#+begin_src emacs-lisp
-  (save-place-mode 1)
-#+end_src
+2023-03-16: I'm not sure I really use this, so I think I'll let it go. The finaly straw was in ibuffer mode. If I could write exception modes I might keep it, but I didn't find that on a quick glance.
+
+  ;;(save-place-mode 1)
 
 ** Recent Files
 
@@ -413,7 +500,7 @@ The above is just the docs' basic recommendation.
        orderless-prefixes
        orderless-initialism
        orderless-regexp
-       ;; orderless-flex
+       orderless-flex
        ;; orderless-strict-leading-initialism
        ;; orderless-strict-initialism
        ;; orderless-strict-full-initialism
@@ -582,6 +669,7 @@ Mostly good for directory level search I'm told.
     (setq projectile-project-search-path '("~/org-roam-repo"))))
 
   (ftwynn/leader-key-def
+  "p " '(:ignore t :which-key "projectile")
   "pf"  'projectile-find-file
   "ps"  'projectile-switch-project
   "pF"  'projectile-ripgrep
@@ -600,4 +688,3 @@ Mostly good for directory level search I'm told.
 
 ** TODO look into swiper or isearch or CTRLF for searching within a buffer
 
-** TODO Look into directory wide searching and stuff with rg or projectile or whatever
