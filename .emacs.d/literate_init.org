@@ -158,8 +158,39 @@ Gotta get org-roam in there too of course
 It's magit. Enough said.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package magit)
+  (use-package magit
+    :bind ("C-M-;" . magit-status)
+    :commands (magit-status magit-get-current-branch)
+    :custom
+    (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
+  (ftwynn/leader-key-def
+    "g"   '(:ignore t :which-key "git")
+    "gs"  'magit-status
+    "gd"  'magit-diff-unstaged
+    "gc"  'magit-branch-or-checkout
+    "gl"   '(:ignore t :which-key "log")
+    "glc" 'magit-log-current
+    "glf" 'magit-log-buffer-file
+    "gb"  'magit-branch
+    "gP"  'magit-push-current
+    "gp"  'magit-pull-branch
+    "gf"  'magit-fetch
+    "gF"  'magit-fetch-all
+    "gr"  'magit-rebase)
 #+END_SRC
+
+** Magit TODOs
+
+Should show all the lines with TODO, so I don't need to shoehorn them into Org headlines.
+
+Didn't seem to work though, so I'm skipping for now
+
+;;    (use-package magit-todos
+;;      :defer t)
+
+;;  (ftwynn/leader-key-def
+;;    "gt" 'magit-todos-list)
 
 * Mastering Emacs Lifts
 
@@ -533,6 +564,32 @@ Lots of premade bindings. We'll see if I like them.
   :after evil
   :config
   (evil-collection-init))
+#+end_src
+
+* Projectile
+
+Mostly good for directory level search I'm told. 
+
+#+begin_src emacs-lisp
+  (use-package projectile
+  :diminish projectile-mode
+  :config (projectile-mode)
+  :demand t
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  (when (file-directory-p "~/org-roam-repo")
+    (setq projectile-project-search-path '("~/org-roam-repo"))))
+
+  (ftwynn/leader-key-def
+  "pf"  'projectile-find-file
+  "ps"  'projectile-switch-project
+  "pF"  'projectile-ripgrep
+  "pe"  'projectile-run-eshell
+  ;;"pp"  'counsel-projectile
+  "pc"  'projectile-compile-project
+  "pd"  'projectile-dired)
+
 #+end_src
 
 * TODOs
