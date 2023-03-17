@@ -85,9 +85,22 @@ Height is 1/10th of a point here.
 They both *should* work, but the latter seems more modern
 
 #+begin_src emacs-lisp
+  ;; Default Font
   ;;(set-frame-font "Fira Code 18")
-  (set-face-attribute 'default nil :font "Fira Code" :height 180)
+    (set-face-attribute 'default nil :font "Fira Code" :height 180)
 
+
+    ;; Set the fixed pitch face.. .which I believe is the mono font
+    (set-face-attribute 'fixed-pitch nil
+                        :font "Fira Code"
+                        :weight 'light
+                        :height 180)
+
+    ;; Set the variable pitch face
+    (set-face-attribute 'variable-pitch nil
+                        :font "Source Sans Pro"
+                        :height 180
+                        :weight 'normal)
 #+end_src
 
 ** Visible Bell
