@@ -246,10 +246,54 @@ Gotta get org-roam in there too of course
   (add-to-list 'org-structure-template-alist '("json" . "src json"))
     #+end_src
 
+    
+** Org General Additions
+
+Baseline org shortcuts here. Still need agendas and clocks. Possibly refining refiling as well.
+
+#+begin_src emacs-lisp
+      (ftwynn/leader-key-def
+    "o"  '(:ignore t :which-key "org")
+    "or" 'org-refile
+    "oc" 'org-capture
+    ;; Clock subgroup
+    ;; Agenda subgroup
+  )
+#+end_src
+
 ** Org Roam
 
 #+begin_src emacs-lisp
   (straight-use-package 'org-roam)
+  (setq org-roam-directory (file-truename "~/org-roam-repo"))
+  (org-roam-db-autosync-mode)
+#+end_src
+
+Some basic config for daily journals and the like.
+
+#+begin_src emacs-lisp
+  (setq org-roam-dailies-directory "journals/")
+
+  (setq org-roam-dailies-capture-templates
+        '(("d" "default" entry
+           "* %?"
+           :target (file+head "%<%Y-%m-%d>.org"
+                              "#+title: %<%Y-%m-%d>\n"))))
+#+end_src
+
+Let's get some general mappings in there
+
+#+begin_src emacs-lisp
+      (ftwynn/leader-key-def
+    "om"  '(:ignore t :which-key "org-roam")
+    "omi" 'org-roam-node-insert
+    "omf" 'org-roam-node-find
+    "omc" 'org-roam-node-capture
+    "omb" 'org-roam-buffer
+    "omt" 'org-roam-dailies-goto-today
+    ;; Add Interstitial journal to not visit the daily page, which is above with non-nil arg
+  )
+
 #+end_src
 
 * Magit
