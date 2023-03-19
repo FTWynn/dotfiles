@@ -59,6 +59,19 @@ Save doesn't work here... not totally sure why. But then, I can't find the funct
   )
 #+end_src
 
+** Toggles
+
+Set up some general toggles here
+
+#+begin_src emacs-lisp
+ (ftwynn/leader-key-def
+    "t"  '(:ignore t :which-key "toggles")
+    "tl" 'org-toggle-link-display
+  )
+
+#+end_src
+
+
 * Startup and Display Properties
 
 ** Start out maximized with no splash screen
@@ -175,6 +188,7 @@ Org indent mode gives some nice left aligned spacing to indentation, but takes a
 
 Variable pitch seems to be for fonts to be non-mono
 
+Org-descriptive links seems to need to be off to see link highlighting syntax
 
 #+begin_src emacs-lisp
   (defun ftwynn/org-mode-setup ()
@@ -182,6 +196,7 @@ Variable pitch seems to be for fonts to be non-mono
   (variable-pitch-mode 1)
   (auto-fill-mode 0)
   ;;(visual-line-mode 1)
+  (setq org-descriptive-links nil)
   (setq evil-auto-indent nil))
 
   (use-package org
