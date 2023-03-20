@@ -117,7 +117,7 @@ They both *should* work, but the latter seems more modern
 
     ;; Set the variable pitch face
     (set-face-attribute 'variable-pitch nil
-                        :font "Source Sans Pro"
+                        :font "Source Code Pro"
                         :height 180
                         :weight 'normal)
 #+end_src
@@ -293,13 +293,18 @@ Baseline org shortcuts here. Still need agendas and clocks. Possibly refining re
 Some basic config for daily journals and the like.
 
 #+begin_src emacs-lisp
-  (setq org-roam-dailies-directory "journals/")
+    (setq org-roam-dailies-directory "journals/")
 
-  (setq org-roam-dailies-capture-templates
-        '(("d" "default" entry
-           "* %?"
-           :target (file+head "%<%Y-%m-%d>.org"
-                              "#+title: %<%Y-%m-%d>\n"))))
+    (setq org-roam-dailies-capture-templates
+          '(("d" "default" entry
+             "* %?"
+             :target (file+head "%<%Y-%m-%d>.org"
+                                "#+title: %<%Y-%m-%d>\n")))
+          '(("e" "evening journal" entry
+             "* %?"
+             :target (file+head "%<%Y-%m-%d>.org"
+                                "#+title: %<%Y-%m-%d>\n")))
+  )
 #+end_src
 
 Let's get some general mappings in there
