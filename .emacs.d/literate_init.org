@@ -299,11 +299,28 @@ Some basic config for daily journals and the like.
           '(("d" "default" entry
              "* %?"
              :target (file+head "%<%Y-%m-%d>.org"
-                                "#+title: %<%Y-%m-%d>\n")))
-          '(("e" "evening journal" entry
-             "* %?"
+                                "#+title: %<%Y-%m-%d>\n"))
+          ("e" "evening journal" entry
+             (file "~/org-roam-repo/templates/evening_journal.org")
              :target (file+head "%<%Y-%m-%d>.org"
-                                "#+title: %<%Y-%m-%d>\n")))
+                                "#+title: %<%Y-%m-%d>\n"))
+          ("m" "morning journal" entry
+             (file "~/org-roam-repo/templates/morning_journal.org")
+             :target (file+head "%<%Y-%m-%d>.org"
+                                "#+title: %<%Y-%m-%d>\n"))
+          ("w" "weekly journal" entry
+             (file "~/org-roam-repo/templates/weekly_journal.org")
+             :target (file+head "%<%Y-%m-%d>.org"
+                                "#+title: %<%Y-%m-%d>\n"))
+          ("t" "monthly journal" entry
+             (file "~/org-roam-repo/templates/monthly_journal.org")
+             :target (file+head "%<%Y-%m-%d>.org"
+                                "#+title: %<%Y-%m-%d>\n"))
+          ("j" "Interstitial journal" entry
+             (file "~/org-roam-repo/templates/interstitial_journal.org")
+             :target (file+head "%<%Y-%m-%d>.org"
+                                "#+title: %<%Y-%m-%d>\n"))
+            )
   )
 #+end_src
 
@@ -314,7 +331,7 @@ Let's get some general mappings in there
     "om"  '(:ignore t :which-key "org-roam")
     "omi" 'org-roam-node-insert
     "omf" 'org-roam-node-find
-    "omc" 'org-roam-node-capture
+    "omc" 'org-roam-dailies-capture-today
     "omb" 'org-roam-buffer
     "omt" 'org-roam-dailies-goto-today
     ;; Add Interstitial journal to not visit the daily page, which is above with non-nil arg
