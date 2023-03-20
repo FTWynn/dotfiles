@@ -780,11 +780,18 @@ Mostly good for directory level search I'm told.
 
 #+end_src
 
-* TODOs
+* Flyspell
+So much text writing... and I'm so bad at spelling...
 
-** TODO Look into God mode to cut down on the modifier keys
+Opting for ispell since it seems easy to install and Flyspell uses it by default
 
-** TODO look into Avy for onscreen text jumping instead of isearch
+Don't forget to install it from the base package manager
 
-** TODO look into swiper or isearch or CTRLF for searching within a buffer
+Uknown if this affects org-mode as of yet...
 
+#+begin_src emacs-lisp
+  (dolist (hook '(text-mode-hook))
+      (add-hook hook (lambda () (flyspell-mode 1))))
+    (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
+      (add-hook hook (lambda () (flyspell-mode -1))))
+#+end_src

@@ -6,3 +6,4 @@
 /.emacs.d/transient/
 /.emacs.d/literate_init.el
 /.emacs.d/eln-cache/
+/.emacs.d/org-roam.db
