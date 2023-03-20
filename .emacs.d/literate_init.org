@@ -119,7 +119,7 @@ They both *should* work, but the latter seems more modern
     (set-face-attribute 'variable-pitch nil
                         :font "Source Code Pro"
                         :height 180
-                        :weight 'normal)
+                        :weight 'light)
 #+end_src
 
 ** Visible Bell
