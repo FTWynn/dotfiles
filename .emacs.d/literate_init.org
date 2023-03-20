@@ -787,8 +787,6 @@ Opting for ispell since it seems easy to install and Flyspell uses it by default
 
 Don't forget to install it from the base package manager
 
-Uknown if this affects org-mode as of yet...
-
 #+begin_src emacs-lisp
   (dolist (hook '(text-mode-hook))
       (add-hook hook (lambda () (flyspell-mode 1))))
