@@ -730,6 +730,7 @@ Let's get some general mappings in there
 
 #+end_src
 
+
 * Magit
 
 It's magit. Enough said.
@@ -1089,8 +1090,6 @@ That gives nice text, but there's icons too with all-the-icons!
 * Evil Mode
 
 I'm not philosophicaly opposed to emacs bindings, but I do think my hands, even with remapping the CAPS LOCK key, can't quite take it. I'll take the inefficiencies of figuring out the evilness of things and the occaisional longer keystrokes over constant chords.
-
-TODO I'll want to make sure it plays nice with ~which-key~
 
 ** Base Evil mode
 
