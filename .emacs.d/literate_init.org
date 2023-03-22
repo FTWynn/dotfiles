@@ -684,35 +684,41 @@ Baseline org shortcuts here. Still need agendas and clocks. Possibly refining re
 Some basic config for daily journals and the like.
 
 #+begin_src emacs-lisp
-    (setq org-roam-dailies-directory "journals/")
+                (setq org-roam-dailies-directory "journals/")
 
-    (setq org-roam-dailies-capture-templates
-          '(("d" "default" entry
-             "* %?"
-             :target (file+head "%<%Y-%m-%d>.org"
-                                "#+title: %<%Y-%m-%d>\n"))
-          ("e" "evening journal" entry
-             (file "~/org-roam-repo/templates/evening_journal.org")
-             :target (file+head "%<%Y-%m-%d>.org"
-                                "#+title: %<%Y-%m-%d>\n"))
-          ("m" "morning journal" entry
-             (file "~/org-roam-repo/templates/morning_journal.org")
-             :target (file+head "%<%Y-%m-%d>.org"
-                                "#+title: %<%Y-%m-%d>\n"))
-          ("w" "weekly journal" entry
-             (file "~/org-roam-repo/templates/weekly_journal.org")
-             :target (file+head "%<%Y-%m-%d>.org"
-                                "#+title: %<%Y-%m-%d>\n"))
-          ("t" "monthly journal" entry
-             (file "~/org-roam-repo/templates/monthly_journal.org")
-             :target (file+head "%<%Y-%m-%d>.org"
-                                "#+title: %<%Y-%m-%d>\n"))
-          ("j" "Interstitial journal" entry
-             (file "~/org-roam-repo/templates/interstitial_journal.org")
-             :target (file+head "%<%Y-%m-%d>.org"
-                                "#+title: %<%Y-%m-%d>\n"))
-            )
-  )
+                (setq org-roam-dailies-capture-templates
+                      '(("d" "default" entry
+                         "* %<> - %?"
+                         :target (file+head "%<%Y-%m-%d>.org"
+                                            "#+title: %<%Y-%m-%d>\n")
+                         :jump-to-target t)
+                      ("e" "evening journal" entry
+                         (file "~/org-roam-repo/templates/evening_journal.org")
+                         :target (file+head "%<%Y-%m-%d>.org"
+                                            "#+title: %<%Y-%m-%d>\n")
+                         :jump-to-target t)
+                      ("m" "morning journal" entry
+                         (file "~/org-roam-repo/templates/morning_journal.org")
+                         :target (file+head "%<%Y-%m-%d>.org"
+                                            "#+title: %<%Y-%m-%d>\n")
+                         :jump-to-target t)
+                      ("w" "weekly journal" entry
+                         (file "~/org-roam-repo/templates/weekly_journal.org")
+                         :target (file+head "%<%Y-%m-%d>.org"
+                                            "#+title: %<%Y-%m-%d>\n")
+                         :jump-to-target t)
+                      ("t" "monthly journal" entry
+                         (file "~/org-roam-repo/templates/monthly_journal.org")
+                         :target (file+head "%<%Y-%m-%d>.org"
+                                            "#+title: %<%Y-%m-%d>\n")
+                         :jump-to-target t)
+                      ("j" "Interstitial journal" entry
+                         (file "~/org-roam-repo/templates/interstitial_journal.org")
+                         :target (file+head "%<%Y-%m-%d>.org"
+                                            "#+title: %<%Y-%m-%d>\n")
+                         :jump-to-target t)
+                        )
+              )
 #+end_src
 
 Let's get some general mappings in there
