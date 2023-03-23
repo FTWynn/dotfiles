@@ -729,13 +729,12 @@ Let's get some general mappings in there
     "omi" 'org-roam-node-insert
     "omf" 'org-roam-node-find
     "omc" 'org-roam-dailies-capture-today
-    "omb" 'org-roam-buffer
+    "omb" 'org-roam-buffer-toggle
     "omt" 'org-roam-dailies-goto-today
     ;; Add Interstitial journal to not visit the daily page, which is above with non-nil arg
   )
 
 #+end_src
-
 
 * Magit
 
