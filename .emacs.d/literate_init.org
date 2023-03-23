@@ -71,6 +71,10 @@ Set up some general toggles here
 
 #+end_src
 
+** Ripgrep
+#+begin_src emacs-lisp
+  (use-package rg)
+#+end_src
 
 * Startup and Display Properties
 
