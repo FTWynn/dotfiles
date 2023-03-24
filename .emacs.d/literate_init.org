@@ -926,12 +926,20 @@ It's prettier by default, let's try it!
 It apparently needs some fonts
 
 *Need to run*
-M-x all-the-icons-install-fonts
+=M-x all-the-icons-install-fonts=
 AFTER this is installed the first time on a new system (Linux or OSX)
 
 #+begin_src emacs-lisp
   (use-package all-the-icons
     :if (display-graphic-p))
+#+end_src
+
+Let's set the font color for emacs mode to be more different than... normal mode... which it isn't by default
+
+#+begin_src emacs-lisp
+    ;; Set emacs mode color in doom mode line to a purpleish
+    (set-face-attribute 'doom-modeline-evil-emacs-state nil
+                        :foreground "MediumPurple")
 #+end_src
 
 * Completions
