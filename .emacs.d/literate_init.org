@@ -740,6 +740,24 @@ Let's get some general mappings in there
 
 #+end_src
 
+** org-autolist
+It doesn't quite get where I want with headlines, but it gets close with lists, which is at least a step in the right direction
+
+#+begin_src emacs-lisp
+  (use-package org-autolist
+    :hook (org-mode . org-autolist-mode))
+#+end_src
+
+** A Better RET on headlines
+
+Picked this up from the url below. It runs a bit like my envisioning of a rapid-outliner mode
+
+https://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/
+
+Actually, this doesn't work quite right, but autolist gets me half-way there. Maybe I can tweak it for just headlines...
+
+On hold until I figure out a better way to do this.
+
 * Magit
 
 It's magit. Enough said.
