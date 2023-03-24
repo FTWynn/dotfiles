@@ -7,3 +7,7 @@
 /.emacs.d/literate_init.el
 /.emacs.d/eln-cache/
 /.emacs.d/org-roam.db
+/.emacs.d/bookmarks
+/.emacs.d/eshell/
+/.emacs.d/.org-id-locations
+/.emacs.d/projectile-bookmarks.eld
