@@ -1,6 +1,22 @@
 #+TITLE: Literate Init File for FTWynn
 #+PROPERTY: header-args:emacs-lisp 
 
+* no-littering
+This package should help with all the temp file stuff, as well as various config files for packages
+
+It notably doesn't move anything that already exists, so I want want to nuke stuff and restart from scratch to see how that goes
+
+#+begin_src emacs-lisp
+  (use-package no-littering)
+  (require 'no-littering)
+    (setq auto-save-file-name-transforms
+	  `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+    (when (fboundp 'startup-redirect-eln-cache)
+    (startup-redirect-eln-cache
+     (convert-standard-filename
+	    (expand-file-name  "var/eln-cache/" user-emacs-directory))))
+#+end_src
+
 * General.el
 
 This seems to be a big keybinding library everyone uses.
@@ -190,6 +206,18 @@ Note, some operations work on these virtual "screen" lines, like C-k, C-a, and C
   (global-visual-line-mode 1)
 #+end_src
 
+* git-auto-commit-mode
+Super useful package for repos that are nothing more than sync use cases, like the org notes repo.
+
+I'm only setting the installation and some customization here. The mode is actually enabled through a directory local variable in an elisp file =.dir-locals.el=.
+
+2023-03-25 This currently isn't working on the chromebook... maybe the emacs version is too old? That shouldn't be the cause, but it's unclear what the exact problem is.
+
+;#+begin_src emacs-lisp
+;  (use-package git-auto-commit)
+;  (require git-auto-commit-mode)
+;  (setq-default gac-automatically-push-p t)
+;#+end_src
 * Org Mode
 
 ** Basic Org Mode
@@ -1220,15 +1248,6 @@ Don't forget to install it from the base package manager
       (add-hook hook (lambda () (flyspell-mode -1))))
 #+end_src
 
-* git-auto-commit-mode
-Super useful package for repos that are nothing more than sync use cases, like the org notes repo.
-
-I'm only setting the installation and some customization here. The mode is actually enabled through a directory local variable in an elisp file =.dir-locals.el=.
-
-#+begin_src emacs-lisp
-  (straight-use-package 'git-auto-commit-mode)
-  (setq-default gac-automatically-push-p t)
-#+end_src
 * Starting Buffer and git pull
 Picking a starting buffer to do a magit pull from, so I don't find myself doing crazy merges all the time.
 
