@@ -1219,3 +1219,13 @@ Don't forget to install it from the base package manager
     (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
       (add-hook hook (lambda () (flyspell-mode -1))))
 #+end_src
+
+* Starting Buffer and git pull
+Picking a starting buffer to do a magit pull from, so I don't find myself doing crazy merges all the time.
+
+I'm choosing the org repo, because I've already missed out if I'm this far in init and didn't pull the dotfiles. The org is much more a sync repo, while the init repo is a much more standard code repo I'd want to be careful of.
+
+#+begin_src emacs-lisp
+  (org-roam-dailies-goto-today "m")
+  (vc-git-pull)
+#+end_src
