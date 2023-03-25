@@ -672,6 +672,7 @@ Baseline org shortcuts here. Still need agendas and clocks. Possibly refining re
     "o"  '(:ignore t :which-key "org")
     "or" 'org-refile
     "oc" 'org-capture
+    "ol" 'org-insert-link
     ;; Clock subgroup
     ;; Agenda subgroup
   )
