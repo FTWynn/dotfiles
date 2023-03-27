@@ -213,11 +213,34 @@ I'm only setting the installation and some customization here. The mode is actua
 
 2023-03-25 This currently isn't working on the chromebook... maybe the emacs version is too old? That shouldn't be the cause, but it's unclear what the exact problem is.
 
-;#+begin_src emacs-lisp
-;  (use-package git-auto-commit)
-;  (require git-auto-commit-mode)
-;  (setq-default gac-automatically-push-p t)
-;#+end_src
+2023-03-27 Trying diving into the code to see if I can figure it out
+Hmm... interesting require... let's try using it manually
+#+begin_src emacs-lisp
+  ;(straight-use-package 'subr-x)
+  (require 'subr-x)
+#+end_src
+
+Hmm... this actually feels close. It complains it can't find it, even though I can see this package here: https://github.com/emacs-mirror/emacs/blob/master/lisp/emacs-lisp/subr-x.el
+
+It should be builtin with emacs...
+
+#+begin_src emacs-lisp
+  (use-package git-auto-commit-mode)
+  ;(require git-auto-commit-mode)
+  (setq-default gac-automatically-push-p t)
+#+end_src
+
+It keeps telling me the symbol for git-auto-commit-mode is void... I'm not sure how though
+
+https://github.com/magit/magit/issues/2377
+Same issue with magit, that basically requires a full uninstall and reinstall
+
+RESOLVED [2023-03-27 Mon]:
+I'm guessing the problem was either with:
+- The require statement (there are no installation instructions for this mode)
+- The fact that I'd accidentally installed git-auto-commit previous, and maybe straight was having trouble merging them, so I manually deleted both directories and slowly re-included things line by line
+- Let's see if it holds
+
 * Org Mode
 
 ** Basic Org Mode
