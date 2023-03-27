@@ -731,12 +731,14 @@ Baseline org shortcuts here. Still need agendas and clocks. Possibly refining re
 
 ** Org Roam
 
+*** Basic Installation
 #+begin_src emacs-lisp
   (straight-use-package 'org-roam)
   (setq org-roam-directory (file-truename "~/org-roam-repo"))
   (org-roam-db-autosync-mode)
 #+end_src
 
+*** Basic Config
 Some basic config for daily journals and the like.
 
 #+begin_src emacs-lisp
@@ -777,6 +779,24 @@ Some basic config for daily journals and the like.
               )
 #+end_src
 
+*** Custom function to only insert link to today's daily
+I just want an easy way to insert to today's daily. The best current approach is to use the filter function in the org-roam-node-insert command to match today's date. It does assume the date exists, but I basically handle that case on waking up, so it shouldn't be a problem.
+
+Big examples from here:
+
+https://github.com/org-roam/org-roam/wiki/User-contributed-Tricks#some-filter-fn-examples
+
+#+begin_src emacs-lisp
+  (defun ftwynn/org-roam-insert-today ()
+            "Filter node insertion to today's date for quickly inserting a link to the daily."
+            (interactive)
+            (org-roam-node-insert 
+              (lambda (node)
+                (string-equal (org-roam-node-title node) (format-time-string "%Y-%m-%d")))))
+#+end_src
+
+
+*** General.el mappings
 Let's get some general mappings in there
 
 #+begin_src emacs-lisp
@@ -787,10 +807,13 @@ Let's get some general mappings in there
     "omc" 'org-roam-dailies-capture-today
     "omb" 'org-roam-buffer-toggle
     "omt" 'org-roam-dailies-goto-today
+    "omd" 'ftwynn/org-roam-insert-today
+
     ;; Add Interstitial journal to not visit the daily page, which is above with non-nil arg
   )
 
 #+end_src
+
 
 ** org-autolist
 It doesn't quite get where I want with headlines, but it gets close with lists, which is at least a step in the right direction
