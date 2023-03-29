@@ -80,10 +80,11 @@ Save doesn't work here... not totally sure why. But then, I can't find the funct
 Set up some general toggles here
 
 #+begin_src emacs-lisp
- (ftwynn/leader-key-def
-    "t"  '(:ignore t :which-key "toggles")
-    "tl" 'org-toggle-link-display
-  )
+  (ftwynn/leader-key-def
+     "t"  '(:ignore t :which-key "toggles")
+     "tl" 'org-toggle-link-display
+     "tn" 'org-toggle-narrow-to-subtree
+   )
 
 #+end_src
 
