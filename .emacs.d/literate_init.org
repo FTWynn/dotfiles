@@ -726,6 +726,7 @@ Baseline org shortcuts here. Still need agendas and clocks. Possibly refining re
     "oc" 'org-capture
     "ol" 'org-insert-link
     "oa" 'org-agenda
+    "oo" 'org-open-at-point
     ;; Clock subgroup
   )
 #+end_src
@@ -1302,6 +1303,14 @@ Don't forget to install it from the base package manager
       (add-hook hook (lambda () (flyspell-mode 1))))
     (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
       (add-hook hook (lambda () (flyspell-mode -1))))
+#+end_src
+
+* Read reddit inside of emacs
+It's read only, so I'll still have to jump to the UI to reply.
+#+begin_src emacs-lisp
+  (use-package reddigg)
+  (setq reddigg-subs '(Stoicism))
+  (setq org-confirm-elisp-link-function nil)
 #+end_src
 
 * Starting Buffer and git pull
