@@ -815,7 +815,16 @@ Let's get some general mappings in there
 
 #+end_src
 
+** Org Agenda
+Agenda Files... I'm starting with them all explicitly, though I think directory specs should work as well.
 
+Might want to add in some fun ways to dynamically generate this from the whole roam repo later (or maybe to get them all into TODOs.org), but this will do for now.
+
+#+begin_src emacs-lisp
+  (setq org-agenda-files (list "~/org-roam-repo/gcal/personal.org"
+                             "~/org-roam-repo/gcal/time_blocks.org"
+                             "~/org-roam-repo/mobile/TODOs.org"))
+#+end_src
 ** org-autolist
 It doesn't quite get where I want with headlines, but it gets close with lists, which is at least a step in the right direction
 
