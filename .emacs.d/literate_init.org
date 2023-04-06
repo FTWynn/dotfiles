@@ -827,6 +827,15 @@ Might want to add in some fun ways to dynamically generate this from the whole r
                              "~/org-roam-repo/mobile/TODOs.org"))
 #+end_src
 
+** org-sticky-header
+Never lose my place in big files again! I use a lot of deep files, so this seems better than not.
+
+#+begin_src emacs-lisp
+  (straight-use-package 'org-sticky-header)
+  (add-hook 'org-mode-hook 'org-sticky-header-mode)
+#+end_src
+
+I might want to turn a toggle on and off for lots of smaller header files. We shall see.
 ** org-autolist
 It doesn't quite get where I want with headlines, but it gets close with lists, which is at least a step in the right direction
 
