@@ -742,7 +742,7 @@ https://emacsredux.com/blog/2014/12/05/converting-between-symbols-and-strings/
 Baseline org shortcuts here. Still need agendas and clocks. Possibly refining refiling as well.
 
 #+begin_src emacs-lisp
-      (ftwynn/leader-key-def
+  (ftwynn/leader-key-def
     "o"  '(:ignore t :which-key "org")
     "or" 'org-refile
     "oc" 'org-capture
@@ -799,6 +799,10 @@ Some basic config for daily journals and the like.
                          :target (file+head "%<%Y-%m-%d>.org"
                                             "#+title: %<%Y-%m-%d>\n")
                          :jump-to-target t)
+                      ("c" "New Contact" entry
+                         (file "~/org-roam-repo/templates/new_contact.org")
+                         :target (file "~/org-roam-repo/mobile/contacts.org")
+                         :jump-to-target t)
                         )
               )
 #+end_src
@@ -836,6 +840,15 @@ Let's get some general mappings in there
     ;; Add Interstitial journal to not visit the daily page, which is above with non-nil arg
   )
 
+#+end_src
+
+** org-contacts
+
+#+begin_src emacs-lisp
+  (use-package org-contacts
+  :ensure nil
+  :after org
+  :custom (org-contacts-files '("~/org-roam-repo/templates/contacts.org")))
 #+end_src
 
 ** Org Agenda
