@@ -207,6 +207,28 @@ Note, some operations work on these virtual "screen" lines, like C-k, C-a, and C
   (global-visual-line-mode 1)
 #+end_src
 
+** Emojis
+Borrowed from here: https://ianyepan.github.io/posts/emacs-emojis/, but switched to Noto Color Emoji since that's an OSS font.
+
+#+begin_src emacs-lisp
+(use-package emojify
+  :config
+  (when (member "Noto Color Emoji" (font-family-list))
+    (set-fontset-font
+     t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend))
+  (setq emojify-display-style 'unicode)
+  (setq emojify-emoji-styles '(unicode)))
+  ;;(bind-key* (kbd "C-c .") #'emojify-insert-emoji) ; override binding in any mode ; Don't want this for now
+#+end_src
+
+Let's try another way...
+
+#+begin_src emacs-lisp
+(set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
+#+end_src
+
+Doesn't seem to work on WSL on Windows, but Chromebook is fine
+
 * git-auto-commit-mode
 Super useful package for repos that are nothing more than sync use cases, like the org notes repo.
 
@@ -832,6 +854,7 @@ Never lose my place in big files again! I use a lot of deep files, so this seems
 
 #+begin_src emacs-lisp
   (straight-use-package 'org-sticky-header)
+  (setq org-sticky-header-full-path 'full) ;; 'reversed is also possibly viable
   (add-hook 'org-mode-hook 'org-sticky-header-mode)
 #+end_src
 
