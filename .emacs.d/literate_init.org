@@ -752,7 +752,7 @@ Baseline org shortcuts here. Still need agendas and clocks. Possibly refining re
     "oi" '(:ignore t :which-key "org-insert")
     "oil" 'org-insert-link
     "oin" '((lambda () (interactive) (org-time-stamp '(16))) :which-key "active timestamp now");; the '(16) simulates two prefix arguments, 4 multiplied together
-    
+    "oii" '((lambda () (interactive) (org-time-stamp '(16) t)) :which-key "inactive timestamp now")    
     ;; Clock subgroup
   )
 #+end_src
