@@ -737,6 +737,20 @@ https://emacsredux.com/blog/2014/12/05/converting-between-symbols-and-strings/
   )
 #+end_src
 
+** Adding Capture templates to vanilla org-capture
+Mostly I will use roam insert templates, but adding org-only ones to org-capture enables the shortcut to insert them at point, assuming I haven't added any roam-specific escapes.
+
+Mostly used for recipes for now, since I can't define those in advance in Roam configs.
+
+#+begin_src emacs-lisp
+      (setq org-capture-templates
+            '(("R" "New Recipe" entry (file "~/mobile/Keep.org") 
+               (file "~/org-roam-repo/templates/new_recipe.org"))
+            ("r" "Recipe Experiment" entry (file "~/mobile/Keep.org") 
+               (file "~/org-roam-repo/templates/new_recipe_experiment.org"))
+  ))
+#+end_src
+
 ** Org General Additions
 
 Baseline org shortcuts here. Still need agendas and clocks. Possibly refining refiling as well.
@@ -752,10 +766,13 @@ Baseline org shortcuts here. Still need agendas and clocks. Possibly refining re
     "oi" '(:ignore t :which-key "org-insert")
     "oil" 'org-insert-link
     "oin" '((lambda () (interactive) (org-time-stamp '(16))) :which-key "active timestamp now");; the '(16) simulates two prefix arguments, 4 multiplied together
-    "oii" '((lambda () (interactive) (org-time-stamp '(16) t)) :which-key "inactive timestamp now")    
+    "oii" '((lambda () (interactive) (org-time-stamp '(16) t)) :which-key "inactive timestamp now")
+    "o0" '((lambda () (interactive) (org-capture 0)) :which-key "capture at point") 
     ;; Clock subgroup
   )
 #+end_src
+
+#+RESULTS:  
 
 ** Org Roam
 
