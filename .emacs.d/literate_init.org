@@ -828,6 +828,11 @@ Some basic config for daily journals and the like.
               )
 #+end_src
 
+*** New Node Templates
+https://systemcrafters.net/build-a-second-brain-in-emacs/capturing-notes-efficiently/#creating-a-topic-specific-template
+
+It's apparently totally possible to create templates for note creation. However, that prevents the easy-open style from popping open and gives you a menu every time. For just recipes, that seems like a disproportionate loss. I'm not sure if I'll want to do others (video notes, etc.) but I'm marking this sections as I place where I'd want to do such a thing, potentially.
+
 *** Custom function to only insert link to today's daily
 I just want an easy way to insert to today's daily. The best current approach is to use the filter function in the org-roam-node-insert command to match today's date. It does assume the date exists, but I basically handle that case on waking up, so it shouldn't be a problem.
 
