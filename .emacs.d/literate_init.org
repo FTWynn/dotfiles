@@ -84,6 +84,7 @@ Set up some general toggles here
      "t"  '(:ignore t :which-key "toggles")
      "tl" 'org-toggle-link-display
      "tn" 'org-toggle-narrow-to-subtree
+     "ti" 'org-toggle-inline-images
    )
 
 #+end_src
@@ -901,6 +902,16 @@ Never lose my place in big files again! I use a lot of deep files, so this seems
 #+end_src
 
 I might want to turn a toggle on and off for lots of smaller header files. We shall see.
+** org-download
+Trying to wrangle where binary files go in Org. The big case is pictures, though I suppose pdf's and the likes should go here and just be linked through =file= links as well
+
+#+begin_src emacs-lisp
+  (use-package org-download)
+  (setq-default org-download-image-dir "~/blobs_for_org/img")
+#+end_src
+
+On chromebook, needed to install xclip program
+
 ** org-autolist
 It doesn't quite get where I want with headlines, but it gets close with lists, which is at least a step in the right direction
 
