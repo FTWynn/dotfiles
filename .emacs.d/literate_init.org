@@ -912,6 +912,29 @@ Trying to wrangle where binary files go in Org. The big case is pictures, though
 
 On chromebook, needed to install xclip program
 
+** org-super-agenda
+
+#+begin_src emacs-lisp
+  (use-package org-super-agenda)
+  (org-super-agenda-mode 1)
+#+end_src
+
+#+begin_src emacs-lisp
+  (setq org-super-agenda-groups
+    '(
+      (:name "Contacts to follow up with"
+             :category "contacts"
+             :order 1)
+      (:name "Schedule"
+             :time-grid t
+             :order 3)
+      (:name "All Day TODOs"
+             :todo t
+             :order 2)
+     )
+  )
+#+end_src
+
 ** org-autolist
 It doesn't quite get where I want with headlines, but it gets close with lists, which is at least a step in the right direction
 
