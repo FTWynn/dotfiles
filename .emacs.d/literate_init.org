@@ -786,6 +786,8 @@ Baseline org shortcuts here. Still need agendas and clocks. Possibly refining re
 *** Basic Config
 Some basic config for daily journals and the like.
 
+Note, these templates are great for when you know where the target file is going to be. If not, you need to insert the template at point, which these don't support, and you have to use the normal org-capture templates.
+
 #+begin_src emacs-lisp
                 (setq org-roam-dailies-directory "journals/")
 
