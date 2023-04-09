@@ -929,7 +929,7 @@ On chromebook, needed to install xclip program
              :time-grid t
              :order 3)
       (:name "All Day TODOs"
-             :todo t
+             :todo "TODO"
              :order 2)
      )
   )
