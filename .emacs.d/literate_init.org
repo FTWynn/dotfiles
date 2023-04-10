@@ -280,7 +280,7 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
     (org-indent-mode)
     (variable-pitch-mode 1)
     (auto-fill-mode 0)
-    ;;(visual-line-mode 1)
+    (visual-line-mode 1)
     (setq org-descriptive-links nil)
     (setq evil-auto-indent nil)
     (setq org-M-RET-may-split-line nil))
@@ -881,6 +881,8 @@ Let's get some general mappings in there
 #+end_src
 
 ** Org Agenda
+
+*** Agenda Files
 Agenda Files... I'm starting with them all explicitly, though I think directory specs should work as well.
 
 Might want to add in some fun ways to dynamically generate this from the whole roam repo later (or maybe to get them all into TODOs.org), but this will do for now.
@@ -892,6 +894,21 @@ Might want to add in some fun ways to dynamically generate this from the whole r
                                "~/org-roam-repo/mobile/contacts.org"))
 #+end_src
 
+*** Disable Visual Line Mode just in Agenda
+[2023-04-10 Mon 07:49]
+Tags get wrapped weirdly in visual line mode, so let's turn it off just for the org agenda
+
+https://emacs.stackexchange.com/questions/68160/disabling-visual-line-mode-only-in-org-agenda-mode
+(add-hook 'org-agenda-mode-hook (lambda () (visual-line-mode -1) (setq truncate-lines 1)))
+
+Not sure if I'll need the truncate lines piece, because just turning off the lines seemed to work for me in testing
+#+begin_src emacs-lisp
+  (add-hook 'org-agenda-mode-hook (lambda () (visual-line-mode -1) (setq truncate-lines 1)))
+#+end_src
+
+It's possible I might want to set the column part that starts the tags manually instead, as listed here:
+
+https://www.reddit.com/r/emacs/comments/uq9882/line_gets_broken_wrapped_in_orgagenda_view/
 ** org-sticky-header
 Never lose my place in big files again! I use a lot of deep files, so this seems better than not.
 
