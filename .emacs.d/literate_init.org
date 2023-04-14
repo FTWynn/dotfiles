@@ -925,7 +925,7 @@ Trying to wrangle where binary files go in Org. The big case is pictures, though
 
 #+begin_src emacs-lisp
   (use-package org-download)
-  (setq-default org-download-image-dir "~/blobs_for_org/img")
+  (setq-default org-download-image-dir "~/blobs-for-org/img")
 #+end_src
 
 On chromebook, needed to install xclip program
