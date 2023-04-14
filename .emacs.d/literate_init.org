@@ -1,6 +1,15 @@
 #+TITLE: Literate Init File for FTWynn
 #+PROPERTY: header-args:emacs-lisp 
 
+* Platform Specific
+** OSX
+Nothing here yet, but saving the placeholder in case I find anything I do want to make part of a thing
+
+#+begin_src emacs-lisp
+  (when (eq system-type 'darwin)
+    ;
+  )
+#+end_src
 * no-littering
 This package should help with all the temp file stuff, as well as various config files for packages
 
