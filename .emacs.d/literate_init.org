@@ -10,7 +10,34 @@ Nothing here yet, but saving the placeholder in case I find anything I do want t
     (setq mac-command-modifier 'meta)
   )
 #+end_src
+** Chromebook
 
+=system-type = gnu/linux=
+
+Needs more though... I remember there was something that returned c and a bunch of numbers...
+
+Can I add uname -a? That contains penguin
+
+=cat /etc/os-release= shows Debian, which might be specific enough for my purposes
+
+Maybe grep it to get the right thing
+
+=hostnamectl= also gives both penguin and Debian
+
+This snippet tests for wsl found here
+https://stackoverflow.com/questions/1817257/how-to-determine-operating-system-in-elisp
+
+(if
+    (string-match "Microsoft"
+         (with-temp-buffer (shell-command "uname -r" t)
+                           (goto-char (point-max))
+                           (delete-char -1)
+                           (buffer-string)))
+    (message "Running under Linux subsystem for Windows")
+    (message "Not running under Linux subsystem for Windows")
+  )
+
+  
 * no-littering
 This package should help with all the temp file stuff, as well as various config files for packages
 
