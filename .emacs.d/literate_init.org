@@ -174,6 +174,15 @@ Disable in some buffers
       (add-hook mode (lambda () (display-line-numbers-mode 0))))
 #+end_src
 
+** Window margin
+Without line numbers, it's nice to give a little space to the left of the screen. =left-fringe-width= should work for graphical displays, and =(set-window-margins nil 1)= should work for consoles too since that's measured in chars instead of pixels
+
+#+begin_src emacs-lisp
+  ;(set-window-margins nil 0)
+  ;(setq left-fringe-width 50) ; This is buffer local
+  (set-window-fringes nil 60 60)
+#+end_src
+
 ** Rainbow Delimeters
 
 #+begin_src emacs-lisp
