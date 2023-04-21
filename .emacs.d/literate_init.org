@@ -178,9 +178,13 @@ Disable in some buffers
 Without line numbers, it's nice to give a little space to the left of the screen. =left-fringe-width= should work for graphical displays, and =(set-window-margins nil 1)= should work for consoles too since that's measured in chars instead of pixels
 
 #+begin_src emacs-lisp
-  ;(set-window-margins nil 0)
+  ;(set-window-margins nil 2)
   ;(setq left-fringe-width 50) ; This is buffer local
   ;(set-window-fringes nil 60 60) ; This is window, which is more or less a buffer, NOT the taskbar container
+
+  (add-hook 'window-configuration-change-hook
+          (lambda ()
+            (set-window-fringes (car (get-buffer-window-list (current-buffer) nil t)) 60 60)))
 #+end_src
 
 ** Rainbow Delimeters
@@ -320,8 +324,8 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
         org-eshell
         org-irc))
 
-  (setq org-refile-targets '((nil :maxlevel . 1)
-                             (org-agenda-files :maxlevel . 1)))
+  (setq org-refile-targets '((nil :maxlevel . 6)
+                            ))
 
   (setq org-outline-path-complete-in-steps nil)
   (setq org-refile-use-outline-path t)
