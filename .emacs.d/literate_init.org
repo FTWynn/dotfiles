@@ -161,7 +161,7 @@ Don't display line numbers in every buffer... but I'm not sure
 I really need this
 
 #+begin_src emacs-lisp
-  (global-display-line-numbers-mode 1)
+  (global-display-line-numbers-mode 0)
   (column-number-mode)
 #+end_src
 
