@@ -180,7 +180,7 @@ Without line numbers, it's nice to give a little space to the left of the screen
 #+begin_src emacs-lisp
   ;(set-window-margins nil 0)
   ;(setq left-fringe-width 50) ; This is buffer local
-  (set-window-fringes nil 60 60)
+  ;(set-window-fringes nil 60 60) ; This is window, which is more or less a buffer, NOT the taskbar container
 #+end_src
 
 ** Rainbow Delimeters
