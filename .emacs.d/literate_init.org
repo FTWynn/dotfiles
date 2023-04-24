@@ -128,7 +128,7 @@ They both *should* work, but the latter seems more modern
 #+begin_src emacs-lisp
   ;; Default Font
   ;;(set-frame-font "Fira Code 18")
-  (set-face-attribute 'default nil :font "Source Sans Pro" :height 180)
+  (set-face-attribute 'default nil :font "Fira Code" :height 180)
 
   ;; Set the fixed pitch face.. .which I believe is the mono font
   (set-face-attribute 'fixed-pitch nil
