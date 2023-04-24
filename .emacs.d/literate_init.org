@@ -1,7 +1,6 @@
 #+TITLE: Literate Init File for FTWynn
 #+PROPERTY: header-args:emacs-lisp 
 
-  
 * no-littering
 This package should help with all the temp file stuff, as well as various config files for packages
 
@@ -129,8 +128,7 @@ They both *should* work, but the latter seems more modern
 #+begin_src emacs-lisp
   ;; Default Font
   ;;(set-frame-font "Fira Code 18")
-    (set-face-attribute 'default nil :font "Fira Code" :height 180)
-
+    (set-face-attribute 'default nil :font "Source Sans Pro" :height 180)
 
     ;; Set the fixed pitch face.. .which I believe is the mono font
     (set-face-attribute 'fixed-pitch nil
@@ -140,10 +138,11 @@ They both *should* work, but the latter seems more modern
 
     ;; Set the variable pitch face
     (set-face-attribute 'variable-pitch nil
-                        :font "Source Code Pro"
+                        :font "Fira Sans"
                         :height 180
                         :weight 'light)
-#+end_src
+
+ #+end_src
 
 #+RESULTS:
 
@@ -177,7 +176,7 @@ Disable in some buffers
 ** Window margin
 Without line numbers, it's nice to give a little space to the left of the screen. =left-fringe-width= should work for graphical displays, and =(set-window-margins nil 1)= should work for consoles too since that's measured in chars instead of pixels
 
-#+begin_src emacs-lisp
++begin_src emacs-lisp
   ;(set-window-margins nil 2)
   ;(setq left-fringe-width 50) ; This is buffer local
   ;(set-window-fringes nil 60 60) ; This is window, which is more or less a buffer, NOT the taskbar container
@@ -185,7 +184,9 @@ Without line numbers, it's nice to give a little space to the left of the screen
   (add-hook 'window-configuration-change-hook
           (lambda ()
             (set-window-fringes (car (get-buffer-window-list (current-buffer) nil t)) 60 60)))
-#+end_src
++end_src
+
+[2023-04-24 Mon] Removing the for now as I'm going to try olivetti mode
 
 ** Rainbow Delimeters
 
@@ -292,56 +293,87 @@ Variable pitch seems to be for fonts to be non-mono
 Org-descriptive links seems to need to be off to see link highlighting syntax
 
 #+begin_src emacs-lisp
-  (defun ftwynn/org-mode-setup ()
-  (org-indent-mode)
-  (variable-pitch-mode 1)
-  (auto-fill-mode 0)
-  (visual-line-mode 1)
-  (setq org-indent-indentation-per-level 3)
-  (setq org-descriptive-links nil)
-  (setq evil-auto-indent nil)
-  (setq org-M-RET-may-split-line nil))
+    ;; Copied from stackoverflow, this retains colors for org src blocks and tables, while making them monospaced
+    (defun my-adjoin-to-list-or-symbol (element list-or-symbol)
+      (let ((list (if (not (listp list-or-symbol))
+                      (list list-or-symbol)
+                    list-or-symbol)))
+        (require 'cl-lib)
+        (cl-adjoin element list)))
 
-  (use-package org
-  :defer t
-  :hook (org-mode . ftwynn/org-mode-setup)
-  :config
-  (setq org-ellipsis " ▾"
-        ;;org-hide-emphasis-markers t
-        org-src-fontify-natively t
-        org-fontify-quote-and-verse-blocks t
-        org-src-tab-acts-natively t
-        org-edit-src-content-indentation 2
-        org-hide-block-startup nil
-        org-src-preserve-indentation nil
-        org-startup-folded 'content
-        org-cycle-separator-lines 2)
+         (defun ftwynn/org-mode-setup ()
+          (org-indent-mode)
+          (variable-pitch-mode 1)
+          (auto-fill-mode 0)
+          (visual-line-mode 1)
+          (setq org-indent-indentation-per-level 3)
+          (setq org-descriptive-links nil)
+          (setq evil-auto-indent nil)
+          (setq org-M-RET-may-split-line nil)
+  (setq line-spacing 0.2)
 
-  (setq org-modules
-    '(org-crypt
-        org-habit
-        org-bookmark
-        org-eshell
-        org-irc))
+  (mapc
+      (lambda (face)
+        (set-face-attribute
+         face nil
+         :inherit
+         (my-adjoin-to-list-or-symbol
+          'fixed-pitch
+          (face-attribute face :inherit))))
+      (list 'org-code 'org-block 'org-table))
+      )
 
-  (setq org-refile-targets '((nil :maxlevel . 6)
-                            ))
+          (use-package org
+          :defer t
+          :hook (org-mode . ftwynn/org-mode-setup)
+          :config
+          (setq org-ellipsis " ▾"
+                ;;org-hide-emphasis-markers t
+                org-src-fontify-natively t
+                org-fontify-quote-and-verse-blocks t
+                org-src-tab-acts-natively t
+                org-edit-src-content-indentation 2
+                org-hide-block-startup nil
+                org-src-preserve-indentation nil
+                org-startup-folded 'content
+                org-cycle-separator-lines 2)
 
-  (setq org-outline-path-complete-in-steps nil)
-  (setq org-refile-use-outline-path t)
+          (setq org-modules
+            '(org-crypt
+                org-habit
+                org-bookmark
+                org-eshell
+                org-irc))
 
-  ;; Good ideas but this remap comand doesn't seem to work. Maybe use general?
-  ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "C-j") 'org-next-visible-heading)
-  ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "C-k") 'org-previous-visible-heading)
+          (setq org-refile-targets '((nil :maxlevel . 6)
+                                    ))
 
-  ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "M-j") 'org-metadown)
-  ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "M-k") 'org-metaup)
+          (setq org-outline-path-complete-in-steps nil)
+          (setq org-refile-use-outline-path t)
 
-  ;;(org-babel-do-load-languages
-  ;;  'org-babel-load-languages
-  ;;  '((emacs-lisp . t)
-  ;;    (ledger . t)))
-  )
+          ;; Good ideas but this remap comand doesn't seem to work. Maybe use general?
+          ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "C-j") 'org-next-visible-heading)
+          ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "C-k") 'org-previous-visible-heading)
+
+          ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "M-j") 'org-metadown)
+          ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "M-k") 'org-metaup)
+
+          ;;(org-babel-do-load-languages
+          ;;  'org-babel-load-languages
+          ;;  '((emacs-lisp . t)
+          ;;    (ledger . t)))
+          )
+#+end_src
+
+** Olivetti Mode
+Including here as it's mostly for org mode. An alternative for fiddling with margins
+
+#+begin_src emacs-lisp
+  (use-package olivetti
+  :hook (org-mode . olivetti-mode))
+
+(setq olivetti-body-width 0.9)
+  
 #+end_src
 
 ** Code Block Shortcodes
@@ -869,7 +901,6 @@ https://github.com/org-roam/org-roam/wiki/User-contributed-Tricks#some-filter-fn
                 (string-equal (org-roam-node-title node) (format-time-string "%Y-%m-%d")))))
 #+end_src
 
-
 *** General.el mappings
 Let's get some general mappings in there
 
@@ -1316,7 +1347,6 @@ The above is just the docs' basic recommendation.
 	`(orderless-flex . ,(substring pattern 0 -1))))
     )
 #+end_src
-
 
 ** Consult
 
