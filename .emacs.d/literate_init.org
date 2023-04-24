@@ -247,6 +247,18 @@ Let's try another way...
 
 Doesn't seem to work on WSL on Windows, but Chromebook is fine
 
+** Pulse highlight line on various buffer jump operations
+Pulled from https://karl-voit.at/2021/04/10/GLT21-emacs-org-features/
+
+#+begin_src emacs-lisp
+  (defun my-pulse-line (&rest _)
+    "Pulse the current line."
+    (pulse-momentary-highlight-one-line (point)))
+
+  (dolist (command '(recenter-top-bottom other-window ace-window my-scroll-down-half my-scroll-up-half switch-to-buffer))
+    (advice-add command :after #'my-pulse-line))
+#+end_src
+
 * git-auto-commit-mode
 Super useful package for repos that are nothing more than sync use cases, like the org notes repo.
 
