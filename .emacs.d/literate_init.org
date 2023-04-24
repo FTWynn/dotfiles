@@ -1020,6 +1020,35 @@ It doesn't quite get where I want with headlines, but it gets close with lists, 
     :hook (org-mode . org-autolist-mode))
 #+end_src
 
+** Org-ql
+*** Basic Installation
+
+#+begin_src emacs-lisp
+(use-package org-ql)
+#+end_src
+
+*** Configuration
+Looking for a PARA like view. Of note:
+
+- Projects are expected to remain tagged in their various trees, duplicated if possible
+- The sub groupings need to be spelled out explicitly, but that's alright because they'll bubble up to the top level PARA headings
+  - Unless there's a clever way to mark them up
+- Archive tag excludes stuff from the list
+- Ignores Journals
+- Has a section (or separate query) for untagged files
+
++begin_src emacs-lisp
+(defun ftwynn/view-para ()
+  (interactive)
+  (require 'org-ql)
+  (org-ql-search
+    (org-agenda-files)
+    '(and (tags "project")
+          (not (todo "DONE"))
+          (not (todo "XXXX")))
+    :sort nil
+    :super-groups '((:auto-parent t))))
++end_src
 ** A Better RET on headlines
 
 Picked this up from the url below. It runs a bit like my envisioning of a rapid-outliner mode
