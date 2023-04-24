@@ -9,12 +9,12 @@ It notably doesn't move anything that already exists, so I want want to nuke stu
 #+begin_src emacs-lisp
   (use-package no-littering)
   (require 'no-littering)
-    (setq auto-save-file-name-transforms
-	  `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
-    (when (fboundp 'startup-redirect-eln-cache)
+  (setq auto-save-file-name-transforms
+        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+  (when (fboundp 'startup-redirect-eln-cache)
     (startup-redirect-eln-cache
      (convert-standard-filename
-	    (expand-file-name  "var/eln-cache/" user-emacs-directory))))
+      (expand-file-name  "var/eln-cache/" user-emacs-directory))))
 #+end_src
 
 * General.el
@@ -27,24 +27,24 @@ Putting it first because a bunch of use-package definitions might need it.
   (straight-use-package 'general)
 
   (use-package general
-  :config
-  (general-evil-setup t)
+    :config
+    (general-evil-setup t)
 
-  (general-create-definer ftwynn/leader-key-def
-    :keymaps '(normal insert visual emacs)
-    :prefix "SPC"
-    :global-prefix "C-SPC")
+    (general-create-definer ftwynn/leader-key-def
+      :keymaps '(normal insert visual emacs)
+      :prefix "SPC"
+      :global-prefix "C-SPC")
 
-  (general-create-definer ftwynn/ctrl-c-keys
-    :prefix "C-c"))
-  
+    (general-create-definer ftwynn/ctrl-c-keys
+      :prefix "C-c"))
+
   ;;(require 'general)
 #+end_src
 
 I can just add whatever I want to the leader-key-def to set up the map. It works in any block just as below.
 
 #+begin_src emacs-lisp
-    (ftwynn/leader-key-def
+  (ftwynn/leader-key-def
     ;;"ff" '((lambda () (interactive) (find-file "~/org-roam-repo/")) :which-key "org-roam files")
     "ff" '(find-file :which-key "org-roam files")
     "fd"  '(:ignore t :which-key "dotfiles")
@@ -59,7 +59,7 @@ I can just add whatever I want to the leader-key-def to set up the map. It works
     ;;"fdp" '((lambda () (interactive) (dw/org-file-jump-to-heading "~/.dotfiles/Desktop.org" "Panel via Polybar")) :which-key "polybar")
     ;;"fdw" '((lambda () (interactive) (find-file (expand-file-name "~/.dotfiles/Workflow.org"))) :which-key "workflow")
     ;;"fdv" '((lambda () (interactive) (find-file "~/.dotfiles/.config/vimb/config")) :which-key "vimb")
-  )
+    )
 #+end_src
 
 ** Buffer Shortcuts
@@ -68,11 +68,11 @@ Save doesn't work here... not totally sure why. But then, I can't find the funct
 - Works now! Had to get the right command name through describe-key
 
 #+begin_src emacs-lisp
-    (ftwynn/leader-key-def
+  (ftwynn/leader-key-def
     "b"  '(:ignore t :which-key "buffer")
     "bs" 'save-buffer
     "bb" 'switch-to-buffer
-  )
+    )
 #+end_src
 
 ** Toggles
@@ -81,11 +81,11 @@ Set up some general toggles here
 
 #+begin_src emacs-lisp
   (ftwynn/leader-key-def
-     "t"  '(:ignore t :which-key "toggles")
-     "tl" 'org-toggle-link-display
-     "tn" 'org-toggle-narrow-to-subtree
-     "ti" 'org-toggle-inline-images
-   )
+    "t"  '(:ignore t :which-key "toggles")
+    "tl" 'org-toggle-link-display
+    "tn" 'org-toggle-narrow-to-subtree
+    "ti" 'org-toggle-inline-images
+    )
 
 #+end_src
 
@@ -128,21 +128,21 @@ They both *should* work, but the latter seems more modern
 #+begin_src emacs-lisp
   ;; Default Font
   ;;(set-frame-font "Fira Code 18")
-    (set-face-attribute 'default nil :font "Source Sans Pro" :height 180)
+  (set-face-attribute 'default nil :font "Source Sans Pro" :height 180)
 
-    ;; Set the fixed pitch face.. .which I believe is the mono font
-    (set-face-attribute 'fixed-pitch nil
-                        :font "Fira Code"
-                        :weight 'light
-                        :height 180)
+  ;; Set the fixed pitch face.. .which I believe is the mono font
+  (set-face-attribute 'fixed-pitch nil
+                      :font "Fira Code"
+                      :weight 'light
+                      :height 180)
 
-    ;; Set the variable pitch face
-    (set-face-attribute 'variable-pitch nil
-                        :font "Fira Sans"
-                        :height 180
-                        :weight 'light)
+  ;; Set the variable pitch face
+  (set-face-attribute 'variable-pitch nil
+                      :font "Fira Sans"
+                      :height 180
+                      :weight 'light)
 
- #+end_src
+#+end_src
 
 #+RESULTS:
 
@@ -167,23 +167,23 @@ I really need this
 Disable in some buffers
 
 #+begin_src emacs-lisp
-    (dolist (mode '(term-mode-hook
-		    eshell-mode-hook
-		    shell-mode-hook))
-      (add-hook mode (lambda () (display-line-numbers-mode 0))))
+  (dolist (mode '(term-mode-hook
+                  eshell-mode-hook
+                  shell-mode-hook))
+    (add-hook mode (lambda () (display-line-numbers-mode 0))))
 #+end_src
 
 ** Window margin
 Without line numbers, it's nice to give a little space to the left of the screen. =left-fringe-width= should work for graphical displays, and =(set-window-margins nil 1)= should work for consoles too since that's measured in chars instead of pixels
 
 +begin_src emacs-lisp
-  ;(set-window-margins nil 2)
-  ;(setq left-fringe-width 50) ; This is buffer local
-  ;(set-window-fringes nil 60 60) ; This is window, which is more or less a buffer, NOT the taskbar container
+;(set-window-margins nil 2)
+;(setq left-fringe-width 50) ; This is buffer local
+;(set-window-fringes nil 60 60) ; This is window, which is more or less a buffer, NOT the taskbar container
 
-  (add-hook 'window-configuration-change-hook
-          (lambda ()
-            (set-window-fringes (car (get-buffer-window-list (current-buffer) nil t)) 60 60)))
+(add-hook 'window-configuration-change-hook
+(lambda ()
+(set-window-fringes (car (get-buffer-window-list (current-buffer) nil t)) 60 60)))
 +end_src
 
 [2023-04-24 Mon] Removing the for now as I'm going to try olivetti mode
@@ -229,20 +229,20 @@ Note, some operations work on these virtual "screen" lines, like C-k, C-a, and C
 Borrowed from here: https://ianyepan.github.io/posts/emacs-emojis/, but switched to Noto Color Emoji since that's an OSS font.
 
 #+begin_src emacs-lisp
-(use-package emojify
-  :config
-  (when (member "Noto Color Emoji" (font-family-list))
-    (set-fontset-font
-     t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend))
-  (setq emojify-display-style 'unicode)
-  (setq emojify-emoji-styles '(unicode)))
+  (use-package emojify
+    :config
+    (when (member "Noto Color Emoji" (font-family-list))
+      (set-fontset-font
+       t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend))
+    (setq emojify-display-style 'unicode)
+    (setq emojify-emoji-styles '(unicode)))
   ;;(bind-key* (kbd "C-c .") #'emojify-insert-emoji) ; override binding in any mode ; Don't want this for now
 #+end_src
 
 Let's try another way...
 
 #+begin_src emacs-lisp
-(set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
+  (set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
 #+end_src
 
 Doesn't seem to work on WSL on Windows, but Chromebook is fine
@@ -257,7 +257,7 @@ I'm only setting the installation and some customization here. The mode is actua
 2023-03-27 Trying diving into the code to see if I can figure it out
 Hmm... interesting require... let's try using it manually
 #+begin_src emacs-lisp
-  ;(straight-use-package 'subr-x)
+  ;;(straight-use-package 'subr-x)
   (require 'subr-x)
 #+end_src
 
@@ -267,7 +267,7 @@ It should be builtin with emacs...
 
 #+begin_src emacs-lisp
   (use-package git-auto-commit-mode)
-  ;(require git-auto-commit-mode)
+  ;;(require git-auto-commit-mode)
   (setq-default gac-automatically-push-p t)
 #+end_src
 
@@ -293,76 +293,76 @@ Variable pitch seems to be for fonts to be non-mono
 Org-descriptive links seems to need to be off to see link highlighting syntax
 
 #+begin_src emacs-lisp
-    ;; Copied from stackoverflow, this retains colors for org src blocks and tables, while making them monospaced
-    (defun my-adjoin-to-list-or-symbol (element list-or-symbol)
-      (let ((list (if (not (listp list-or-symbol))
-                      (list list-or-symbol)
-                    list-or-symbol)))
-        (require 'cl-lib)
-        (cl-adjoin element list)))
+  ;; Copied from stackoverflow, this retains colors for org src blocks and tables, while making them monospaced
+  (defun my-adjoin-to-list-or-symbol (element list-or-symbol)
+    (let ((list (if (not (listp list-or-symbol))
+                    (list list-or-symbol)
+                  list-or-symbol)))
+      (require 'cl-lib)
+      (cl-adjoin element list)))
 
-         (defun ftwynn/org-mode-setup ()
-          (org-indent-mode)
-          (variable-pitch-mode 1)
-          (auto-fill-mode 0)
-          (visual-line-mode 1)
-          (setq org-indent-indentation-per-level 3)
-          (setq org-descriptive-links nil)
-          (setq evil-auto-indent nil)
-          (setq org-M-RET-may-split-line nil)
-  (setq line-spacing 0.2)
+  (defun ftwynn/org-mode-setup ()
+    (org-indent-mode)
+    (variable-pitch-mode 1)
+    (auto-fill-mode 0)
+    (visual-line-mode 1)
+    (setq org-indent-indentation-per-level 3)
+    (setq org-descriptive-links nil)
+    (setq evil-auto-indent nil)
+    (setq org-M-RET-may-split-line nil)
+    (setq line-spacing 0.2)
 
-  (mapc
-      (lambda (face)
-        (set-face-attribute
-         face nil
-         :inherit
-         (my-adjoin-to-list-or-symbol
-          'fixed-pitch
-          (face-attribute face :inherit))))
-      (list 'org-code 'org-block 'org-table))
-      )
+    (mapc
+     (lambda (face)
+       (set-face-attribute
+        face nil
+        :inherit
+        (my-adjoin-to-list-or-symbol
+         'fixed-pitch
+         (face-attribute face :inherit))))
+     (list 'org-code 'org-block 'org-table))
+    )
 
-          (use-package org
-          :defer t
-          :hook (org-mode . ftwynn/org-mode-setup)
-          :config
-          (setq org-ellipsis " ▾"
-                ;;org-hide-emphasis-markers t
-                org-src-fontify-natively t
-                org-fontify-quote-and-verse-blocks t
-                org-src-tab-acts-natively t
-                org-edit-src-content-indentation 2
-                org-hide-block-startup nil
-                org-src-preserve-indentation nil
-                org-startup-folded 'content
-                org-cycle-separator-lines 2)
+  (use-package org
+    :defer t
+    :hook (org-mode . ftwynn/org-mode-setup)
+    :config
+    (setq org-ellipsis " ▾"
+          ;;org-hide-emphasis-markers t
+          org-src-fontify-natively t
+          org-fontify-quote-and-verse-blocks t
+          org-src-tab-acts-natively t
+          org-edit-src-content-indentation 2
+          org-hide-block-startup nil
+          org-src-preserve-indentation nil
+          org-startup-folded 'content
+          org-cycle-separator-lines 2)
 
-          (setq org-modules
-            '(org-crypt
-                org-habit
-                org-bookmark
-                org-eshell
-                org-irc))
+    (setq org-modules
+          '(org-crypt
+            org-habit
+            org-bookmark
+            org-eshell
+            org-irc))
 
-          (setq org-refile-targets '((nil :maxlevel . 6)
-                                    ))
+    (setq org-refile-targets '((nil :maxlevel . 6)
+                               ))
 
-          (setq org-outline-path-complete-in-steps nil)
-          (setq org-refile-use-outline-path t)
+    (setq org-outline-path-complete-in-steps nil)
+    (setq org-refile-use-outline-path t)
 
-          ;; Good ideas but this remap comand doesn't seem to work. Maybe use general?
-          ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "C-j") 'org-next-visible-heading)
-          ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "C-k") 'org-previous-visible-heading)
+    ;; Good ideas but this remap comand doesn't seem to work. Maybe use general?
+    ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "C-j") 'org-next-visible-heading)
+    ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "C-k") 'org-previous-visible-heading)
 
-          ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "M-j") 'org-metadown)
-          ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "M-k") 'org-metaup)
+    ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "M-j") 'org-metadown)
+    ;;(evil-define-key '(normal insert visual) org-mode-map (kbd "M-k") 'org-metaup)
 
-          ;;(org-babel-do-load-languages
-          ;;  'org-babel-load-languages
-          ;;  '((emacs-lisp . t)
-          ;;    (ledger . t)))
-          )
+    ;;(org-babel-do-load-languages
+    ;;  'org-babel-load-languages
+    ;;  '((emacs-lisp . t)
+    ;;    (ledger . t)))
+    )
 #+end_src
 
 ** Olivetti Mode
@@ -370,10 +370,10 @@ Including here as it's mostly for org mode. An alternative for fiddling with mar
 
 #+begin_src emacs-lisp
   (use-package olivetti
-  :hook (org-mode . olivetti-mode))
+    :hook (org-mode . olivetti-mode))
 
-(setq olivetti-body-width 0.9)
-  
+  (setq olivetti-body-width 0.9)
+
 #+end_src
 
 ** Code Block Shortcodes
@@ -394,7 +394,7 @@ Gotta get org-roam in there too of course
   (add-to-list 'org-structure-template-alist '("go" . "src go"))
   (add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
   (add-to-list 'org-structure-template-alist '("json" . "src json"))
-    #+end_src
+#+end_src
 
 ** Stoic Daily Prompt Function
 Might as well define this here
@@ -408,372 +408,372 @@ Good enough? Sure.
 Variables first.
 
 #+begin_src emacs-lisp
-(setq ftwynn-stoic-prompt-01-01 "What things are truly in my control?")
-(setq ftwynn-stoic-prompt-01-02 "What am I learning and studying for?")
-(setq ftwynn-stoic-prompt-01-03 "What can I say no to so I can say yes to what matters?")
-(setq ftwynn-stoic-prompt-01-04 "Am I seeing clearly? Acting generously? Accepting what I can't change?")
-(setq ftwynn-stoic-prompt-01-05 "What is my purpose in life?")
-(setq ftwynn-stoic-prompt-01-06 "Who am I and what do I stand for?")
-(setq ftwynn-stoic-prompt-01-07 "How can I keep my mind clear from pollution?")
-(setq ftwynn-stoic-prompt-01-08 "What am I addicted to?")
-(setq ftwynn-stoic-prompt-01-09 "If I don't control what happens to me, what is left?")
-(setq ftwynn-stoic-prompt-01-10 "Where can I find steadiness?")
-(setq ftwynn-stoic-prompt-01-11 "What are sources of unsteadiness in my life?")
-(setq ftwynn-stoic-prompt-01-12 "Where is my path to serenity?")
-(setq ftwynn-stoic-prompt-01-13 "What can I put outside my circle of control?")
-(setq ftwynn-stoic-prompt-01-14 "What jerks me around?")
-(setq ftwynn-stoic-prompt-01-15 "Am I staying the course or being steered away?")
-(setq ftwynn-stoic-prompt-01-16 "What assumptions have I left unquestioned?")
-(setq ftwynn-stoic-prompt-01-17 "Am I doing work that matters?")
-(setq ftwynn-stoic-prompt-01-18 "Can I find grace and harmony in places others overlook?")
-(setq ftwynn-stoic-prompt-01-19 "Good or bad, high or low, do I still have choices?")
-(setq ftwynn-stoic-prompt-01-20 "How can I rekindle my principles and start living today?")
-(setq ftwynn-stoic-prompt-01-21 "What am I getting out of my journaling ritual?")
-(setq ftwynn-stoic-prompt-01-22 "What bad habit did I curb today?")
-(setq ftwynn-stoic-prompt-01-23 "Which of my possessions own me?")
-(setq ftwynn-stoic-prompt-01-24 "Am I doing deep work?")
-(setq ftwynn-stoic-prompt-01-25 "What do I truly prize?")
-(setq ftwynn-stoic-prompt-01-26 "What is my mantra today?")
-(setq ftwynn-stoic-prompt-01-27 "What am I studying, practicing, and training?")
-(setq ftwynn-stoic-prompt-01-28 "What ruler do I measure myself against?")
-(setq ftwynn-stoic-prompt-01-29 "Am I keeping a sturdy mind on the task at hand?")
-(setq ftwynn-stoic-prompt-01-30 "Am I content to be clueless about the things that don't matter?")
-(setq ftwynn-stoic-prompt-01-31 "What healing can philosophy help me find today?")
-(setq ftwynn-stoic-prompt-02-01 "How can I conquer my temper?")
-(setq ftwynn-stoic-prompt-02-02 "What impulses rob me of self-control?")
-(setq ftwynn-stoic-prompt-02-03 "Am I in control or is my anxiety?")
-(setq ftwynn-stoic-prompt-02-04 "Am I cultivating the invincibility of my power to choose?")
-(setq ftwynn-stoic-prompt-02-05 "Am I thinking before I act?")
-(setq ftwynn-stoic-prompt-02-06 "What needless conflict can I avoid?")
-(setq ftwynn-stoic-prompt-02-07 "How can I conquer fear and worry--before they conquer me?")
-(setq ftwynn-stoic-prompt-02-08 "Do my outbursts ever make things better?")
-(setq ftwynn-stoic-prompt-02-09 "What if I didn't have an opinion about this?")
-(setq ftwynn-stoic-prompt-02-10 "What parts of my life are driven by anger?")
-(setq ftwynn-stoic-prompt-02-11 "Is my soul a good ruler or a tyrant?")
-(setq ftwynn-stoic-prompt-02-12 "For what have I sold my peace of mind?")
-(setq ftwynn-stoic-prompt-02-13 "Which of my pleasures are really punishments?")
-(setq ftwynn-stoic-prompt-02-14 "How can I do a better job listening to the little voice inside me?")
-(setq ftwynn-stoic-prompt-02-15 "Do these strong emotions even make sense?")
-(setq ftwynn-stoic-prompt-02-16 "What am I making harder than it needs to be?")
-(setq ftwynn-stoic-prompt-02-17 "What happiness am I putting off that I could have right now?")
-(setq ftwynn-stoic-prompt-02-18 "Am I in rigorous training against false impressions?")
-(setq ftwynn-stoic-prompt-02-19 "Am I happy with my portion at the banquet of life?")
-(setq ftwynn-stoic-prompt-02-20 "Are the pleasures I'm chasing actually worth it?")
-(setq ftwynn-stoic-prompt-02-21 "What can I stop yearning for?")
-(setq ftwynn-stoic-prompt-02-22 "Am I certain what I want to say isn't better left unsaid?")
-(setq ftwynn-stoic-prompt-02-23 "Why get angry at things, if anger doesn't change them?")
-(setq ftwynn-stoic-prompt-02-24 "Why am I telling myself that I've been harmed?")
-(setq ftwynn-stoic-prompt-02-25 "Will I even remember this fight in a few months?")
-(setq ftwynn-stoic-prompt-02-26 "Why do I need to care that someone else screwed up?")
-(setq ftwynn-stoic-prompt-02-27 "How can I cultivate indifference to unimportant things?")
-(setq ftwynn-stoic-prompt-02-28 "What would happen if I took a second to cool down?")
-(setq ftwynn-stoic-prompt-02-29 "You can't always be getting what you want")
-(setq ftwynn-stoic-prompt-03-01 "How often do I question the things others take for granted?")
-(setq ftwynn-stoic-prompt-03-02 "Do I see and assess myself accurately?")
-(setq ftwynn-stoic-prompt-03-03 "Am I standing with the philosopher or the mob?")
-(setq ftwynn-stoic-prompt-03-04 "How many of my limitations are really self-imposed?")
-(setq ftwynn-stoic-prompt-03-05 "Do I really need these things I work so hard for?")
-(setq ftwynn-stoic-prompt-03-06 "Where am I a loud mouth?")
-(setq ftwynn-stoic-prompt-03-07 "Can I test my own opinion before trusting it?")
-(setq ftwynn-stoic-prompt-03-08 "Am I protecting my time and attention?")
-(setq ftwynn-stoic-prompt-03-09 "Does my social circle make me better or worse?")
-(setq ftwynn-stoic-prompt-03-10 "Who is my role model? Why?")
-(setq ftwynn-stoic-prompt-03-11 "Where have I traded away freedom? How can I get it back?")
-(setq ftwynn-stoic-prompt-03-12 "What would I change if I looked for other people's good intentions?")
-(setq ftwynn-stoic-prompt-03-13 "Instead of calling it bad luck) can I come to see it as inevitable?")
-(setq ftwynn-stoic-prompt-03-14 "How is my arrogance preventing me from learning?")
-(setq ftwynn-stoic-prompt-03-15 "What would it be like if I focused entirely on the present moment?")
-(setq ftwynn-stoic-prompt-03-16 "Do I appreciate this mind I have been given?")
-(setq ftwynn-stoic-prompt-03-17 "Are my choices beautiful?")
-(setq ftwynn-stoic-prompt-03-18 "What bad assumptions can I cast out?")
-(setq ftwynn-stoic-prompt-03-19 "What is the real cause of my irritations--external things or my opinions?")
-(setq ftwynn-stoic-prompt-03-20 "Am I cultivating the virtue that makes adversity bearable?")
-(setq ftwynn-stoic-prompt-03-21 "What if I sought peace where I am right now instead of in distant lands?")
-(setq ftwynn-stoic-prompt-03-22 "Have I confused schooling and education?")
-(setq ftwynn-stoic-prompt-03-23 "How can I treat my greedy vices? How can I heal my sickness?")
-(setq ftwynn-stoic-prompt-03-24 "What philosophical lessons can I find in ordinary things?")
-(setq ftwynn-stoic-prompt-03-25 "Would I feel wealthier if I decreased my wants?")
-(setq ftwynn-stoic-prompt-03-26 "Am I keeping watch?")
-(setq ftwynn-stoic-prompt-03-27 "What valuable things do I sell too cheaply?")
-(setq ftwynn-stoic-prompt-03-28 "Is my training designed to help me rise to the occasion?")
-(setq ftwynn-stoic-prompt-03-29 "Why do I care so much about impressing people?")
-(setq ftwynn-stoic-prompt-03-30 "If I'm not ruled by reasons, what am I ruled by?")
-(setq ftwynn-stoic-prompt-03-31 "Can I stop chasing the impossible today?")
-(setq ftwynn-stoic-prompt-04-01 "What thoughts are coloring my world?")
-(setq ftwynn-stoic-prompt-04-02 "What can I do today to keep drama away?")
-(setq ftwynn-stoic-prompt-04-03 "Are my plans at war with my other plans?")
-(setq ftwynn-stoic-prompt-04-04 "Can I fight to be the person philosophy wants me to be today?")
-(setq ftwynn-stoic-prompt-04-05 "What would happen if I stopped to verify my options and initial reactions?")
-(setq ftwynn-stoic-prompt-04-06 "Despite the worst things people do, can I love them anyway?")
-(setq ftwynn-stoic-prompt-04-07 "Where are my opinions part of the problem?")
-(setq ftwynn-stoic-prompt-04-08 "What bad assumptions, habits, or advice have I accepted?")
-(setq ftwynn-stoic-prompt-04-09 "Can I step back and test my impressions? What would I find if I did?")
-(setq ftwynn-stoic-prompt-04-10 "How do my judgments cause me anguish?")
-(setq ftwynn-stoic-prompt-04-11 "Can I stop thinking I already know and learn something here?")
-(setq ftwynn-stoic-prompt-04-12 "What's the truth about so-called 'honors' and 'riches'?")
-(setq ftwynn-stoic-prompt-04-13 "What would /less/ look like?")
-(setq ftwynn-stoic-prompt-04-14 "Do I balance my life better than the balance sheet of my business?")
-(setq ftwynn-stoic-prompt-04-15 "Life is full of taxes--am I prepared to pay them?")
-(setq ftwynn-stoic-prompt-04-16 "What can I pay closer attention to today?")
-(setq ftwynn-stoic-prompt-04-17 "Can I stop feeling hurt by every little thing?")
-(setq ftwynn-stoic-prompt-04-18 "Do I need to have an opinion about this?")
-(setq ftwynn-stoic-prompt-04-19 "Am I leaving room for what might happen?")
-(setq ftwynn-stoic-prompt-04-20 "What are the few real goods?")
-(setq ftwynn-stoic-prompt-04-21 "How long can I go without letting my attention slide?")
-(setq ftwynn-stoic-prompt-04-22 "Am I self-aware, self-critical, and self-determining?")
-(setq ftwynn-stoic-prompt-04-23 "How am I caring for my mind?")
-(setq ftwynn-stoic-prompt-04-24 "Nice cars, jewels, fine wine--what are these things really?")
-(setq ftwynn-stoic-prompt-04-25 "Am I willing to admit when I'm wrong?")
-(setq ftwynn-stoic-prompt-04-26 "How can I learn from my sparring partners?")
-(setq ftwynn-stoic-prompt-04-27 "How long does praise really last anyway?")
-(setq ftwynn-stoic-prompt-04-28 "What power does all my wanting take from me?")
-(setq ftwynn-stoic-prompt-04-29 "What do I feel when I look up at the sky?")
-(setq ftwynn-stoic-prompt-04-30 "Do my actions match my character?")
-(setq ftwynn-stoic-prompt-05-01 "Do my actions--and my mind--match my philosophy?")
-(setq ftwynn-stoic-prompt-05-02 "What kind of person to I want to be?")
-(setq ftwynn-stoic-prompt-05-03 "Am I showing or telling?")
-(setq ftwynn-stoic-prompt-05-04 "Where can I spend money to help others?")
-(setq ftwynn-stoic-prompt-05-05 "Have I made myself a lifelong project?")
-(setq ftwynn-stoic-prompt-05-06 "Am I seeking the beauty of human excellence?")
-(setq ftwynn-stoic-prompt-05-07 "What is some good I can get from myself today?")
-(setq ftwynn-stoic-prompt-05-08 "What evil comes from my own choices?")
-(setq ftwynn-stoic-prompt-05-09 "Will I seize this day?")
-(setq ftwynn-stoic-prompt-05-10 "What bold thing can I do today?")
-(setq ftwynn-stoic-prompt-05-11 "Where does my lack of self-control create problems?")
-(setq ftwynn-stoic-prompt-05-12 "What would happen if I responded with kindness, no matter what?")
-(setq ftwynn-stoic-prompt-05-13 "Which bad habits am I fueling?")
-(setq ftwynn-stoic-prompt-05-14 "Are my actions contributing to my well-being?")
-(setq ftwynn-stoic-prompt-05-15 "What blessings can I count right now?")
-(setq ftwynn-stoic-prompt-05-16 "How am I creating momentum for my good habits?")
-(setq ftwynn-stoic-prompt-05-17 "Am I on the path to progress?")
-(setq ftwynn-stoic-prompt-05-18 "Is my attention actually on the things at hand?")
-(setq ftwynn-stoic-prompt-05-19 "Where am I doing the opposite of what I should?")
-(setq ftwynn-stoic-prompt-05-20 "What are the seeds I'm planting and what will they grow?")
-(setq ftwynn-stoic-prompt-05-21 "Can I take a blow and stay in the ring?")
-(setq ftwynn-stoic-prompt-05-22 "Can I be a good person right here, right now?")
-(setq ftwynn-stoic-prompt-05-23 "Can I start living right here, right now?")
-(setq ftwynn-stoic-prompt-05-24 "How can I make my own good fortune?")
-(setq ftwynn-stoic-prompt-05-25 "What kind of selfless things will bring me joy?")
-(setq ftwynn-stoic-prompt-05-26 "What if I stopped caring what others thought?")
-(setq ftwynn-stoic-prompt-05-27 "What small stuff should I sweat?")
-(setq ftwynn-stoic-prompt-05-28 "What should I think about before I take action?")
-(setq ftwynn-stoic-prompt-05-29 "What work nourishes my mind?")
-(setq ftwynn-stoic-prompt-05-30 "Is my hard work for the right end?")
-(setq ftwynn-stoic-prompt-05-31 "If my vocation is to be a good person, am I doing a good job?")
-(setq ftwynn-stoic-prompt-06-01 "Do I have a backup operation in mind for all things?")
-(setq ftwynn-stoic-prompt-06-02 "Where have I lost the forest for the trees?")
-(setq ftwynn-stoic-prompt-06-03 "Do I have a backup plan for my backup plan?")
-(setq ftwynn-stoic-prompt-06-04 "Do I realize how tough and strong I am capable of being?")
-(setq ftwynn-stoic-prompt-06-05 "Can I blow my own nose--instead of asking someone to do it for me?")
-(setq ftwynn-stoic-prompt-06-06 "Is this a time to stick or to quit?")
-(setq ftwynn-stoic-prompt-06-07 "What mentors do I follow--alive or dead?")
-(setq ftwynn-stoic-prompt-06-08 "If I took things patiently, step by step, what could I conquer?")
-(setq ftwynn-stoic-prompt-06-09 "What do I need to nip in the bud right now?")
-(setq ftwynn-stoic-prompt-06-10 "If someone else was strong enough to do it, why can't I?")
-(setq ftwynn-stoic-prompt-06-11 "How often is anger more destructive than what caused it?")
-(setq ftwynn-stoic-prompt-06-12 "Am I learning to be adaptable?")
-(setq ftwynn-stoic-prompt-06-13 "Am I fulfilling my post in this campaign of life, or sleeping on duty?")
-(setq ftwynn-stoic-prompt-06-14 "Do I have a hold on the right handle of this situation?")
-(setq ftwynn-stoic-prompt-06-15 "Can I listen more and talk less today?")
-(setq ftwynn-stoic-prompt-06-16 "Where do I need help? Who can I ask for it?")
-(setq ftwynn-stoic-prompt-06-17 "What am I blaming on chance or luck that's really on me?")
-(setq ftwynn-stoic-prompt-06-18 "Am I ready and able?")
-(setq ftwynn-stoic-prompt-06-19 "How can I better keep myself in the present moment?")
-(setq ftwynn-stoic-prompt-06-20 "Am I the calm one in the room or the one who needs to be calmed?")
-(setq ftwynn-stoic-prompt-06-21 "How can I refresh my mind today?")
-(setq ftwynn-stoic-prompt-06-22 "Am I actually learning from my failures?")
-(setq ftwynn-stoic-prompt-06-23 "Where am I standing in my own way?")
-(setq ftwynn-stoic-prompt-06-24 "Do I really need to argue and quarrel so much?")
-(setq ftwynn-stoic-prompt-06-25 "Am I expecting the possible, and not just what I want?")
-(setq ftwynn-stoic-prompt-06-26 "What thing do I always do that fails and what if I tried the opposite?")
-(setq ftwynn-stoic-prompt-06-27 "What can this adversity show me?")
-(setq ftwynn-stoic-prompt-06-28 "What can I stop beating myself up over?")
-(setq ftwynn-stoic-prompt-06-29 "What can I stop making excuses for?")
-(setq ftwynn-stoic-prompt-06-30 "How can I use this obstacle as an opportunity?")
-(setq ftwynn-stoic-prompt-07-01 "As a Stoic, what is my job?")
-(setq ftwynn-stoic-prompt-07-02 "What is the harder choice I'm avoiding?")
-(setq ftwynn-stoic-prompt-07-03 "What if I saw opportunities instead of obligation?")
-(setq ftwynn-stoic-prompt-07-04 "Am I keeping the flame of virtue burning?")
-(setq ftwynn-stoic-prompt-07-05 "Am I doing the honorable thing?")
-(setq ftwynn-stoic-prompt-07-06 "Am I dragging my feet, or am I doing my job as a human being?")
-(setq ftwynn-stoic-prompt-07-07 "Can I show Odysses-like determination and perseverance?")
-(setq ftwynn-stoic-prompt-07-08 "What painful things can I take responsibility for?")
-(setq ftwynn-stoic-prompt-07-09 "Am I on the philosopher's path or winging it?")
-(setq ftwynn-stoic-prompt-07-10 "Am I dedicated to my craft?")
-(setq ftwynn-stoic-prompt-07-11 "How will I improve myself today?")
-(setq ftwynn-stoic-prompt-07-12 "What principles govern my behavior?")
-(setq ftwynn-stoic-prompt-07-13 "Am I ready to be a leader? Ready to do my job?")
-(setq ftwynn-stoic-prompt-07-14 "Am I becoming more humble or less humble?")
-(setq ftwynn-stoic-prompt-07-15 "Can I do the right thing--even without the promise of rewards?")
-(setq ftwynn-stoic-prompt-07-16 "To what service am I committed?")
-(setq ftwynn-stoic-prompt-07-17 "Where have I abandoned others?")
-(setq ftwynn-stoic-prompt-07-18 "Can I mind my own business and not be distracted by others?")
-(setq ftwynn-stoic-prompt-07-19 "What would forgiveness feel like?")
-(setq ftwynn-stoic-prompt-07-20 "Am I living a just life?")
-(setq ftwynn-stoic-prompt-07-21 "How can I work better with others?")
-(setq ftwynn-stoic-prompt-07-22 "Am I acting nobly or grudgingly?")
-(setq ftwynn-stoic-prompt-07-23 "How can I make sure none of it goes to my head--good or bad?")
-(setq ftwynn-stoic-prompt-07-24 "Can I keep my cool when receiving disturbing news?")
-(setq ftwynn-stoic-prompt-07-25 "Where do I let work diminish my quality of life?")
-(setq ftwynn-stoic-prompt-07-26 "Where can I pitch in? How can I help?")
-(setq ftwynn-stoic-prompt-07-27 "What is better than virtue?")
-(setq ftwynn-stoic-prompt-07-28 "Where have I been privileged--and what am I doing with it?")
-(setq ftwynn-stoic-prompt-07-29 "Where can I find confidence?")
-(setq ftwynn-stoic-prompt-07-30 "Can I seek joy today in purpose, excellence, and duty?")
-(setq ftwynn-stoic-prompt-07-31 "Am I neglecting the personal for the professional?")
-(setq ftwynn-stoic-prompt-08-01 "Where does my idealism hold me back?")
-(setq ftwynn-stoic-prompt-08-02 "How can I make do with the tough situations I face?")
-(setq ftwynn-stoic-prompt-08-03 "Can I get the most out of where I am right here, right now?")
-(setq ftwynn-stoic-prompt-08-04 "How can I avoid fruitless emotions today?")
-(setq ftwynn-stoic-prompt-08-05 "Can I hold my tongue today?")
-(setq ftwynn-stoic-prompt-08-06 "What small progress can I make today?")
-(setq ftwynn-stoic-prompt-08-07 "Can I live well no matter how trying the environment?")
-(setq ftwynn-stoic-prompt-08-08 "What's the smallest step I can take toward a big thing today?")
-(setq ftwynn-stoic-prompt-08-09 "Can I keep things simple today? Straightforward?")
-(setq ftwynn-stoic-prompt-08-10 "Where is perfectionism holding me back?")
-(setq ftwynn-stoic-prompt-08-11 "Are my habits getting better?")
-(setq ftwynn-stoic-prompt-08-12 "Am I making this philosophy my own by putting it into practice?")
-(setq ftwynn-stoic-prompt-08-13 "What troubles can I solve in advance?")
-(setq ftwynn-stoic-prompt-08-14 "How will philosophy help steer my course today?")
-(setq ftwynn-stoic-prompt-08-15 "Will decisions I make today be based on true judgments?")
-(setq ftwynn-stoic-prompt-08-16 "How will I turn today's adversities into advantages?")
-(setq ftwynn-stoic-prompt-08-17 "Can I go a whole day without blaming others?")
-(setq ftwynn-stoic-prompt-08-18 "Where can I better play to my strengths?")
-(setq ftwynn-stoic-prompt-08-19 "What inessential things can I eliminate from my life?")
-(setq ftwynn-stoic-prompt-08-20 "How well is my soul dressed?")
-(setq ftwynn-stoic-prompt-08-21 "What if I stopped worrying about the future and enjoyed the present?")
-(setq ftwynn-stoic-prompt-08-22 "What small stuff can I stop sweating?")
-(setq ftwynn-stoic-prompt-08-23 "Where do I have too much of a good thing?")
-(setq ftwynn-stoic-prompt-08-24 "What can I learn from others--even the people I don't like?")
-(setq ftwynn-stoic-prompt-08-25 "What new path can I blaze today?")
-(setq ftwynn-stoic-prompt-08-26 "What potential losses can I anticipate in advance?")
-(setq ftwynn-stoic-prompt-08-27 "Where can I learn to laugh rather than cry?")
-(setq ftwynn-stoic-prompt-08-28 "What luxuries can I practice not needing?")
-(setq ftwynn-stoic-prompt-08-29 "What wants can I eliminate today?")
-(setq ftwynn-stoic-prompt-08-30 "Can I do today's duties with both courage and confidence?")
-(setq ftwynn-stoic-prompt-08-31 "Where have I done others wrong?")
-(setq ftwynn-stoic-prompt-09-01 "Am I working to make my soul stronger than any Fortune?")
-(setq ftwynn-stoic-prompt-09-02 "What's the most painful part of Stoicism for you?")
-(setq ftwynn-stoic-prompt-09-03 "How am I preparing in the off-season for what is to come?")
-(setq ftwynn-stoic-prompt-09-04 "How can I see these difficulties as a lesson and a test?")
-(setq ftwynn-stoic-prompt-09-05 "What is truly mine?")
-(setq ftwynn-stoic-prompt-09-06 "If I lost my freedom, would it break me?")
-(setq ftwynn-stoic-prompt-09-07 "How will I use the power of choice today?")
-(setq ftwynn-stoic-prompt-09-08 "Am I prepared for my bubble to be burst?")
-(setq ftwynn-stoic-prompt-09-09 "Do I rule my fears, or do they rule me?")
-(setq ftwynn-stoic-prompt-09-10 "How can I prepare for the losses I fear?")
-(setq ftwynn-stoic-prompt-09-11 "Where can I do with less today?")
-(setq ftwynn-stoic-prompt-09-12 "Where am I putting on airs?")
-(setq ftwynn-stoic-prompt-09-13 "How strong is my Inner Citadel?")
-(setq ftwynn-stoic-prompt-09-14 "Are you praying--or /demanding/?")
-(setq ftwynn-stoic-prompt-09-15 "Are you sizzle or steak?")
-(setq ftwynn-stoic-prompt-09-16 "Will I triumph over the disasters and panics of the day?")
-(setq ftwynn-stoic-prompt-09-17 "Can I resist giving in to haters--and hating them in return?")
-(setq ftwynn-stoic-prompt-09-18 "Can I let the pains of life pass without adding to them?")
-(setq ftwynn-stoic-prompt-09-19 "Am I flexible enough to change my mind and accept feedback?")
-(setq ftwynn-stoic-prompt-09-20 "How ready am I for unexpected attacks?")
-(setq ftwynn-stoic-prompt-09-21 "Can I keep life's rhythm no matter the interruption?")
-(setq ftwynn-stoic-prompt-09-22 "How will today's difficulty show my character?")
-(setq ftwynn-stoic-prompt-09-23 "How is my training coming?")
-(setq ftwynn-stoic-prompt-09-24 "Have I thought about /all/ that might happen?")
-(setq ftwynn-stoic-prompt-09-25 "What am I slave to?")
-(setq ftwynn-stoic-prompt-09-26 "What idle leisure can I replace with something more fulfilling?")
-(setq ftwynn-stoic-prompt-09-27 "What do prosperity and difficulty each reveal about me?")
-(setq ftwynn-stoic-prompt-09-28 "How will I respond to the things that happen today?")
-(setq ftwynn-stoic-prompt-09-29 "Where are my eyes bigger than my stomach?")
-(setq ftwynn-stoic-prompt-09-30 "How can I strengthen my Inner Citadel?")
-(setq ftwynn-stoic-prompt-10-01 "How will I let my virtues shine today?")
-(setq ftwynn-stoic-prompt-10-02 "If wisdom is the most valuable asset, how have I invested in it?")
-(setq ftwynn-stoic-prompt-10-03 "Do I live as if we are all one--all part of the same whole?")
-(setq ftwynn-stoic-prompt-10-04 "Will my actions today be good for all concerned?")
-(setq ftwynn-stoic-prompt-10-05 "What do I say that's better left unsaid?")
-(setq ftwynn-stoic-prompt-10-06 "Who else can I root for--other than myself?")
-(setq ftwynn-stoic-prompt-10-07 "Why does my wrongdoing hurt me most of all?")
-(setq ftwynn-stoic-prompt-10-08 "What is more pleasing than wisdom?")
-(setq ftwynn-stoic-prompt-10-09 "Have I set my standards and am I using them?")
-(setq ftwynn-stoic-prompt-10-10 "What do my principles tell me about persisting and resisting?")
-(setq ftwynn-stoic-prompt-10-11 "Is honesty my default setting?")
-(setq ftwynn-stoic-prompt-10-12 "Instead of seeking love can I give it first?")
-(setq ftwynn-stoic-prompt-10-13 "Has revenge ever made anything better?")
-(setq ftwynn-stoic-prompt-10-14 "What if instead of getting mad) I offered to help?")
-(setq ftwynn-stoic-prompt-10-15 "Will I give people the benefit of the doubt?")
-(setq ftwynn-stoic-prompt-10-16 "How can I share this philosophy that has helped me so much?")
-(setq ftwynn-stoic-prompt-10-17 "Where can I show other people kindness?")
-(setq ftwynn-stoic-prompt-10-18 "Am I avoiding false friendships and bad influences?")
-(setq ftwynn-stoic-prompt-10-19 "Which good habit can I use today to drive out a bad one?")
-(setq ftwynn-stoic-prompt-10-20 "Do my principles show themselves in my life?")
-(setq ftwynn-stoic-prompt-10-21 "Can I do the right thing and not care about credit?")
-(setq ftwynn-stoic-prompt-10-22 "Am I actually improving--or am I just chasing vanity?")
-(setq ftwynn-stoic-prompt-10-23 "Am I displaying my best qualities?")
-(setq ftwynn-stoic-prompt-10-24 "What goodness can I find inside myself? Can I bring it to the surface?")
-(setq ftwynn-stoic-prompt-10-25 "What are my tasks in this life?")
-(setq ftwynn-stoic-prompt-10-26 "Are my goals natural, moral, and rational?")
-(setq ftwynn-stoic-prompt-10-27 "What bad behaviors or choices have come back to haunt me?")
-(setq ftwynn-stoic-prompt-10-28 "What can I do to be part of something bigger than myself?")
-(setq ftwynn-stoic-prompt-10-29 "How can I improve my character?")
-(setq ftwynn-stoic-prompt-10-30 "What time can I claw back for myself--and how will I use it?")
-(setq ftwynn-stoic-prompt-10-31 "What good turns can be done today?")
-(setq ftwynn-stoic-prompt-11-01 "Can I love /everything/ that happens today?")
-(setq ftwynn-stoic-prompt-11-02 "Can I make choices and accept whatever will be?")
-(setq ftwynn-stoic-prompt-11-03 "How can this be exactly what I needed?")
-(setq ftwynn-stoic-prompt-11-04 "Is change really so bad? Is the status quo really so good?")
-(setq ftwynn-stoic-prompt-11-05 "Is my character producing a well-flowing life?")
-(setq ftwynn-stoic-prompt-11-06 "Am I prepared for the randomness of fate and luck?")
-(setq ftwynn-stoic-prompt-11-07 "Are you trying to master yourself--or other people?")
-(setq ftwynn-stoic-prompt-11-08 "What's my role in the play of life?")
-(setq ftwynn-stoic-prompt-11-09 "What principles will steer me through the flow of change?")
-(setq ftwynn-stoic-prompt-11-10 "What will remain when all else passes away?")
-(setq ftwynn-stoic-prompt-11-11 "What false judgment can I wipe away today?")
-(setq ftwynn-stoic-prompt-11-12 "Can the buck stop with me today?")
-(setq ftwynn-stoic-prompt-11-13 "Does complaining accomplish anything?")
-(setq ftwynn-stoic-prompt-11-14 "Will I add negative thoughts on top of my troubles?")
-(setq ftwynn-stoic-prompt-11-15 "Will I embrace the flow of change today?")
-(setq ftwynn-stoic-prompt-11-16 "Can I cease both hoping for and fearing certain outcomes")
-(setq ftwynn-stoic-prompt-11-17 "Is it really my place to judge other people?")
-(setq ftwynn-stoic-prompt-11-18 "Am I practicing good Stoic thoughts?")
-(setq ftwynn-stoic-prompt-11-19 "Will I accept the situation and still fight to do and be good?")
-(setq ftwynn-stoic-prompt-11-20 "Where can I find timelessness in every moment?")
-(setq ftwynn-stoic-prompt-11-21 "How can I make this minute--right now--be enough?")
-(setq ftwynn-stoic-prompt-11-22 "What am I irrationally afraid of losing?")
-(setq ftwynn-stoic-prompt-11-23 "Why is my power to choose so resilient and adaptable?")
-(setq ftwynn-stoic-prompt-11-24 "How can I see my loved ones as gifts not possessions?")
-(setq ftwynn-stoic-prompt-11-25 "Is more money really going to make things better?")
-(setq ftwynn-stoic-prompt-11-26 "What petty comparisons am I bothering myself with?")
-(setq ftwynn-stoic-prompt-11-27 "What sources of unrest can I tune out?")
-(setq ftwynn-stoic-prompt-11-28 "What's bothering me that I haven't spoken up about?")
-(setq ftwynn-stoic-prompt-11-29 "How can I be less agitated--and complain about it less, too?")
-(setq ftwynn-stoic-prompt-11-30 "Am I ready to accept the pull of the universe?")
-(setq ftwynn-stoic-prompt-12-01 "If I lived today as if it were my last) what would I do?")
-(setq ftwynn-stoic-prompt-12-02 "How can I make my actions count?")
-(setq ftwynn-stoic-prompt-12-03 "What practical problems am I solving with this philosophy?")
-(setq ftwynn-stoic-prompt-12-04 "What do I truly own?")
-(setq ftwynn-stoic-prompt-12-05 "What unpleasant thoughts can I face and use to my advantage?")
-(setq ftwynn-stoic-prompt-12-06 "What can I do to /live/ now, while I still can?")
-(setq ftwynn-stoic-prompt-12-07 "Can I love the hand Fate deals me?")
-(setq ftwynn-stoic-prompt-12-08 "Are there any feelings I need to face?")
-(setq ftwynn-stoic-prompt-12-09 "Are you saying no enough?")
-(setq ftwynn-stoic-prompt-12-10 "What are you getting in return for all the time you spend so freely?")
-(setq ftwynn-stoic-prompt-12-11 "Are you living with dignity and courage?")
-(setq ftwynn-stoic-prompt-12-12 "Will I keep the rhythm of life) no matter the interruptions?")
-(setq ftwynn-stoic-prompt-12-13 "Can I be grateful for the time I've been given?")
-(setq ftwynn-stoic-prompt-12-14 "What will my life be a testament to?")
-(setq ftwynn-stoic-prompt-12-15 "Am I going to get a little bit better today?")
-(setq ftwynn-stoic-prompt-12-16 "What am I doing to build my self-confidence?")
-(setq ftwynn-stoic-prompt-12-17 "How well do I really know myself?")
-(setq ftwynn-stoic-prompt-12-18 "The end for us all is clear, but is my purpose?")
-(setq ftwynn-stoic-prompt-12-19 "What can I focus on that is much) much bigger than me?")
-(setq ftwynn-stoic-prompt-12-20 "What am I really so afraid of?")
-(setq ftwynn-stoic-prompt-12-21 "How can I make the most of today--and in so doing, my life?")
-(setq ftwynn-stoic-prompt-12-22 "What wisdom will I create today?")
-(setq ftwynn-stoic-prompt-12-23 "If I relaxed my tight grip on life, what would happen?")
-(setq ftwynn-stoic-prompt-12-24 "Can I consume less to make more room for virtue?")
-(setq ftwynn-stoic-prompt-12-25 "Where can I find reinvigoration and balance?")
-(setq ftwynn-stoic-prompt-12-26 "Where am I wasting life?")
-(setq ftwynn-stoic-prompt-12-27 "Is my soul stronger than my body?")
-(setq ftwynn-stoic-prompt-12-28 "In a hundred years, who will remember or be remembered?")
-(setq ftwynn-stoic-prompt-12-29 "What am I grateful for?")
-(setq ftwynn-stoic-prompt-12-30 "How can I bring a calm mind to tough situations?")
-(setq ftwynn-stoic-prompt-12-31 "How will I turn these words into works?")
+  (setq ftwynn-stoic-prompt-01-01 "What things are truly in my control?")
+  (setq ftwynn-stoic-prompt-01-02 "What am I learning and studying for?")
+  (setq ftwynn-stoic-prompt-01-03 "What can I say no to so I can say yes to what matters?")
+  (setq ftwynn-stoic-prompt-01-04 "Am I seeing clearly? Acting generously? Accepting what I can't change?")
+  (setq ftwynn-stoic-prompt-01-05 "What is my purpose in life?")
+  (setq ftwynn-stoic-prompt-01-06 "Who am I and what do I stand for?")
+  (setq ftwynn-stoic-prompt-01-07 "How can I keep my mind clear from pollution?")
+  (setq ftwynn-stoic-prompt-01-08 "What am I addicted to?")
+  (setq ftwynn-stoic-prompt-01-09 "If I don't control what happens to me, what is left?")
+  (setq ftwynn-stoic-prompt-01-10 "Where can I find steadiness?")
+  (setq ftwynn-stoic-prompt-01-11 "What are sources of unsteadiness in my life?")
+  (setq ftwynn-stoic-prompt-01-12 "Where is my path to serenity?")
+  (setq ftwynn-stoic-prompt-01-13 "What can I put outside my circle of control?")
+  (setq ftwynn-stoic-prompt-01-14 "What jerks me around?")
+  (setq ftwynn-stoic-prompt-01-15 "Am I staying the course or being steered away?")
+  (setq ftwynn-stoic-prompt-01-16 "What assumptions have I left unquestioned?")
+  (setq ftwynn-stoic-prompt-01-17 "Am I doing work that matters?")
+  (setq ftwynn-stoic-prompt-01-18 "Can I find grace and harmony in places others overlook?")
+  (setq ftwynn-stoic-prompt-01-19 "Good or bad, high or low, do I still have choices?")
+  (setq ftwynn-stoic-prompt-01-20 "How can I rekindle my principles and start living today?")
+  (setq ftwynn-stoic-prompt-01-21 "What am I getting out of my journaling ritual?")
+  (setq ftwynn-stoic-prompt-01-22 "What bad habit did I curb today?")
+  (setq ftwynn-stoic-prompt-01-23 "Which of my possessions own me?")
+  (setq ftwynn-stoic-prompt-01-24 "Am I doing deep work?")
+  (setq ftwynn-stoic-prompt-01-25 "What do I truly prize?")
+  (setq ftwynn-stoic-prompt-01-26 "What is my mantra today?")
+  (setq ftwynn-stoic-prompt-01-27 "What am I studying, practicing, and training?")
+  (setq ftwynn-stoic-prompt-01-28 "What ruler do I measure myself against?")
+  (setq ftwynn-stoic-prompt-01-29 "Am I keeping a sturdy mind on the task at hand?")
+  (setq ftwynn-stoic-prompt-01-30 "Am I content to be clueless about the things that don't matter?")
+  (setq ftwynn-stoic-prompt-01-31 "What healing can philosophy help me find today?")
+  (setq ftwynn-stoic-prompt-02-01 "How can I conquer my temper?")
+  (setq ftwynn-stoic-prompt-02-02 "What impulses rob me of self-control?")
+  (setq ftwynn-stoic-prompt-02-03 "Am I in control or is my anxiety?")
+  (setq ftwynn-stoic-prompt-02-04 "Am I cultivating the invincibility of my power to choose?")
+  (setq ftwynn-stoic-prompt-02-05 "Am I thinking before I act?")
+  (setq ftwynn-stoic-prompt-02-06 "What needless conflict can I avoid?")
+  (setq ftwynn-stoic-prompt-02-07 "How can I conquer fear and worry--before they conquer me?")
+  (setq ftwynn-stoic-prompt-02-08 "Do my outbursts ever make things better?")
+  (setq ftwynn-stoic-prompt-02-09 "What if I didn't have an opinion about this?")
+  (setq ftwynn-stoic-prompt-02-10 "What parts of my life are driven by anger?")
+  (setq ftwynn-stoic-prompt-02-11 "Is my soul a good ruler or a tyrant?")
+  (setq ftwynn-stoic-prompt-02-12 "For what have I sold my peace of mind?")
+  (setq ftwynn-stoic-prompt-02-13 "Which of my pleasures are really punishments?")
+  (setq ftwynn-stoic-prompt-02-14 "How can I do a better job listening to the little voice inside me?")
+  (setq ftwynn-stoic-prompt-02-15 "Do these strong emotions even make sense?")
+  (setq ftwynn-stoic-prompt-02-16 "What am I making harder than it needs to be?")
+  (setq ftwynn-stoic-prompt-02-17 "What happiness am I putting off that I could have right now?")
+  (setq ftwynn-stoic-prompt-02-18 "Am I in rigorous training against false impressions?")
+  (setq ftwynn-stoic-prompt-02-19 "Am I happy with my portion at the banquet of life?")
+  (setq ftwynn-stoic-prompt-02-20 "Are the pleasures I'm chasing actually worth it?")
+  (setq ftwynn-stoic-prompt-02-21 "What can I stop yearning for?")
+  (setq ftwynn-stoic-prompt-02-22 "Am I certain what I want to say isn't better left unsaid?")
+  (setq ftwynn-stoic-prompt-02-23 "Why get angry at things, if anger doesn't change them?")
+  (setq ftwynn-stoic-prompt-02-24 "Why am I telling myself that I've been harmed?")
+  (setq ftwynn-stoic-prompt-02-25 "Will I even remember this fight in a few months?")
+  (setq ftwynn-stoic-prompt-02-26 "Why do I need to care that someone else screwed up?")
+  (setq ftwynn-stoic-prompt-02-27 "How can I cultivate indifference to unimportant things?")
+  (setq ftwynn-stoic-prompt-02-28 "What would happen if I took a second to cool down?")
+  (setq ftwynn-stoic-prompt-02-29 "You can't always be getting what you want")
+  (setq ftwynn-stoic-prompt-03-01 "How often do I question the things others take for granted?")
+  (setq ftwynn-stoic-prompt-03-02 "Do I see and assess myself accurately?")
+  (setq ftwynn-stoic-prompt-03-03 "Am I standing with the philosopher or the mob?")
+  (setq ftwynn-stoic-prompt-03-04 "How many of my limitations are really self-imposed?")
+  (setq ftwynn-stoic-prompt-03-05 "Do I really need these things I work so hard for?")
+  (setq ftwynn-stoic-prompt-03-06 "Where am I a loud mouth?")
+  (setq ftwynn-stoic-prompt-03-07 "Can I test my own opinion before trusting it?")
+  (setq ftwynn-stoic-prompt-03-08 "Am I protecting my time and attention?")
+  (setq ftwynn-stoic-prompt-03-09 "Does my social circle make me better or worse?")
+  (setq ftwynn-stoic-prompt-03-10 "Who is my role model? Why?")
+  (setq ftwynn-stoic-prompt-03-11 "Where have I traded away freedom? How can I get it back?")
+  (setq ftwynn-stoic-prompt-03-12 "What would I change if I looked for other people's good intentions?")
+  (setq ftwynn-stoic-prompt-03-13 "Instead of calling it bad luck) can I come to see it as inevitable?")
+  (setq ftwynn-stoic-prompt-03-14 "How is my arrogance preventing me from learning?")
+  (setq ftwynn-stoic-prompt-03-15 "What would it be like if I focused entirely on the present moment?")
+  (setq ftwynn-stoic-prompt-03-16 "Do I appreciate this mind I have been given?")
+  (setq ftwynn-stoic-prompt-03-17 "Are my choices beautiful?")
+  (setq ftwynn-stoic-prompt-03-18 "What bad assumptions can I cast out?")
+  (setq ftwynn-stoic-prompt-03-19 "What is the real cause of my irritations--external things or my opinions?")
+  (setq ftwynn-stoic-prompt-03-20 "Am I cultivating the virtue that makes adversity bearable?")
+  (setq ftwynn-stoic-prompt-03-21 "What if I sought peace where I am right now instead of in distant lands?")
+  (setq ftwynn-stoic-prompt-03-22 "Have I confused schooling and education?")
+  (setq ftwynn-stoic-prompt-03-23 "How can I treat my greedy vices? How can I heal my sickness?")
+  (setq ftwynn-stoic-prompt-03-24 "What philosophical lessons can I find in ordinary things?")
+  (setq ftwynn-stoic-prompt-03-25 "Would I feel wealthier if I decreased my wants?")
+  (setq ftwynn-stoic-prompt-03-26 "Am I keeping watch?")
+  (setq ftwynn-stoic-prompt-03-27 "What valuable things do I sell too cheaply?")
+  (setq ftwynn-stoic-prompt-03-28 "Is my training designed to help me rise to the occasion?")
+  (setq ftwynn-stoic-prompt-03-29 "Why do I care so much about impressing people?")
+  (setq ftwynn-stoic-prompt-03-30 "If I'm not ruled by reasons, what am I ruled by?")
+  (setq ftwynn-stoic-prompt-03-31 "Can I stop chasing the impossible today?")
+  (setq ftwynn-stoic-prompt-04-01 "What thoughts are coloring my world?")
+  (setq ftwynn-stoic-prompt-04-02 "What can I do today to keep drama away?")
+  (setq ftwynn-stoic-prompt-04-03 "Are my plans at war with my other plans?")
+  (setq ftwynn-stoic-prompt-04-04 "Can I fight to be the person philosophy wants me to be today?")
+  (setq ftwynn-stoic-prompt-04-05 "What would happen if I stopped to verify my options and initial reactions?")
+  (setq ftwynn-stoic-prompt-04-06 "Despite the worst things people do, can I love them anyway?")
+  (setq ftwynn-stoic-prompt-04-07 "Where are my opinions part of the problem?")
+  (setq ftwynn-stoic-prompt-04-08 "What bad assumptions, habits, or advice have I accepted?")
+  (setq ftwynn-stoic-prompt-04-09 "Can I step back and test my impressions? What would I find if I did?")
+  (setq ftwynn-stoic-prompt-04-10 "How do my judgments cause me anguish?")
+  (setq ftwynn-stoic-prompt-04-11 "Can I stop thinking I already know and learn something here?")
+  (setq ftwynn-stoic-prompt-04-12 "What's the truth about so-called 'honors' and 'riches'?")
+  (setq ftwynn-stoic-prompt-04-13 "What would /less/ look like?")
+  (setq ftwynn-stoic-prompt-04-14 "Do I balance my life better than the balance sheet of my business?")
+  (setq ftwynn-stoic-prompt-04-15 "Life is full of taxes--am I prepared to pay them?")
+  (setq ftwynn-stoic-prompt-04-16 "What can I pay closer attention to today?")
+  (setq ftwynn-stoic-prompt-04-17 "Can I stop feeling hurt by every little thing?")
+  (setq ftwynn-stoic-prompt-04-18 "Do I need to have an opinion about this?")
+  (setq ftwynn-stoic-prompt-04-19 "Am I leaving room for what might happen?")
+  (setq ftwynn-stoic-prompt-04-20 "What are the few real goods?")
+  (setq ftwynn-stoic-prompt-04-21 "How long can I go without letting my attention slide?")
+  (setq ftwynn-stoic-prompt-04-22 "Am I self-aware, self-critical, and self-determining?")
+  (setq ftwynn-stoic-prompt-04-23 "How am I caring for my mind?")
+  (setq ftwynn-stoic-prompt-04-24 "Nice cars, jewels, fine wine--what are these things really?")
+  (setq ftwynn-stoic-prompt-04-25 "Am I willing to admit when I'm wrong?")
+  (setq ftwynn-stoic-prompt-04-26 "How can I learn from my sparring partners?")
+  (setq ftwynn-stoic-prompt-04-27 "How long does praise really last anyway?")
+  (setq ftwynn-stoic-prompt-04-28 "What power does all my wanting take from me?")
+  (setq ftwynn-stoic-prompt-04-29 "What do I feel when I look up at the sky?")
+  (setq ftwynn-stoic-prompt-04-30 "Do my actions match my character?")
+  (setq ftwynn-stoic-prompt-05-01 "Do my actions--and my mind--match my philosophy?")
+  (setq ftwynn-stoic-prompt-05-02 "What kind of person to I want to be?")
+  (setq ftwynn-stoic-prompt-05-03 "Am I showing or telling?")
+  (setq ftwynn-stoic-prompt-05-04 "Where can I spend money to help others?")
+  (setq ftwynn-stoic-prompt-05-05 "Have I made myself a lifelong project?")
+  (setq ftwynn-stoic-prompt-05-06 "Am I seeking the beauty of human excellence?")
+  (setq ftwynn-stoic-prompt-05-07 "What is some good I can get from myself today?")
+  (setq ftwynn-stoic-prompt-05-08 "What evil comes from my own choices?")
+  (setq ftwynn-stoic-prompt-05-09 "Will I seize this day?")
+  (setq ftwynn-stoic-prompt-05-10 "What bold thing can I do today?")
+  (setq ftwynn-stoic-prompt-05-11 "Where does my lack of self-control create problems?")
+  (setq ftwynn-stoic-prompt-05-12 "What would happen if I responded with kindness, no matter what?")
+  (setq ftwynn-stoic-prompt-05-13 "Which bad habits am I fueling?")
+  (setq ftwynn-stoic-prompt-05-14 "Are my actions contributing to my well-being?")
+  (setq ftwynn-stoic-prompt-05-15 "What blessings can I count right now?")
+  (setq ftwynn-stoic-prompt-05-16 "How am I creating momentum for my good habits?")
+  (setq ftwynn-stoic-prompt-05-17 "Am I on the path to progress?")
+  (setq ftwynn-stoic-prompt-05-18 "Is my attention actually on the things at hand?")
+  (setq ftwynn-stoic-prompt-05-19 "Where am I doing the opposite of what I should?")
+  (setq ftwynn-stoic-prompt-05-20 "What are the seeds I'm planting and what will they grow?")
+  (setq ftwynn-stoic-prompt-05-21 "Can I take a blow and stay in the ring?")
+  (setq ftwynn-stoic-prompt-05-22 "Can I be a good person right here, right now?")
+  (setq ftwynn-stoic-prompt-05-23 "Can I start living right here, right now?")
+  (setq ftwynn-stoic-prompt-05-24 "How can I make my own good fortune?")
+  (setq ftwynn-stoic-prompt-05-25 "What kind of selfless things will bring me joy?")
+  (setq ftwynn-stoic-prompt-05-26 "What if I stopped caring what others thought?")
+  (setq ftwynn-stoic-prompt-05-27 "What small stuff should I sweat?")
+  (setq ftwynn-stoic-prompt-05-28 "What should I think about before I take action?")
+  (setq ftwynn-stoic-prompt-05-29 "What work nourishes my mind?")
+  (setq ftwynn-stoic-prompt-05-30 "Is my hard work for the right end?")
+  (setq ftwynn-stoic-prompt-05-31 "If my vocation is to be a good person, am I doing a good job?")
+  (setq ftwynn-stoic-prompt-06-01 "Do I have a backup operation in mind for all things?")
+  (setq ftwynn-stoic-prompt-06-02 "Where have I lost the forest for the trees?")
+  (setq ftwynn-stoic-prompt-06-03 "Do I have a backup plan for my backup plan?")
+  (setq ftwynn-stoic-prompt-06-04 "Do I realize how tough and strong I am capable of being?")
+  (setq ftwynn-stoic-prompt-06-05 "Can I blow my own nose--instead of asking someone to do it for me?")
+  (setq ftwynn-stoic-prompt-06-06 "Is this a time to stick or to quit?")
+  (setq ftwynn-stoic-prompt-06-07 "What mentors do I follow--alive or dead?")
+  (setq ftwynn-stoic-prompt-06-08 "If I took things patiently, step by step, what could I conquer?")
+  (setq ftwynn-stoic-prompt-06-09 "What do I need to nip in the bud right now?")
+  (setq ftwynn-stoic-prompt-06-10 "If someone else was strong enough to do it, why can't I?")
+  (setq ftwynn-stoic-prompt-06-11 "How often is anger more destructive than what caused it?")
+  (setq ftwynn-stoic-prompt-06-12 "Am I learning to be adaptable?")
+  (setq ftwynn-stoic-prompt-06-13 "Am I fulfilling my post in this campaign of life, or sleeping on duty?")
+  (setq ftwynn-stoic-prompt-06-14 "Do I have a hold on the right handle of this situation?")
+  (setq ftwynn-stoic-prompt-06-15 "Can I listen more and talk less today?")
+  (setq ftwynn-stoic-prompt-06-16 "Where do I need help? Who can I ask for it?")
+  (setq ftwynn-stoic-prompt-06-17 "What am I blaming on chance or luck that's really on me?")
+  (setq ftwynn-stoic-prompt-06-18 "Am I ready and able?")
+  (setq ftwynn-stoic-prompt-06-19 "How can I better keep myself in the present moment?")
+  (setq ftwynn-stoic-prompt-06-20 "Am I the calm one in the room or the one who needs to be calmed?")
+  (setq ftwynn-stoic-prompt-06-21 "How can I refresh my mind today?")
+  (setq ftwynn-stoic-prompt-06-22 "Am I actually learning from my failures?")
+  (setq ftwynn-stoic-prompt-06-23 "Where am I standing in my own way?")
+  (setq ftwynn-stoic-prompt-06-24 "Do I really need to argue and quarrel so much?")
+  (setq ftwynn-stoic-prompt-06-25 "Am I expecting the possible, and not just what I want?")
+  (setq ftwynn-stoic-prompt-06-26 "What thing do I always do that fails and what if I tried the opposite?")
+  (setq ftwynn-stoic-prompt-06-27 "What can this adversity show me?")
+  (setq ftwynn-stoic-prompt-06-28 "What can I stop beating myself up over?")
+  (setq ftwynn-stoic-prompt-06-29 "What can I stop making excuses for?")
+  (setq ftwynn-stoic-prompt-06-30 "How can I use this obstacle as an opportunity?")
+  (setq ftwynn-stoic-prompt-07-01 "As a Stoic, what is my job?")
+  (setq ftwynn-stoic-prompt-07-02 "What is the harder choice I'm avoiding?")
+  (setq ftwynn-stoic-prompt-07-03 "What if I saw opportunities instead of obligation?")
+  (setq ftwynn-stoic-prompt-07-04 "Am I keeping the flame of virtue burning?")
+  (setq ftwynn-stoic-prompt-07-05 "Am I doing the honorable thing?")
+  (setq ftwynn-stoic-prompt-07-06 "Am I dragging my feet, or am I doing my job as a human being?")
+  (setq ftwynn-stoic-prompt-07-07 "Can I show Odysses-like determination and perseverance?")
+  (setq ftwynn-stoic-prompt-07-08 "What painful things can I take responsibility for?")
+  (setq ftwynn-stoic-prompt-07-09 "Am I on the philosopher's path or winging it?")
+  (setq ftwynn-stoic-prompt-07-10 "Am I dedicated to my craft?")
+  (setq ftwynn-stoic-prompt-07-11 "How will I improve myself today?")
+  (setq ftwynn-stoic-prompt-07-12 "What principles govern my behavior?")
+  (setq ftwynn-stoic-prompt-07-13 "Am I ready to be a leader? Ready to do my job?")
+  (setq ftwynn-stoic-prompt-07-14 "Am I becoming more humble or less humble?")
+  (setq ftwynn-stoic-prompt-07-15 "Can I do the right thing--even without the promise of rewards?")
+  (setq ftwynn-stoic-prompt-07-16 "To what service am I committed?")
+  (setq ftwynn-stoic-prompt-07-17 "Where have I abandoned others?")
+  (setq ftwynn-stoic-prompt-07-18 "Can I mind my own business and not be distracted by others?")
+  (setq ftwynn-stoic-prompt-07-19 "What would forgiveness feel like?")
+  (setq ftwynn-stoic-prompt-07-20 "Am I living a just life?")
+  (setq ftwynn-stoic-prompt-07-21 "How can I work better with others?")
+  (setq ftwynn-stoic-prompt-07-22 "Am I acting nobly or grudgingly?")
+  (setq ftwynn-stoic-prompt-07-23 "How can I make sure none of it goes to my head--good or bad?")
+  (setq ftwynn-stoic-prompt-07-24 "Can I keep my cool when receiving disturbing news?")
+  (setq ftwynn-stoic-prompt-07-25 "Where do I let work diminish my quality of life?")
+  (setq ftwynn-stoic-prompt-07-26 "Where can I pitch in? How can I help?")
+  (setq ftwynn-stoic-prompt-07-27 "What is better than virtue?")
+  (setq ftwynn-stoic-prompt-07-28 "Where have I been privileged--and what am I doing with it?")
+  (setq ftwynn-stoic-prompt-07-29 "Where can I find confidence?")
+  (setq ftwynn-stoic-prompt-07-30 "Can I seek joy today in purpose, excellence, and duty?")
+  (setq ftwynn-stoic-prompt-07-31 "Am I neglecting the personal for the professional?")
+  (setq ftwynn-stoic-prompt-08-01 "Where does my idealism hold me back?")
+  (setq ftwynn-stoic-prompt-08-02 "How can I make do with the tough situations I face?")
+  (setq ftwynn-stoic-prompt-08-03 "Can I get the most out of where I am right here, right now?")
+  (setq ftwynn-stoic-prompt-08-04 "How can I avoid fruitless emotions today?")
+  (setq ftwynn-stoic-prompt-08-05 "Can I hold my tongue today?")
+  (setq ftwynn-stoic-prompt-08-06 "What small progress can I make today?")
+  (setq ftwynn-stoic-prompt-08-07 "Can I live well no matter how trying the environment?")
+  (setq ftwynn-stoic-prompt-08-08 "What's the smallest step I can take toward a big thing today?")
+  (setq ftwynn-stoic-prompt-08-09 "Can I keep things simple today? Straightforward?")
+  (setq ftwynn-stoic-prompt-08-10 "Where is perfectionism holding me back?")
+  (setq ftwynn-stoic-prompt-08-11 "Are my habits getting better?")
+  (setq ftwynn-stoic-prompt-08-12 "Am I making this philosophy my own by putting it into practice?")
+  (setq ftwynn-stoic-prompt-08-13 "What troubles can I solve in advance?")
+  (setq ftwynn-stoic-prompt-08-14 "How will philosophy help steer my course today?")
+  (setq ftwynn-stoic-prompt-08-15 "Will decisions I make today be based on true judgments?")
+  (setq ftwynn-stoic-prompt-08-16 "How will I turn today's adversities into advantages?")
+  (setq ftwynn-stoic-prompt-08-17 "Can I go a whole day without blaming others?")
+  (setq ftwynn-stoic-prompt-08-18 "Where can I better play to my strengths?")
+  (setq ftwynn-stoic-prompt-08-19 "What inessential things can I eliminate from my life?")
+  (setq ftwynn-stoic-prompt-08-20 "How well is my soul dressed?")
+  (setq ftwynn-stoic-prompt-08-21 "What if I stopped worrying about the future and enjoyed the present?")
+  (setq ftwynn-stoic-prompt-08-22 "What small stuff can I stop sweating?")
+  (setq ftwynn-stoic-prompt-08-23 "Where do I have too much of a good thing?")
+  (setq ftwynn-stoic-prompt-08-24 "What can I learn from others--even the people I don't like?")
+  (setq ftwynn-stoic-prompt-08-25 "What new path can I blaze today?")
+  (setq ftwynn-stoic-prompt-08-26 "What potential losses can I anticipate in advance?")
+  (setq ftwynn-stoic-prompt-08-27 "Where can I learn to laugh rather than cry?")
+  (setq ftwynn-stoic-prompt-08-28 "What luxuries can I practice not needing?")
+  (setq ftwynn-stoic-prompt-08-29 "What wants can I eliminate today?")
+  (setq ftwynn-stoic-prompt-08-30 "Can I do today's duties with both courage and confidence?")
+  (setq ftwynn-stoic-prompt-08-31 "Where have I done others wrong?")
+  (setq ftwynn-stoic-prompt-09-01 "Am I working to make my soul stronger than any Fortune?")
+  (setq ftwynn-stoic-prompt-09-02 "What's the most painful part of Stoicism for you?")
+  (setq ftwynn-stoic-prompt-09-03 "How am I preparing in the off-season for what is to come?")
+  (setq ftwynn-stoic-prompt-09-04 "How can I see these difficulties as a lesson and a test?")
+  (setq ftwynn-stoic-prompt-09-05 "What is truly mine?")
+  (setq ftwynn-stoic-prompt-09-06 "If I lost my freedom, would it break me?")
+  (setq ftwynn-stoic-prompt-09-07 "How will I use the power of choice today?")
+  (setq ftwynn-stoic-prompt-09-08 "Am I prepared for my bubble to be burst?")
+  (setq ftwynn-stoic-prompt-09-09 "Do I rule my fears, or do they rule me?")
+  (setq ftwynn-stoic-prompt-09-10 "How can I prepare for the losses I fear?")
+  (setq ftwynn-stoic-prompt-09-11 "Where can I do with less today?")
+  (setq ftwynn-stoic-prompt-09-12 "Where am I putting on airs?")
+  (setq ftwynn-stoic-prompt-09-13 "How strong is my Inner Citadel?")
+  (setq ftwynn-stoic-prompt-09-14 "Are you praying--or /demanding/?")
+  (setq ftwynn-stoic-prompt-09-15 "Are you sizzle or steak?")
+  (setq ftwynn-stoic-prompt-09-16 "Will I triumph over the disasters and panics of the day?")
+  (setq ftwynn-stoic-prompt-09-17 "Can I resist giving in to haters--and hating them in return?")
+  (setq ftwynn-stoic-prompt-09-18 "Can I let the pains of life pass without adding to them?")
+  (setq ftwynn-stoic-prompt-09-19 "Am I flexible enough to change my mind and accept feedback?")
+  (setq ftwynn-stoic-prompt-09-20 "How ready am I for unexpected attacks?")
+  (setq ftwynn-stoic-prompt-09-21 "Can I keep life's rhythm no matter the interruption?")
+  (setq ftwynn-stoic-prompt-09-22 "How will today's difficulty show my character?")
+  (setq ftwynn-stoic-prompt-09-23 "How is my training coming?")
+  (setq ftwynn-stoic-prompt-09-24 "Have I thought about /all/ that might happen?")
+  (setq ftwynn-stoic-prompt-09-25 "What am I slave to?")
+  (setq ftwynn-stoic-prompt-09-26 "What idle leisure can I replace with something more fulfilling?")
+  (setq ftwynn-stoic-prompt-09-27 "What do prosperity and difficulty each reveal about me?")
+  (setq ftwynn-stoic-prompt-09-28 "How will I respond to the things that happen today?")
+  (setq ftwynn-stoic-prompt-09-29 "Where are my eyes bigger than my stomach?")
+  (setq ftwynn-stoic-prompt-09-30 "How can I strengthen my Inner Citadel?")
+  (setq ftwynn-stoic-prompt-10-01 "How will I let my virtues shine today?")
+  (setq ftwynn-stoic-prompt-10-02 "If wisdom is the most valuable asset, how have I invested in it?")
+  (setq ftwynn-stoic-prompt-10-03 "Do I live as if we are all one--all part of the same whole?")
+  (setq ftwynn-stoic-prompt-10-04 "Will my actions today be good for all concerned?")
+  (setq ftwynn-stoic-prompt-10-05 "What do I say that's better left unsaid?")
+  (setq ftwynn-stoic-prompt-10-06 "Who else can I root for--other than myself?")
+  (setq ftwynn-stoic-prompt-10-07 "Why does my wrongdoing hurt me most of all?")
+  (setq ftwynn-stoic-prompt-10-08 "What is more pleasing than wisdom?")
+  (setq ftwynn-stoic-prompt-10-09 "Have I set my standards and am I using them?")
+  (setq ftwynn-stoic-prompt-10-10 "What do my principles tell me about persisting and resisting?")
+  (setq ftwynn-stoic-prompt-10-11 "Is honesty my default setting?")
+  (setq ftwynn-stoic-prompt-10-12 "Instead of seeking love can I give it first?")
+  (setq ftwynn-stoic-prompt-10-13 "Has revenge ever made anything better?")
+  (setq ftwynn-stoic-prompt-10-14 "What if instead of getting mad) I offered to help?")
+  (setq ftwynn-stoic-prompt-10-15 "Will I give people the benefit of the doubt?")
+  (setq ftwynn-stoic-prompt-10-16 "How can I share this philosophy that has helped me so much?")
+  (setq ftwynn-stoic-prompt-10-17 "Where can I show other people kindness?")
+  (setq ftwynn-stoic-prompt-10-18 "Am I avoiding false friendships and bad influences?")
+  (setq ftwynn-stoic-prompt-10-19 "Which good habit can I use today to drive out a bad one?")
+  (setq ftwynn-stoic-prompt-10-20 "Do my principles show themselves in my life?")
+  (setq ftwynn-stoic-prompt-10-21 "Can I do the right thing and not care about credit?")
+  (setq ftwynn-stoic-prompt-10-22 "Am I actually improving--or am I just chasing vanity?")
+  (setq ftwynn-stoic-prompt-10-23 "Am I displaying my best qualities?")
+  (setq ftwynn-stoic-prompt-10-24 "What goodness can I find inside myself? Can I bring it to the surface?")
+  (setq ftwynn-stoic-prompt-10-25 "What are my tasks in this life?")
+  (setq ftwynn-stoic-prompt-10-26 "Are my goals natural, moral, and rational?")
+  (setq ftwynn-stoic-prompt-10-27 "What bad behaviors or choices have come back to haunt me?")
+  (setq ftwynn-stoic-prompt-10-28 "What can I do to be part of something bigger than myself?")
+  (setq ftwynn-stoic-prompt-10-29 "How can I improve my character?")
+  (setq ftwynn-stoic-prompt-10-30 "What time can I claw back for myself--and how will I use it?")
+  (setq ftwynn-stoic-prompt-10-31 "What good turns can be done today?")
+  (setq ftwynn-stoic-prompt-11-01 "Can I love /everything/ that happens today?")
+  (setq ftwynn-stoic-prompt-11-02 "Can I make choices and accept whatever will be?")
+  (setq ftwynn-stoic-prompt-11-03 "How can this be exactly what I needed?")
+  (setq ftwynn-stoic-prompt-11-04 "Is change really so bad? Is the status quo really so good?")
+  (setq ftwynn-stoic-prompt-11-05 "Is my character producing a well-flowing life?")
+  (setq ftwynn-stoic-prompt-11-06 "Am I prepared for the randomness of fate and luck?")
+  (setq ftwynn-stoic-prompt-11-07 "Are you trying to master yourself--or other people?")
+  (setq ftwynn-stoic-prompt-11-08 "What's my role in the play of life?")
+  (setq ftwynn-stoic-prompt-11-09 "What principles will steer me through the flow of change?")
+  (setq ftwynn-stoic-prompt-11-10 "What will remain when all else passes away?")
+  (setq ftwynn-stoic-prompt-11-11 "What false judgment can I wipe away today?")
+  (setq ftwynn-stoic-prompt-11-12 "Can the buck stop with me today?")
+  (setq ftwynn-stoic-prompt-11-13 "Does complaining accomplish anything?")
+  (setq ftwynn-stoic-prompt-11-14 "Will I add negative thoughts on top of my troubles?")
+  (setq ftwynn-stoic-prompt-11-15 "Will I embrace the flow of change today?")
+  (setq ftwynn-stoic-prompt-11-16 "Can I cease both hoping for and fearing certain outcomes")
+  (setq ftwynn-stoic-prompt-11-17 "Is it really my place to judge other people?")
+  (setq ftwynn-stoic-prompt-11-18 "Am I practicing good Stoic thoughts?")
+  (setq ftwynn-stoic-prompt-11-19 "Will I accept the situation and still fight to do and be good?")
+  (setq ftwynn-stoic-prompt-11-20 "Where can I find timelessness in every moment?")
+  (setq ftwynn-stoic-prompt-11-21 "How can I make this minute--right now--be enough?")
+  (setq ftwynn-stoic-prompt-11-22 "What am I irrationally afraid of losing?")
+  (setq ftwynn-stoic-prompt-11-23 "Why is my power to choose so resilient and adaptable?")
+  (setq ftwynn-stoic-prompt-11-24 "How can I see my loved ones as gifts not possessions?")
+  (setq ftwynn-stoic-prompt-11-25 "Is more money really going to make things better?")
+  (setq ftwynn-stoic-prompt-11-26 "What petty comparisons am I bothering myself with?")
+  (setq ftwynn-stoic-prompt-11-27 "What sources of unrest can I tune out?")
+  (setq ftwynn-stoic-prompt-11-28 "What's bothering me that I haven't spoken up about?")
+  (setq ftwynn-stoic-prompt-11-29 "How can I be less agitated--and complain about it less, too?")
+  (setq ftwynn-stoic-prompt-11-30 "Am I ready to accept the pull of the universe?")
+  (setq ftwynn-stoic-prompt-12-01 "If I lived today as if it were my last) what would I do?")
+  (setq ftwynn-stoic-prompt-12-02 "How can I make my actions count?")
+  (setq ftwynn-stoic-prompt-12-03 "What practical problems am I solving with this philosophy?")
+  (setq ftwynn-stoic-prompt-12-04 "What do I truly own?")
+  (setq ftwynn-stoic-prompt-12-05 "What unpleasant thoughts can I face and use to my advantage?")
+  (setq ftwynn-stoic-prompt-12-06 "What can I do to /live/ now, while I still can?")
+  (setq ftwynn-stoic-prompt-12-07 "Can I love the hand Fate deals me?")
+  (setq ftwynn-stoic-prompt-12-08 "Are there any feelings I need to face?")
+  (setq ftwynn-stoic-prompt-12-09 "Are you saying no enough?")
+  (setq ftwynn-stoic-prompt-12-10 "What are you getting in return for all the time you spend so freely?")
+  (setq ftwynn-stoic-prompt-12-11 "Are you living with dignity and courage?")
+  (setq ftwynn-stoic-prompt-12-12 "Will I keep the rhythm of life) no matter the interruptions?")
+  (setq ftwynn-stoic-prompt-12-13 "Can I be grateful for the time I've been given?")
+  (setq ftwynn-stoic-prompt-12-14 "What will my life be a testament to?")
+  (setq ftwynn-stoic-prompt-12-15 "Am I going to get a little bit better today?")
+  (setq ftwynn-stoic-prompt-12-16 "What am I doing to build my self-confidence?")
+  (setq ftwynn-stoic-prompt-12-17 "How well do I really know myself?")
+  (setq ftwynn-stoic-prompt-12-18 "The end for us all is clear, but is my purpose?")
+  (setq ftwynn-stoic-prompt-12-19 "What can I focus on that is much) much bigger than me?")
+  (setq ftwynn-stoic-prompt-12-20 "What am I really so afraid of?")
+  (setq ftwynn-stoic-prompt-12-21 "How can I make the most of today--and in so doing, my life?")
+  (setq ftwynn-stoic-prompt-12-22 "What wisdom will I create today?")
+  (setq ftwynn-stoic-prompt-12-23 "If I relaxed my tight grip on life, what would happen?")
+  (setq ftwynn-stoic-prompt-12-24 "Can I consume less to make more room for virtue?")
+  (setq ftwynn-stoic-prompt-12-25 "Where can I find reinvigoration and balance?")
+  (setq ftwynn-stoic-prompt-12-26 "Where am I wasting life?")
+  (setq ftwynn-stoic-prompt-12-27 "Is my soul stronger than my body?")
+  (setq ftwynn-stoic-prompt-12-28 "In a hundred years, who will remember or be remembered?")
+  (setq ftwynn-stoic-prompt-12-29 "What am I grateful for?")
+  (setq ftwynn-stoic-prompt-12-30 "How can I bring a calm mind to tough situations?")
+  (setq ftwynn-stoic-prompt-12-31 "How will I turn these words into works?")
 #+end_src
 
 Then the function itself. The string-to-symbol function has an odd name... shout out to:
@@ -781,10 +781,10 @@ Then the function itself. The string-to-symbol function has an odd name... shout
 https://emacsredux.com/blog/2014/12/05/converting-between-symbols-and-strings/
 
 #+begin_src emacs-lisp
-(defun ftwynn/stoic-daily-prompt ()
-  (interactive)
-  (symbol-value (intern (concat "ftwynn-stoic-prompt-" (format-time-string "%m-%d"))))
-  )
+  (defun ftwynn/stoic-daily-prompt ()
+    (interactive)
+    (symbol-value (intern (concat "ftwynn-stoic-prompt-" (format-time-string "%m-%d"))))
+    )
 #+end_src
 
 ** Adding Capture templates to vanilla org-capture
@@ -793,12 +793,12 @@ Mostly I will use roam insert templates, but adding org-only ones to org-capture
 Mostly used for recipes for now, since I can't define those in advance in Roam configs.
 
 #+begin_src emacs-lisp
-      (setq org-capture-templates
-            '(("R" "New Recipe" entry (file "~/mobile/Keep.org") 
-               (file "~/org-roam-repo/templates/new_recipe.org"))
-            ("r" "Recipe Experiment" entry (file "~/mobile/Keep.org") 
-               (file "~/org-roam-repo/templates/new_recipe_experiment.org"))
-  ))
+  (setq org-capture-templates
+        '(("R" "New Recipe" entry (file "~/mobile/Keep.org") 
+           (file "~/org-roam-repo/templates/new_recipe.org"))
+          ("r" "Recipe Experiment" entry (file "~/mobile/Keep.org") 
+           (file "~/org-roam-repo/templates/new_recipe_experiment.org"))
+          ))
 #+end_src
 
 ** Org General Additions
@@ -819,7 +819,7 @@ Baseline org shortcuts here. Still need agendas and clocks. Possibly refining re
     "oii" '((lambda () (interactive) (org-time-stamp '(16) t)) :which-key "inactive timestamp now")
     "o0" '((lambda () (interactive) (org-capture 0)) :which-key "capture at point") 
     ;; Clock subgroup
-  )
+    )
 #+end_src
 
 #+RESULTS:  
@@ -839,45 +839,45 @@ Some basic config for daily journals and the like.
 Note, these templates are great for when you know where the target file is going to be. If not, you need to insert the template at point, which these don't support, and you have to use the normal org-capture templates.
 
 #+begin_src emacs-lisp
-                (setq org-roam-dailies-directory "journals/")
+  (setq org-roam-dailies-directory "journals/")
 
-                (setq org-roam-dailies-capture-templates
-                      '(("d" "default" entry
-                         "* %<> - %?"
-                         :target (file+head "%<%Y-%m-%d>.org"
-                                            "#+title: %<%Y-%m-%d>\n")
-                         :jump-to-target t)
-                      ("e" "evening journal" entry
-                         (file "~/org-roam-repo/templates/evening_journal.org")
-                         :target (file+head "%<%Y-%m-%d>.org"
-                                            "#+title: %<%Y-%m-%d>\n")
-                         :jump-to-target t)
-                      ("m" "morning journal" entry
-                         (file "~/org-roam-repo/templates/morning_journal.org")
-                         :target (file+head "%<%Y-%m-%d>.org"
-                                            "#+title: %<%Y-%m-%d>\n")
-                         :jump-to-target t)
-                      ("w" "weekly journal" entry
-                         (file "~/org-roam-repo/templates/weekly_journal.org")
-                         :target (file+head "%<%Y-%m-%d>.org"
-                                            "#+title: %<%Y-%m-%d>\n")
-                         :jump-to-target t)
-                      ("t" "monthly journal" entry
-                         (file "~/org-roam-repo/templates/monthly_journal.org")
-                         :target (file+head "%<%Y-%m-%d>.org"
-                                            "#+title: %<%Y-%m-%d>\n")
-                         :jump-to-target t)
-                      ("j" "Interstitial journal" entry
-                         (file "~/org-roam-repo/templates/interstitial_journal.org")
-                         :target (file+head "%<%Y-%m-%d>.org"
-                                            "#+title: %<%Y-%m-%d>\n")
-                         :jump-to-target t)
-                      ("c" "New Contact" entry
-                         (file "~/org-roam-repo/templates/new_contact.org")
-                         :target (file "~/org-roam-repo/mobile/contacts.org")
-                         :jump-to-target t)
-                        )
-              )
+  (setq org-roam-dailies-capture-templates
+        '(("d" "default" entry
+           "* %<> - %?"
+           :target (file+head "%<%Y-%m-%d>.org"
+                              "#+title: %<%Y-%m-%d>\n")
+           :jump-to-target t)
+          ("e" "evening journal" entry
+           (file "~/org-roam-repo/templates/evening_journal.org")
+           :target (file+head "%<%Y-%m-%d>.org"
+                              "#+title: %<%Y-%m-%d>\n")
+           :jump-to-target t)
+          ("m" "morning journal" entry
+           (file "~/org-roam-repo/templates/morning_journal.org")
+           :target (file+head "%<%Y-%m-%d>.org"
+                              "#+title: %<%Y-%m-%d>\n")
+           :jump-to-target t)
+          ("w" "weekly journal" entry
+           (file "~/org-roam-repo/templates/weekly_journal.org")
+           :target (file+head "%<%Y-%m-%d>.org"
+                              "#+title: %<%Y-%m-%d>\n")
+           :jump-to-target t)
+          ("t" "monthly journal" entry
+           (file "~/org-roam-repo/templates/monthly_journal.org")
+           :target (file+head "%<%Y-%m-%d>.org"
+                              "#+title: %<%Y-%m-%d>\n")
+           :jump-to-target t)
+          ("j" "Interstitial journal" entry
+           (file "~/org-roam-repo/templates/interstitial_journal.org")
+           :target (file+head "%<%Y-%m-%d>.org"
+                              "#+title: %<%Y-%m-%d>\n")
+           :jump-to-target t)
+          ("c" "New Contact" entry
+           (file "~/org-roam-repo/templates/new_contact.org")
+           :target (file "~/org-roam-repo/mobile/contacts.org")
+           :jump-to-target t)
+          )
+        )
 #+end_src
 
 *** New Node Templates
@@ -894,18 +894,18 @@ https://github.com/org-roam/org-roam/wiki/User-contributed-Tricks#some-filter-fn
 
 #+begin_src emacs-lisp
   (defun ftwynn/org-roam-insert-today ()
-            "Filter node insertion to today's date for quickly inserting a link to the daily."
-            (interactive)
-            (org-roam-node-insert 
-              (lambda (node)
-                (string-equal (org-roam-node-title node) (format-time-string "%Y-%m-%d")))))
+    "Filter node insertion to today's date for quickly inserting a link to the daily."
+    (interactive)
+    (org-roam-node-insert 
+     (lambda (node)
+       (string-equal (org-roam-node-title node) (format-time-string "%Y-%m-%d")))))
 #+end_src
 
 *** General.el mappings
 Let's get some general mappings in there
 
 #+begin_src emacs-lisp
-      (ftwynn/leader-key-def
+  (ftwynn/leader-key-def
     "om"  '(:ignore t :which-key "org-roam")
     "omi" 'org-roam-node-insert
     "omf" 'org-roam-node-find
@@ -915,7 +915,7 @@ Let's get some general mappings in there
     "omd" 'ftwynn/org-roam-insert-today
 
     ;; Add Interstitial journal to not visit the daily page, which is above with non-nil arg
-  )
+    )
 
 #+end_src
 
@@ -923,9 +923,9 @@ Let's get some general mappings in there
 
 #+begin_src emacs-lisp
   (use-package org-contacts
-  :ensure nil
-  :after org
-  :custom (org-contacts-files '("~/org-roam-repo/templates/contacts.org")))
+    :ensure nil
+    :after org
+    :custom (org-contacts-files '("~/org-roam-repo/templates/contacts.org")))
 #+end_src
 
 ** Org Agenda
@@ -936,7 +936,7 @@ Agenda Files... I'm starting with them all explicitly, though I think directory 
 Might want to add in some fun ways to dynamically generate this from the whole roam repo later (or maybe to get them all into TODOs.org), but this will do for now.
 
 #+begin_src emacs-lisp
-    (setq org-agenda-files (list "~/org-roam-repo/gcal/personal.org"
+  (setq org-agenda-files (list "~/org-roam-repo/gcal/personal.org"
                                "~/org-roam-repo/gcal/time_blocks.org"
                                "~/org-roam-repo/mobile/TODOs.org"
                                "~/org-roam-repo/mobile/contacts.org"))
@@ -986,18 +986,18 @@ On chromebook, needed to install xclip program
 
 #+begin_src emacs-lisp
   (setq org-super-agenda-groups
-    '(
-      (:name "Contacts to follow up with"
-             :category "contacts"
-             :order 1)
-      (:name "Schedule"
-             :time-grid t
-             :order 3)
-      (:name "All Day TODOs"
-             :todo "TODO"
-             :order 2)
-     )
-  )
+        '(
+          (:name "Contacts to follow up with"
+                 :category "contacts"
+                 :order 1)
+          (:name "Schedule"
+                 :time-grid t
+                 :order 3)
+          (:name "All Day TODOs"
+                 :todo "TODO"
+                 :order 2)
+          )
+        )
 #+end_src
 
 ** org-autolist
@@ -1093,7 +1093,7 @@ Remember and restore the last cursor location of opened files
 
 2023-03-16: I'm not sure I really use this, so I think I'll let it go. The finaly straw was in ibuffer mode. If I could write exception modes I might keep it, but I didn't find that on a quick glance.
 
-  ;;(save-place-mode 1)
+;;(save-place-mode 1)
 
 ** Recent Files
 
@@ -1103,9 +1103,6 @@ Remember and restore the last cursor location of opened files
 #+end_src
 
 * Cleaning Up Files
-
-** Need to look into the nolitter package
-
 ** Set Customize vars in a different file
 
 Move automated customization variables to a separate file and load it
@@ -1125,8 +1122,8 @@ shell-command of uname -r should give similar to:
 
 The g looks to be consistent
 
-;(define-key org-mode-map (kbd "<prior>") 'org-metaup)
-;(define-key org-mode-map (kbd "<next>") 'org-metadown)
+;;(define-key org-mode-map (kbd "<prior>") 'org-metaup)
+;;(define-key org-mode-map (kbd "<next>") 'org-metadown)
 
 * Windows Platform Specific
 * OSX Platform Specific
@@ -1145,27 +1142,27 @@ There's also a *lot* that borders on non-theme stuff
 - Etc
 
 #+begin_src emacs-lisp
-(setq modus-themes-mode-line '(accented borderless)
-      modus-themes-bold-constructs t
-      modus-themes-italic-constructs t
-      modus-themes-fringes 'subtle
-      modus-themes-tabs-accented t
-      modus-themes-paren-match '(bold intense)
-      modus-themes-prompts '(bold intense)
-      ;; modus-themes-completions 'opinionated ; Throws warnings on startup
-      modus-themes-org-blocks 'tinted-background
-      modus-themes-scale-headings t
-      modus-themes-region '(bg-only)
-      modus-themes-headings
-      '((1 . (rainbow overline background 1.4))
-        (2 . (rainbow background 1.3))
-        (3 . (rainbow bold 1.2))
-	(4 . (rainbow bold 1.2))
-	(5 . (rainbow bold 1.2))
-	(6 . (rainbow bold 1.2))
-	(7 . (rainbow bold 1.2))
-	(8 . (rainbow bold 1.2))
-        (t . (semilight 1.1))))
+  (setq modus-themes-mode-line '(accented borderless)
+        modus-themes-bold-constructs t
+        modus-themes-italic-constructs t
+        modus-themes-fringes 'subtle
+        modus-themes-tabs-accented t
+        modus-themes-paren-match '(bold intense)
+        modus-themes-prompts '(bold intense)
+        ;; modus-themes-completions 'opinionated ; Throws warnings on startup
+        modus-themes-org-blocks 'tinted-background
+        modus-themes-scale-headings t
+        modus-themes-region '(bg-only)
+        modus-themes-headings
+        '((1 . (rainbow overline background 1.4))
+          (2 . (rainbow background 1.3))
+          (3 . (rainbow bold 1.2))
+          (4 . (rainbow bold 1.2))
+          (5 . (rainbow bold 1.2))
+          (6 . (rainbow bold 1.2))
+          (7 . (rainbow bold 1.2))
+          (8 . (rainbow bold 1.2))
+          (t . (semilight 1.1))))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -1197,9 +1194,9 @@ AFTER this is installed the first time on a new system (Linux or OSX)
 Let's set the font color for emacs mode to be more different than... normal mode... which it isn't by default
 
 #+begin_src emacs-lisp
-    ;; Set emacs mode color in doom mode line to a purpleish
-    (set-face-attribute 'doom-modeline-evil-emacs-state nil
-                        :foreground "MediumPurple")
+  ;; Set emacs mode color in doom mode line to a purpleish
+  (set-face-attribute 'doom-modeline-evil-emacs-state nil
+                      :foreground "MediumPurple")
 #+end_src
 
 * Completions
@@ -1240,11 +1237,11 @@ It's more idiomatic emacs... a wonder it took this long to get popular
 
     :general
     (:keymaps 'vertico-map
-	      "<tab>" #'vertico-insert  ; Insert selected candidate into text area
-	      "<escape>" #'minibuffer-keyboard-quit ; Close minibuffer
-	      ;; NOTE 2022-02-05: Cycle through candidate groups
-	      "C-M-n" #'vertico-next-group
-	      "C-M-p" #'vertico-previous-group)
+              "<tab>" #'vertico-insert  ; Insert selected candidate into text area
+              "<escape>" #'minibuffer-keyboard-quit ; Close minibuffer
+              ;; NOTE 2022-02-05: Cycle through candidate groups
+              "C-M-n" #'vertico-next-group
+              "C-M-p" #'vertico-previous-group)
     )
 
 #+end_src
@@ -1254,15 +1251,15 @@ It's more idiomatic emacs... a wonder it took this long to get popular
 This appears to be important for... fuzzy matching I think?
 
 ;;#+begin_src emacs-lisp
-  ;; Optionally use the `orderless' completion style.
-  (use-package orderless
-    :init
-    ;; Configure a custom style dispatcher (see the Consult wiki)
-    ;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
-    ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-    (setq completion-styles '(orderless basic)
-	  completion-category-defaults nil
-	  completion-category-overrides '((file (styles partial-completion)))))
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+:init
+;; Configure a custom style dispatcher (see the Consult wiki)
+;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
+;;       orderless-component-separator #'orderless-escapable-split-on-space)
+(setq completion-styles '(orderless basic)
+completion-category-defaults nil
+completion-category-overrides '((file (styles partial-completion)))))
 
 ;;#+end_src
 
@@ -1277,10 +1274,10 @@ The above is just the docs' basic recommendation.
     (completion-category-defaults nil)    ; I want to be in control!
     (completion-category-overrides
      '((file (styles basic-remote ; For `tramp' hostname completion with `vertico'
-		     orderless
-		     ))
+                     orderless
+                     ))
        ))
-    
+
     (orderless-component-separator 'orderless-escapable-split-on-space)
     (orderless-matching-styles
      '(orderless-literal
@@ -1311,11 +1308,11 @@ The above is just the docs' basic recommendation.
   that the first and last initials appear in the first and last
   words of the candidate, respectively."
       (orderless--separated-by
-	  '(seq (zero-or-more alpha) word-end (zero-or-more (not alpha)))
-	(cl-loop for char across component collect `(seq word-start ,char))
-	(when anchored '(seq (group buffer-start) (zero-or-more (not alpha))))
-	(when (eq anchored 'both)
-	  '(seq (zero-or-more alpha) word-end (zero-or-more (not alpha)) eol))))
+          '(seq (zero-or-more alpha) word-end (zero-or-more (not alpha)))
+        (cl-loop for char across component collect `(seq word-start ,char))
+        (when anchored '(seq (group buffer-start) (zero-or-more (not alpha))))
+        (when (eq anchored 'both)
+          '(seq (zero-or-more alpha) word-end (zero-or-more (not alpha)) eol))))
 
     (defun orderless-strict-initialism (component)
       "Match a COMPONENT as a strict initialism.
@@ -1330,21 +1327,21 @@ The above is just the docs' basic recommendation.
   It matches PATTERN _INDEX and _TOTAL according to how Orderless
   parses its input."
       (when (string-suffix-p "=" pattern)
-	`(orderless-literal . ,(substring pattern 0 -1))))
+        `(orderless-literal . ,(substring pattern 0 -1))))
 
     (defun prot-orderless-strict-initialism-dispatcher (pattern _index _total)
       "Leading initialism  dispatcher using the comma suffix.
   It matches PATTERN _INDEX and _TOTAL according to how Orderless
   parses its input."
       (when (string-suffix-p "," pattern)
-	`(orderless-strict-initialism . ,(substring pattern 0 -1))))
+        `(orderless-strict-initialism . ,(substring pattern 0 -1))))
 
     (defun prot-orderless-flex-dispatcher (pattern _index _total)
       "Flex  dispatcher using the tilde suffix.
   It matches PATTERN _INDEX and _TOTAL according to how Orderless
   parses its input."
       (when (string-suffix-p "." pattern)
-	`(orderless-flex . ,(substring pattern 0 -1))))
+        `(orderless-flex . ,(substring pattern 0 -1))))
     )
 #+end_src
 
@@ -1360,9 +1357,9 @@ The above post doesn't use it... I'd have to check what it does to see if I real
 
 #+begin_src emacs-lisp
   (use-package marginalia
-    ;:general
-    ;(:keymaps 'minibuffer-local-map
-	      ;"M-A" 'marginalia-cycle)
+                                          ;:general
+                                          ;(:keymaps 'minibuffer-local-map
+                                          ;"M-A" 'marginalia-cycle)
     :custom
     (marginalia-max-relative-age 0)
     (marginalia-align 'right)
@@ -1396,34 +1393,34 @@ Remember C-z switches to emacs mode. C-w does window operations
 #+begin_src emacs-lisp
   (defun ftwynn/evil-emacs-mode-selections ()
     (dolist (mode '(custom-mode
-		    eshell-mode
-		    git-rebase-mode
-		    erc-mode
-		    circe-server-mode
-		    circe-chat-mode
-		    circe-query-mode
-		    sauron-mode
-		    term-mode))
-    (add-to-list 'evil-emacs-state-modes mode)))
+                    eshell-mode
+                    git-rebase-mode
+                    erc-mode
+                    circe-server-mode
+                    circe-chat-mode
+                    circe-query-mode
+                    sauron-mode
+                    term-mode))
+      (add-to-list 'evil-emacs-state-modes mode)))
 
 
 
 
-    (use-package evil
-	:init
-	(setq evil-want-integration t)
-	(setq evil-want-keybinding nil)
-	(setq evil-want-c-u-scroll t)
-	(setq evil-respect-visual-line-mode t)
-	:config
-	(add-hook 'evil-mode-hook 'ftwynn/evil-emacs-mode-selections)
-	(evil-mode 1)
-	(define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-	(define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+  (use-package evil
+    :init
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    (setq evil-want-c-u-scroll t)
+    (setq evil-respect-visual-line-mode t)
+    :config
+    (add-hook 'evil-mode-hook 'ftwynn/evil-emacs-mode-selections)
+    (evil-mode 1)
+    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+    (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
 
-	;; Use visual line motions even outside of visual-line mode, because they use logical lines otherwise
-	(evil-global-set-key 'motion "j" 'evil-next-visual-line)
-	(evil-global-set-key 'motion "k" 'evil-previous-visual-line))
+    ;; Use visual line motions even outside of visual-line mode, because they use logical lines otherwise
+    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+    (evil-global-set-key 'motion "k" 'evil-previous-visual-line))
 #+end_src
 
 ** Evil-collection
@@ -1432,9 +1429,9 @@ Lots of premade bindings. We'll see if I like them.
 
 #+begin_src emacs-lisp
   (use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
+    :after evil
+    :config
+    (evil-collection-init))
 #+end_src
 
 * Projectile
@@ -1443,24 +1440,24 @@ Mostly good for directory level search I'm told.
 
 #+begin_src emacs-lisp
   (use-package projectile
-  :diminish projectile-mode
-  :config (projectile-mode)
-  :demand t
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
-  :init
-  (when (file-directory-p "~/org-roam-repo")
-    (setq projectile-project-search-path '("~/org-roam-repo"))))
+    :diminish projectile-mode
+    :config (projectile-mode)
+    :demand t
+    :bind-keymap
+    ("C-c p" . projectile-command-map)
+    :init
+    (when (file-directory-p "~/org-roam-repo")
+      (setq projectile-project-search-path '("~/org-roam-repo"))))
 
   (ftwynn/leader-key-def
-  "p " '(:ignore t :which-key "projectile")
-  "pf"  'projectile-find-file
-  "ps"  'projectile-switch-project
-  "pF"  'projectile-ripgrep
-  "pe"  'projectile-run-eshell
-  ;;"pp"  'counsel-projectile
-  "pc"  'projectile-compile-project
-  "pd"  'projectile-dired)
+    "p " '(:ignore t :which-key "projectile")
+    "pf"  'projectile-find-file
+    "ps"  'projectile-switch-project
+    "pF"  'projectile-ripgrep
+    "pe"  'projectile-run-eshell
+    ;;"pp"  'counsel-projectile
+    "pc"  'projectile-compile-project
+    "pd"  'projectile-dired)
 
 #+end_src
 
@@ -1473,9 +1470,9 @@ Don't forget to install it from the base package manager
 
 #+begin_src emacs-lisp
   (dolist (hook '(text-mode-hook))
-      (add-hook hook (lambda () (flyspell-mode 1))))
-    (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
-      (add-hook hook (lambda () (flyspell-mode -1))))
+    (add-hook hook (lambda () (flyspell-mode 1))))
+  (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
+    (add-hook hook (lambda () (flyspell-mode -1))))
 #+end_src
 
 * Read reddit inside of emacs
@@ -1505,7 +1502,7 @@ Nothing here yet, but saving the placeholder in case I find anything I do want t
 #+begin_src emacs-lisp
   (when (eq system-type 'darwin)
     (setq mac-command-modifier 'meta)
-  )
+    )
 #+end_src
 ** Chromebook
 
@@ -1525,37 +1522,37 @@ This snippet tests for wsl found here
 https://stackoverflow.com/questions/1817257/how-to-determine-operating-system-in-elisp
 
 (if
-    (string-match "Microsoft"
-         (with-temp-buffer (shell-command "uname -r" t)
-                           (goto-char (point-max))
-                           (delete-char -1)
-                           (buffer-string)))
-    (message "Running under Linux subsystem for Windows")
-    (message "Not running under Linux subsystem for Windows")
-  )
+(string-match "Microsoft"
+(with-temp-buffer (shell-command "uname -r" t)
+(goto-char (point-max))
+(delete-char -1)
+(buffer-string)))
+(message "Running under Linux subsystem for Windows")
+(message "Not running under Linux subsystem for Windows")
+)
 ** Fedora KDE
 This doesn't run for some reason... probably using a symbol instead of a string?
 
 Commenting out because I fixed this at the theme level, which is probably more correct anyway.
 
 ##+begin_src emacs-lisp
-    (when (eq system-configuration 'x86_64-redhat-linux-gnu)
-      ;; Default Font
-      ;;(set-frame-font "Fira Code 18")
-      (set-face-attribute 'default nil :font "Fira Code" :height 110)
+(when (eq system-configuration 'x86_64-redhat-linux-gnu)
+;; Default Font
+;;(set-frame-font "Fira Code 18")
+(set-face-attribute 'default nil :font "Fira Code" :height 110)
 
-      ;; Set the fixed pitch face.. .which I believe is the mono font
-      (set-face-attribute 'fixed-pitch nil
-                          :font "Fira Code"
-                          :weight 'light
-                          :height 110)
+;; Set the fixed pitch face.. .which I believe is the mono font
+(set-face-attribute 'fixed-pitch nil
+:font "Fira Code"
+:weight 'light
+:height 110)
 
-      ;; Set the variable pitch face
-      (set-face-attribute 'variable-pitch nil
-                          :font "Source Code Pro"
-                          :height 110
-                          :weight 'light)
+;; Set the variable pitch face
+(set-face-attribute 'variable-pitch nil
+:font "Source Code Pro"
+:height 110
+:weight 'light)
 
-    )
+)
 ##+end_src
 
