@@ -304,6 +304,8 @@ Variable pitch seems to be for fonts to be non-mono
 
 Org-descriptive links seems to need to be off to see link highlighting syntax
 
+[2023-04-25 Tue] - Tried =org-list-demote-modify-bullet=, but it prevents indentation beyond what you define in the alist, so no thank you. More indentation space is enough
+
 #+begin_src emacs-lisp
   ;; Copied from stackoverflow, this retains colors for org src blocks and tables, while making them monospaced
   (defun my-adjoin-to-list-or-symbol (element list-or-symbol)
@@ -319,6 +321,7 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
     (auto-fill-mode 0)
     (visual-line-mode 1)
     (setq org-indent-indentation-per-level 3)
+    (setq org-list-indent-offset 4)
     (setq org-descriptive-links nil)
     (setq evil-auto-indent nil)
     (setq org-M-RET-may-split-line nil)
