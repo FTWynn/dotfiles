@@ -327,6 +327,7 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
     (setq org-M-RET-may-split-line nil)
     (setq line-spacing 0.2)
 
+    ;; Sets the src blocks to be fixed width
     (mapc
      (lambda (face)
        (set-face-attribute
@@ -336,6 +337,17 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
          'fixed-pitch
          (face-attribute face :inherit))))
      (list 'org-code 'org-block 'org-table))
+
+    ;; Sets the faces for outline levels to a variable font, so that org-sticky-header pulls the right font
+    (set-face-attribute 'org-level-1 nil :family "Fira Sans")
+    (set-face-attribute 'org-level-2 nil :family "Fira Sans")
+    (set-face-attribute 'org-level-3 nil :family "Fira Sans")
+    (set-face-attribute 'org-level-4 nil :family "Fira Sans")
+    (set-face-attribute 'org-level-5 nil :family "Fira Sans")
+    (set-face-attribute 'org-level-6 nil :family "Fira Sans")
+    (set-face-attribute 'org-level-7 nil :family "Fira Sans")
+    (set-face-attribute 'org-level-8 nil :family "Fira Sans")
+
     )
 
   (use-package org
@@ -352,6 +364,7 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
           org-src-preserve-indentation nil
           org-startup-folded 'content
           org-cycle-separator-lines 2)
+
 
     (setq org-modules
           '(org-crypt
