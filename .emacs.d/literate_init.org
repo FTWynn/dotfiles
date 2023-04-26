@@ -988,9 +988,12 @@ https://www.reddit.com/r/emacs/comments/uq9882/line_gets_broken_wrapped_in_orgag
 ** org-sticky-header
 Never lose my place in big files again! I use a lot of deep files, so this seems better than not.
 
+[2023-04-26 Wed] - I'm opting for reversed after using full for a while. I go deep a lot, and full would tend to cut off anything meaningful. Barring a good way to only specify 2 headings, I'm trying out ='reversed=.
+
 #+begin_src emacs-lisp
   (straight-use-package 'org-sticky-header)
-  (setq org-sticky-header-full-path 'full) ;; 'reversed is also possibly viable
+  ;; 'reversed and 'full are both possibly viable... nil's probably not enough
+  (setq org-sticky-header-full-path 'reversed)
   (add-hook 'org-mode-hook 'org-sticky-header-mode)
 #+end_src
 
