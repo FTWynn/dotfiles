@@ -1042,10 +1042,10 @@ It doesn't quite get where I want with headlines, but it gets close with lists, 
 
 ** Org-ql
 *** Basic Installation
-
-#+begin_src emacs-lisp
+[2023-04-26 Wed] - Disabling here for lack of use for the moment. It was also throwing errors, which isn't great
++begin_src emacs-lisp
 (use-package org-ql)
-#+end_src
++end_src
 
 *** Configuration
 Looking for a PARA like view. Of note:
