@@ -374,7 +374,7 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
             org-irc))
 
     (setq org-refile-targets '((nil :maxlevel . 6)
-                               ("20230321152713-para.org" :maxlevel . 3)
+                               ("~/org-roam-repo/20230321152713-para.org" :maxlevel . 3)
                                ))
 
     (setq org-outline-path-complete-in-steps nil)
