@@ -967,6 +967,8 @@ Might want to add in some fun ways to dynamically generate this from the whole r
 #+begin_src emacs-lisp
   (setq org-agenda-files (list "~/org-roam-repo/gcal/personal.org"
                                "~/org-roam-repo/gcal/time_blocks.org"
+                               "~/org-roam-repo/gcal/w_time_block.org"
+                               "~/org-roam-repo/gcal/work_cal.org"
                                "~/org-roam-repo/mobile/TODOs.org"
                                "~/org-roam-repo/mobile/contacts.org"))
 #+end_src
