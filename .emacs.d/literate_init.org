@@ -375,6 +375,7 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
 
     (setq org-refile-targets '((nil :maxlevel . 6)
                                ("~/org-roam-repo/20230321152713-para.org" :maxlevel . 3)
+                               ("~/org-roam-repo/20230406142458-recipes.org" :level . 1)
                                ))
 
     (setq org-outline-path-complete-in-steps nil)
