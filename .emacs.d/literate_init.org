@@ -928,9 +928,9 @@ Mostly used for recipes for now, since I can't define those in advance in Roam c
 
 #+begin_src emacs-lisp
   (setq org-capture-templates
-        '(("R" "New Recipe" entry (file "~/mobile/Keep.org") 
+        '(("R" "New Recipe" entry (file "~/org-roam-rope/mobile/Keep.org") 
            (file "~/org-roam-repo/templates/new_recipe.org"))
-          ("r" "Recipe Experiment" entry (file "~/mobile/Keep.org") 
+          ("r" "Recipe Experiment" entry (file "~/org-roam-repo/mobile/Keep.org") 
            (file "~/org-roam-repo/templates/new_recipe_experiment.org"))
           ))
 #+end_src
