@@ -664,7 +664,7 @@ Variables first.
   (setq ftwynn-stoic-prompt-04-29 "What do I feel when I look up at the sky?")
   (setq ftwynn-stoic-prompt-04-30 "Do my actions match my character?")
   (setq ftwynn-stoic-prompt-05-01 "Do my actions--and my mind--match my philosophy?")
-  (setq ftwynn-stoic-prompt-05-02 "What kind of person to I want to be?")
+  (setq ftwynn-stoic-prompt-05-02 "What kind of person do I want to be?")
   (setq ftwynn-stoic-prompt-05-03 "Am I showing or telling?")
   (setq ftwynn-stoic-prompt-05-04 "Where can I spend money to help others?")
   (setq ftwynn-stoic-prompt-05-05 "Have I made myself a lifelong project?")
