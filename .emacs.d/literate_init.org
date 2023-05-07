@@ -1185,6 +1185,21 @@ https://github.com/org-roam/org-roam/wiki/User-contributed-Tricks#some-filter-fn
        (string-equal (org-roam-node-title node) (format-time-string "%Y-%m-%d")))))
 #+end_src
 
+*** Change org-roam-find to show hierarchies
+https://cmdln.org/2023/03/25/how-i-org-in-2023/
+
+A good idea, particularly if I want to use Refile at all
+
+#+begin_src emacs-lisp
+(cl-defmethod org-roam-node-hierarchy ((node org-roam-node))
+  (let ((level (org-roam-node-level node)))
+    (concat
+     (when (> level 0) (concat (org-roam-node-file-title node) " > "))
+     (when (> level 1) (concat (string-join (org-roam-node-olp node) " > ") " > "))
+     (org-roam-node-title node))))
+
+  (setq org-roam-node-display-template "${hierarchy:200} ${tags:20}")
+#+end_src
 *** General.el mappings
 Let's get some general mappings in there
 
