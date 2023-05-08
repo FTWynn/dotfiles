@@ -1212,6 +1212,7 @@ Let's get some general mappings in there
     "omb" 'org-roam-buffer-toggle
     "omt" 'org-roam-dailies-goto-today
     "omd" 'ftwynn/org-roam-insert-today
+    "omr" 'org-roam-refile
 
     ;; Add Interstitial journal to not visit the daily page, which is above with non-nil arg
     )
