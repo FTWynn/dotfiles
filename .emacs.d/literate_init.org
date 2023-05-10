@@ -628,7 +628,7 @@ Taken from Voit's https://github.com/novoid/dot-emacs/blob/master/config.org#my-
                                     (setq new-id (concat my-created-datestamp "-" new-id))
                                 )
                                 ;; use today's date-stamp if no CREATED property is found:
-                                (setq new-id (concat (format-time-string "%Y-%m-%d-") new-id))))
+                                (setq new-id (concat (format-time-string "%Y-%m-%d_%H:%M:%S_") new-id))))
                         (org-set-property "ID" new-id)
                         )
                       )
