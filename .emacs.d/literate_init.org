@@ -472,6 +472,7 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
     (setq evil-auto-indent nil)
     (setq org-M-RET-may-split-line nil)
     (setq line-spacing 0.2)
+    (setq org-reverse-note-order t)
 
     ;; Sets the src blocks to be fixed width
     (mapc
