@@ -1850,6 +1850,9 @@ It's read only, so I'll still have to jump to the UI to reply.
 * Cron Tasks via Timers
 Some Tasks need to be run regularly in emacs to keep it smooth if I leave it open on multiple devices. Let's define those here.
 
+https://stackoverflow.com/questions/3841459/how-to-periodically-run-a-task-within-emacs
+Midnight mode seems to be another options for a more hook based approach
+
 ** Sync the Org Roam DB Every 5 Mins
 #+begin_src emacs-lisp
   (run-with-timer 0 (* 5 60) 'org-roam-db-sync)
