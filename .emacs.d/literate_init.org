@@ -1125,45 +1125,49 @@ Some basic config for daily journals and the like.
 Note, these templates are great for when you know where the target file is going to be. If not, you need to insert the template at point, which these don't support, and you have to use the normal org-capture templates.
 
 #+begin_src emacs-lisp
-  (setq org-roam-dailies-directory "journals/")
+    (setq org-roam-dailies-directory "journals/")
 
-  (setq org-roam-dailies-capture-templates
-        '(("d" "default" entry
-           "* %<> - %?"
-           :target (file+head "%<%Y-%m-%d>.org"
-                              "#+title: %<%Y-%m-%d>\n")
-           :jump-to-target t)
-          ("e" "evening journal" entry
-           (file "~/org-roam-repo/templates/evening_journal.org")
-           :target (file+head "%<%Y-%m-%d>.org"
-                              "#+title: %<%Y-%m-%d>\n")
-           :jump-to-target t)
-          ("m" "morning journal" entry
-           (file "~/org-roam-repo/templates/morning_journal.org")
-           :target (file+head "%<%Y-%m-%d>.org"
-                              "#+title: %<%Y-%m-%d>\n")
-           :jump-to-target t)
-          ("w" "weekly journal" entry
-           (file "~/org-roam-repo/templates/weekly_journal.org")
-           :target (file+head "%<%Y-%m-%d>.org"
-                              "#+title: %<%Y-%m-%d>\n")
-           :jump-to-target t)
-          ("t" "monthly journal" entry
-           (file "~/org-roam-repo/templates/monthly_journal.org")
-           :target (file+head "%<%Y-%m-%d>.org"
-                              "#+title: %<%Y-%m-%d>\n")
-           :jump-to-target t)
-          ("j" "Interstitial journal" entry
-           (file "~/org-roam-repo/templates/interstitial_journal.org")
-           :target (file+head "%<%Y-%m-%d>.org"
-                              "#+title: %<%Y-%m-%d>\n")
-           :jump-to-target t)
-          ("c" "New Contact" entry
-           (file "~/org-roam-repo/templates/new_contact.org")
-           :target (file "~/org-roam-repo/mobile/contacts.org")
-           :jump-to-target t)
+    (setq org-roam-dailies-capture-templates
+          '(("d" "default" entry
+             "* %<> - %?"
+             :target (file+head "%<%Y-%m-%d>.org"
+                                "#+title: %<%Y-%m-%d>\n")
+             :jump-to-target t)
+            ("e" "evening journal" entry
+             (file "~/org-roam-repo/templates/evening_journal.org")
+             :target (file+head "%<%Y-%m-%d>.org"
+                                "#+title: %<%Y-%m-%d>\n")
+             :jump-to-target t)
+            ("m" "morning journal" entry
+             (file "~/org-roam-repo/templates/morning_journal.org")
+             :target (file+head "%<%Y-%m-%d>.org"
+                                "#+title: %<%Y-%m-%d>\n")
+             :jump-to-target t)
+            ("w" "weekly journal" entry
+             (file "~/org-roam-repo/templates/weekly_journal.org")
+             :target (file+head "%<%Y-%m-%d>.org"
+                                "#+title: %<%Y-%m-%d>\n")
+             :jump-to-target t)
+            ("t" "monthly journal" entry
+             (file "~/org-roam-repo/templates/monthly_journal.org")
+             :target (file+head "%<%Y-%m-%d>.org"
+                                "#+title: %<%Y-%m-%d>\n")
+             :jump-to-target t)
+            ("j" "Interstitial journal" entry
+             (file "~/org-roam-repo/templates/interstitial_journal.org")
+             :target (file+head "%<%Y-%m-%d>.org"
+                                "#+title: %<%Y-%m-%d>\n")
+             :jump-to-target t)
+            ("c" "New Contact" entry
+             (file "~/org-roam-repo/templates/new_contact.org")
+             :target (file "~/org-roam-repo/mobile/contacts.org")
+             :jump-to-target t)
+            ("T" "New TODO" entry
+             (file "~/org-roam-repo/templates/new_todo.org")
+             :target (file "~/org-roam-repo/mobile/TODOs.org")
+             :prepend t)
+            )
           )
-        )
 #+end_src
 
 *** New Node Templates
