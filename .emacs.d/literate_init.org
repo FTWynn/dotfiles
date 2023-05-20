@@ -1847,6 +1847,13 @@ It's read only, so I'll still have to jump to the UI to reply.
   (setq org-confirm-elisp-link-function nil)
 #+end_src
 
+* Cron Tasks via Timers
+Some Tasks need to be run regularly in emacs to keep it smooth if I leave it open on multiple devices. Let's define those here.
+
+** Sync the Org Roam DB Every 5 Mins
+#+begin_src emacs-lisp
+  (run-with-timer 0 (* 5 60) 'org-roam-db-sync)
+#+end_src
 * Starting Buffer and git pull
 Picking a starting buffer to do a magit pull from, so I don't find myself doing crazy merges all the time.
 
