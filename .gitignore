@@ -12,3 +12,4 @@
 /.emacs.d/.org-id-locations
 /.emacs.d/projectile-bookmarks.eld
 /.emacs.d/var/
+/.emacs.d/custom-vars.el
