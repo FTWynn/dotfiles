@@ -474,6 +474,7 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
     (setq line-spacing 0.2)
     (setq org-reverse-note-order t)
     (setq org-agenda-timegrid-use-ampm t)
+    (setq org-tags-exclude-from-inheritance '("project"))
 
     ;; Sets the src blocks to be fixed width
     (mapc
@@ -645,6 +646,12 @@ Add in general mapping
 #+begin_src emacs-lisp
   (ftwynn/leader-key-def
     "oI" 'ftwynn/id-get-or-generate)
+#+end_src
+
+** Save buffer on any TODO modification
+[2023-05-21 Sun] Trying this out because I need a way for the agenda to save the TODOs it edits.
+#+begin_src emacs-lisp
+  (add-hook 'org-trigger-hook 'save-buffer)
 #+end_src
 
 ** Olivetti Mode
@@ -1219,6 +1226,8 @@ Let's get some general mappings in there
     "omt" 'org-roam-dailies-goto-today
     "omd" 'ftwynn/org-roam-insert-today
     "omr" 'org-roam-refile
+    "oms" '((lambda () (interactive) (org-roam-db-sync t)) :which-key "Sync DB (Force)") 
+
 
     ;; Add Interstitial journal to not visit the daily page, which is above with non-nil arg
     )
@@ -1854,9 +1863,19 @@ https://stackoverflow.com/questions/3841459/how-to-periodically-run-a-task-withi
 Midnight mode seems to be another options for a more hook based approach
 
 ** Sync the Org Roam DB Every 5 Mins
-#+begin_src emacs-lisp
+If I run (org-roam-db-sync t), it'll force a full rebuild, but I can't find a way to do this in the background.
++begin_src emacs-lisp
   (run-with-timer 0 (* 5 60) 'org-roam-db-sync)
-#+end_src
++end_src
+[2023-05-21 Sun] Disabling for now. I think it doesn't get anything that autosave sync doesn't get
+The question is really how do I force a resync when moving between devices
+- Do I need to turn off the db sync in Syncthing?
+      - I've actually added it to gitignore, because it lives in .emacs.d
+      - We'll see if that helps, and if it knows enough to sync off the mod times well between machines
+- Do I need to kill it first?
+- Do I need to detect "come away from idle" or something similar and inject it there?
+- Maybe add a hook for the last platform that wrote a file and if it's not the current platform, then do a full rebuild
+      - This actually feels right, it's just a question of which hook to use
 * Starting Buffer and git pull
 Picking a starting buffer to do a magit pull from, so I don't find myself doing crazy merges all the time.
 
