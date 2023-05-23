@@ -1313,10 +1313,13 @@ On chromebook, needed to install xclip program
                  :order 1)
           (:name "Schedule"
                  :time-grid t
-                 :order 3)
-          (:name "All Day TODOs"
+                 :order 4)
+          (:name "Things To Do Today"
                  :todo "TODO"
                  :order 2)
+          (:name "Upcoming Projects"
+                 :tag "project"
+                 :order 3)
           )
         )
 #+end_src
