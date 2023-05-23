@@ -1275,6 +1275,13 @@ Not sure if I'll need the truncate lines piece, because just turning off the lin
 It's possible I might want to set the column part that starts the tags manually instead, as listed here:
 
 https://www.reddit.com/r/emacs/comments/uq9882/line_gets_broken_wrapped_in_orgagenda_view/
+*** Full screen agenda
+Making sure to restore any window configs after exiting as well
+
+#+begin_src emacs-lisp
+  (setq org-agenda-window-setup 'only-window)
+  (setq org-agenda-restore-windows-after-quit t)
+#+end_src
 ** org-sticky-header
 Never lose my place in big files again! I use a lot of deep files, so this seems better than not.
 
