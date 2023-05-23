@@ -1324,7 +1324,7 @@ On chromebook, needed to install xclip program
           (:name "Things To Do Today"
                  :todo "TODO"
                  :order 2)
-          (:name "Upcoming Projects"
+          (:name "Upcoming/Weekly Projects"
                  :tag "project"
                  :order 3)
           )
