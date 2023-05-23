@@ -475,7 +475,9 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
     (setq org-reverse-note-order t)
     (setq org-agenda-timegrid-use-ampm t)
     (setq org-tags-exclude-from-inheritance '("project"))
-
+    (setq org-todo-keywords
+          '((sequence "TODO(t)" "WAITING(w)" "|" "ABANDONED(a)" "DONE(d)")))
+  
     ;; Sets the src blocks to be fixed width
     (mapc
      (lambda (face)
@@ -1094,7 +1096,7 @@ Mostly used for recipes for now, since I can't define those in advance in Roam c
           ))
 #+end_src
 
-** Org General Additions
+** Org General.el Additions
 
 Baseline org shortcuts here. Still need agendas and clocks. Possibly refining refiling as well.
 
