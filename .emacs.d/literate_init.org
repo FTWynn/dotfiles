@@ -441,7 +441,6 @@ I'm guessing the problem was either with:
 - Let's see if it holds
 
 * Org Mode
-
 ** Basic Org Mode
 
 Org indent mode gives some nice left aligned spacing to indentation, but takes away the leading stars, which I'm kind of a fan of.
@@ -1259,6 +1258,7 @@ Might want to add in some fun ways to dynamically generate this from the whole r
                                "~/org-roam-repo/gcal/work_cal.org"
                                "~/org-roam-repo/mobile/TODOs.org"
                                "~/org-roam-repo/mobile/contacts.org"
+                               "~/org-roam-repo/Edge_Delta.org"
                                "~/org-roam-repo/PARA.org"))
 #+end_src
 
@@ -1283,6 +1283,19 @@ Making sure to restore any window configs after exiting as well
 #+begin_src emacs-lisp
   (setq org-agenda-window-setup 'only-window)
   (setq org-agenda-restore-windows-after-quit t)
+#+end_src
+*** Adding Icons to org Agenda
+I originally wanted to color the categories differently like in Google Calendar, but that seems to be much more difficult to do, so I'm opting for the much easier including an icon in from of the category
+
+ Taken from here: https://www.reddit.com/r/emacs/comments/hnf3cw/my_orgmode_agenda_much_better_now_with_category/
+#+begin_src emacs-lisp
+  ;;(defvar-local my-icon-dir (concat user-emacs-directory "icons/")
+  ;;    "directory withthe icons")
+  (setq org-agenda-category-icon-alist '(
+      ;;("todo" ,(concat my-icon-dir "todo.png") nil nil :ascent center)
+      ("TODOs" ,(list (all-the-icons-material "check" :height 1.2)) nil nil :ascent center)
+      ("Edge" ,(list (all-the-icons-wicon "sunset" :height 1.2)) nil nil :ascent center)
+  ))
 #+end_src
 ** org-sticky-header
 Never lose my place in big files again! I use a lot of deep files, so this seems better than not.
