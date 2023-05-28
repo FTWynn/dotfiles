@@ -236,7 +236,17 @@ Then the general bindings...
     )
 #+end_src
 * Startup and Display Properties
+** Native Compilation Warning Suppression
+[2023-05-28 Sun] There is a lot of stuff going on in native comp that will pop up the warning buffer from time to time, so there are options to deal with it
+- Turn off the messages altogether
+- Turn off the popup behavior
+- Raise the threshold for popup
+https://www.reddit.com/r/emacs/comments/l42oep/suppress_nativecomp_warnings_buffer/
+I'm opting for the second for now
 
+#+begin_src emacs-lisp
+  (setq native-comp-async-report-warnings-errors 'silent)
+#+end_src
 ** Ripgrep
 #+begin_src emacs-lisp
   (use-package rg)
@@ -1297,6 +1307,32 @@ I originally wanted to color the categories differently like in Google Calendar,
       ("Edge" ,(list (all-the-icons-wicon "sunset" :height 1.2)) nil nil :ascent center)
   ))
 #+end_src
+** org-super-agenda
+
+#+begin_src emacs-lisp
+  (use-package org-super-agenda)
+  (org-super-agenda-mode 1)
+#+end_src
+
+#+begin_src emacs-lisp
+    (setq org-super-agenda-groups
+          '(
+            (:name "Contacts to follow up with"
+                   :category "contacts"
+                   :order 1)
+            (:name "Schedule"
+                   :time-grid t
+                   :order 4)
+            (:name "Things To Do Today"
+                   :todo "TODO"
+                   :order 2)
+            (:name "Upcoming/Weekly Projects"
+                   :tag "project"
+                   :order 3)
+            )
+          )
+#+end_src
+
 ** org-sticky-header
 Never lose my place in big files again! I use a lot of deep files, so this seems better than not.
 
@@ -1320,32 +1356,6 @@ Trying to wrangle where binary files go in Org. The big case is pictures, though
 
 On chromebook, needed to install xclip program
 
-** org-super-agenda
-
-#+begin_src emacs-lisp
-  (use-package org-super-agenda)
-  (org-super-agenda-mode 1)
-#+end_src
-
-#+begin_src emacs-lisp
-  (setq org-super-agenda-groups
-        '(
-          (:name "Contacts to follow up with"
-                 :category "contacts"
-                 :order 1)
-          (:name "Schedule"
-                 :time-grid t
-                 :order 4)
-          (:name "Things To Do Today"
-                 :todo "TODO"
-                 :order 2)
-          (:name "Upcoming/Weekly Projects"
-                 :tag "project"
-                 :order 3)
-          )
-        )
-#+end_src
-
 ** org-autolist
 It doesn't quite get where I want with headlines, but it gets close with lists, which is at least a step in the right direction
 
@@ -1357,9 +1367,10 @@ It doesn't quite get where I want with headlines, but it gets close with lists, 
 ** Org-ql
 *** Basic Installation
 [2023-04-26 Wed] - Disabling here for lack of use for the moment. It was also throwing errors, which isn't great
-+begin_src emacs-lisp
+[2023-05-28 Sun] - Diving back in boys!
+#+begin_src emacs-lisp
 (use-package org-ql)
-+end_src
+#+end_src
 
 *** Configuration
 Looking for a PARA like view. Of note:
