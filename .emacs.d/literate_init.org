@@ -483,7 +483,7 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
     (setq line-spacing 0.2)
     (setq org-reverse-note-order t)
     (setq org-agenda-timegrid-use-ampm t)
-    (setq org-tags-exclude-from-inheritance '("project"))
+    (setq org-tags-exclude-from-inheritance '("project" "epic"))
     (setq org-todo-keywords
           '((sequence "TODO(t)" "WAITING(w)" "|" "ABANDONED(a)" "DONE(d)")))
   
@@ -1331,18 +1331,24 @@ I originally wanted to color the categories differently like in Google Calendar,
 #+begin_src emacs-lisp
     (setq org-super-agenda-groups
           '(
-            (:name "Contacts to follow up with"
-                   :category "contacts"
-                   :order 1)
-            (:name "Schedule"
-                   :time-grid t
-                   :order 4)
-            (:name "Things To Do Today"
-                   :todo "TODO"
-                   :order 2)
             (:name "Upcoming/Weekly Projects"
                    :tag "project"
                    :order 3)
+            (:name "Epics to keep an eye on"
+                   :tag "epic"
+                   :order 4)
+            (:name "Life Areas that Need Progress"
+                   :category ("Art" "Career" "Finance" "Friends" "Phil" "Phys" "Purpose" "Relat" "Service")
+                   :order 5)
+            (:name "Contacts to follow up with"
+                   :category "contacts"
+                   :order 2)
+            (:name "Schedule"
+                   :time-grid t
+                   :order 6)
+            (:name "Things To Do Today"
+                   :todo "TODO"
+                   :order 1)
             )
           )
 #+end_src
