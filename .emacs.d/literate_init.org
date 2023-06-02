@@ -1118,6 +1118,7 @@ Baseline org shortcuts here. Still need agendas and clocks. Possibly refining re
     "ol" 'org-insert-link
     "oa" 'org-agenda
     "oo" 'org-open-at-point
+    "op" 'org-set-property
     "oi" '(:ignore t :which-key "org-insert")
     "oil" 'org-insert-link
     "oin" '((lambda () (interactive) (org-time-stamp '(16))) :which-key "active timestamp now");; the '(16) simulates two prefix arguments, 4 multiplied together
@@ -1395,6 +1396,14 @@ Looking for a PARA like view. Of note:
     :sort nil
     :super-groups '((:auto-parent t))))
 +end_src
+
+** ox-hugo
+[2023-05-29 Mon] Getting this started
+
+#+begin_src emacs-lisp
+  (use-package ox-hugo 
+  :after ox)
+#+end_src
 ** A Better RET on headlines
 
 Picked this up from the url below. It runs a bit like my envisioning of a rapid-outliner mode
@@ -1788,6 +1797,18 @@ That gives nice text, but there's icons too with all-the-icons!
     (all-the-icons-completion-mode))
 #+end_src
 
+* Nerd Icons
+Apparently Doommodeline switched to Nerd fonts without any sort of notice, so let's install the basics there too
+
+#+begin_src emacs-lisp
+  (use-package nerd-icons
+    ;; :custom
+    ;; The Nerd Font you want to use in GUI
+    ;; "Symbols Nerd Font Mono" is the default and is recommended
+    ;; but you can use any other Nerd Font if you want
+    ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
+    )
+#+end_src
 * Evil Mode
 
 I'm not philosophicaly opposed to emacs bindings, but I do think my hands, even with remapping the CAPS LOCK key, can't quite take it. I'll take the inefficiencies of figuring out the evilness of things and the occaisional longer keystrokes over constant chords.
