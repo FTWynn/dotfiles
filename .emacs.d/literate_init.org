@@ -1312,7 +1312,7 @@ Making sure to restore any window configs after exiting as well
 I originally wanted to color the categories differently like in Google Calendar, but that seems to be much more difficult to do, so I'm opting for the much easier including an icon in from of the category
 
  Taken from here: https://www.reddit.com/r/emacs/comments/hnf3cw/my_orgmode_agenda_much_better_now_with_category/
-#+begin_src emacs-lisp
++begin_src emacs-lisp
   ;;(defvar-local my-icon-dir (concat user-emacs-directory "icons/")
   ;;    "directory withthe icons")
   (setq org-agenda-category-icon-alist '(
@@ -1320,6 +1320,32 @@ I originally wanted to color the categories differently like in Google Calendar,
       ("TODOs" ,(list (all-the-icons-material "check" :height 1.2)) nil nil :ascent center)
       ("Edge" ,(list (all-the-icons-wicon "sunset" :height 1.2)) nil nil :ascent center)
   ))
++end_src
+
+[2023-06-02 Fri] - Trying a different approach from a different blog, updated for nerd-icons
+- Works... but I'm not sure I like it really
+- I'll tinker and let it sink in
+#+begin_src emacs-lisp
+(defun ftwynn/agenda-icon-material (name)
+  "Returns an all-the-icons-material icon"
+  (list (nerd-icons-mdicon name)))
+
+;; https://old.reddit.com/r/emacs/comments/hnf3cw/my_orgmode_agenda_much_better_now_with_category/
+(setq org-agenda-category-icon-alist
+      `(("TODOs" ,(ftwynn/agenda-icon-material "nf-md-check_circle") nil nil :ascent center)
+        ("Edge" ,(ftwynn/agenda-icon-material "nf-md-triangle_outline") nil nil :ascent center)
+        ("work_cal" ,(ftwynn/agenda-icon-material "nf-md-triangle_outline") nil nil :ascent center)
+        ("personal" ,(ftwynn/agenda-icon-material "nf-md-human_handsup") nil nil :ascent center)
+        ("time_blocks" ,(ftwynn/agenda-icon-material "nf-md-square_off") nil nil :ascent center)
+        ("Art" ,(list (nerd-icons-faicon "nf-fa-paint_brush")) nil nil :ascent center)
+        ("Career" ,(list (nerd-icons-codicon "nf-cod-type_hierarchy_sub")) nil nil :ascent center)
+        ("Finance" ,(ftwynn/agenda-icon-material "nf-fa-money") nil nil :ascent center)
+        ("Friends" ,(list (nerd-icons-mdicon "nf-md-human_queue")) nil nil :ascent center)
+        ("Philosophy" ,(list (nerd-icons-octicon "nf-oct-light_bulb")) nil nil :ascent center)
+        ("Physical" ,(list (nerd-icons-codicon "nf-cod-archive")) nil nil :ascent center)
+        ("Purpose" ,(list (nerd-icons-mdicon "nf-md-fire")) nil nil :ascent center)
+        ("Relations" ,(list (nerd-icons-mdicon "nf-md-human_male_female")) nil nil :ascent center)
+        ("Service" ,(ftwynn/agenda-icon-material "nf-md-human_queue") nil nil :ascent center)))
 #+end_src
 ** org-super-agenda
 
@@ -1338,7 +1364,7 @@ I originally wanted to color the categories differently like in Google Calendar,
                    :tag "epic"
                    :order 4)
             (:name "Life Areas that Need Progress"
-                   :category ("Art" "Career" "Finance" "Friends" "Phil" "Phys" "Purpose" "Relat" "Service")
+                   :category ("Art" "Career" "Finance" "Friends" "Philosophy" "Physical" "Purpose" "Relations" "Service")
                    :order 5)
             (:name "Contacts to follow up with"
                    :category "contacts"
