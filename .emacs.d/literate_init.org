@@ -1336,6 +1336,7 @@ I originally wanted to color the categories differently like in Google Calendar,
 +end_src
 
 [2023-06-02 Fri] - Trying a different approach from a different blog, updated for nerd-icons
+https://florianwinkelbauer.com/posts/2020-07-13-org-agenda-icons/
 - Works... but I'm not sure I like it really
 - I'll tinker and let it sink in
 #+begin_src emacs-lisp
