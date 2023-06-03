@@ -415,6 +415,18 @@ Pulled from https://karl-voit.at/2021/04/10/GLT21-emacs-org-features/
     (advice-add command :after #'my-pulse-line))
 #+end_src
 
+** Nerd Icons
+Apparently Doommodeline switched to Nerd fonts without any sort of notice, so let's install the basics there too
+
+#+begin_src emacs-lisp
+  (use-package nerd-icons
+    ;; :custom
+    ;; The Nerd Font you want to use in GUI
+    ;; "Symbols Nerd Font Mono" is the default and is recommended
+    ;; but you can use any other Nerd Font if you want
+    ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
+    )
+#+end_src
 * git-auto-commit-mode
 Super useful package for repos that are nothing more than sync use cases, like the org notes repo.
 
@@ -1336,17 +1348,17 @@ I originally wanted to color the categories differently like in Google Calendar,
       `(("TODOs" ,(ftwynn/agenda-icon-material "nf-md-check_circle") nil nil :ascent center)
         ("Edge" ,(ftwynn/agenda-icon-material "nf-md-triangle_outline") nil nil :ascent center)
         ("work_cal" ,(ftwynn/agenda-icon-material "nf-md-triangle_outline") nil nil :ascent center)
-        ("personal" ,(ftwynn/agenda-icon-material "nf-md-human_handsup") nil nil :ascent center)
+        ("personal" ,(list (nerd-icons-octicon "nf-oct-person_fill")) nil nil :ascent center)
         ("time_blocks" ,(ftwynn/agenda-icon-material "nf-md-square_off") nil nil :ascent center)
         ("Art" ,(list (nerd-icons-faicon "nf-fa-paint_brush")) nil nil :ascent center)
         ("Career" ,(list (nerd-icons-codicon "nf-cod-type_hierarchy_sub")) nil nil :ascent center)
-        ("Finance" ,(ftwynn/agenda-icon-material "nf-fa-money") nil nil :ascent center)
-        ("Friends" ,(list (nerd-icons-mdicon "nf-md-human_queue")) nil nil :ascent center)
+        ("Finance" ,(list (nerd-icons-faicon "nf-fa-money")) nil nil :ascent center)
+        ("Friends" ,(ftwynn/agenda-icon-material "nf-md-human_queue") nil nil :ascent center)
         ("Philosophy" ,(list (nerd-icons-octicon "nf-oct-light_bulb")) nil nil :ascent center)
         ("Physical" ,(list (nerd-icons-codicon "nf-cod-archive")) nil nil :ascent center)
-        ("Purpose" ,(list (nerd-icons-mdicon "nf-md-fire")) nil nil :ascent center)
-        ("Relations" ,(list (nerd-icons-mdicon "nf-md-human_male_female")) nil nil :ascent center)
-        ("Service" ,(ftwynn/agenda-icon-material "nf-md-human_queue") nil nil :ascent center)))
+        ("Purpose" ,(ftwynn/agenda-icon-material "nf-md-fire") nil nil :ascent center)
+        ("Relations" ,(ftwynn/agenda-icon-material "nf-md-human_male_female") nil nil :ascent center)
+        ("Service" ,(ftwynn/agenda-icon-material "nf-md-human_male_child") nil nil :ascent center)))
 #+end_src
 ** org-super-agenda
 
@@ -1842,18 +1854,6 @@ That gives nice text, but there's icons too with all-the-icons!
     (all-the-icons-completion-mode))
 #+end_src
 
-* Nerd Icons
-Apparently Doommodeline switched to Nerd fonts without any sort of notice, so let's install the basics there too
-
-#+begin_src emacs-lisp
-  (use-package nerd-icons
-    ;; :custom
-    ;; The Nerd Font you want to use in GUI
-    ;; "Symbols Nerd Font Mono" is the default and is recommended
-    ;; but you can use any other Nerd Font if you want
-    ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
-    )
-#+end_src
 * Evil Mode
 
 I'm not philosophicaly opposed to emacs bindings, but I do think my hands, even with remapping the CAPS LOCK key, can't quite take it. I'll take the inefficiencies of figuring out the evilness of things and the occaisional longer keystrokes over constant chords.
