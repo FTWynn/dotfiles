@@ -2000,6 +2000,22 @@ Nothing here yet, but saving the placeholder in case I find anything I do want t
 #+begin_src emacs-lisp
   (when (eq system-type 'darwin)
     (setq mac-command-modifier 'meta)
+
+    ;; Default Font needs to be a bit bigger on OSX
+    ;;(set-frame-font "Fira Code 18")
+    (set-face-attribute 'default nil :font "Fira Code" :height 200)
+
+    ;; Set the fixed pitch face.. .which I believe is the mono font
+    (set-face-attribute 'fixed-pitch nil
+                        :font "Fira Code"
+                        :weight 'light
+                        :height 200)
+
+    ;; Set the variable pitch face
+    (set-face-attribute 'variable-pitch nil
+                        :font "Fira Sans"
+                        :height 200
+                        :weight 'light)
     )
 #+end_src
 ** Chromebook
