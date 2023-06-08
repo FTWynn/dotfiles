@@ -14,3 +14,4 @@
 /.emacs.d/var/
 /.emacs.d/custom-vars.el
 .emacs.d/custom-vars.el
+/.emacs.d/org-persist/
