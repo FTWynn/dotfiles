@@ -1362,6 +1362,12 @@ https://florianwinkelbauer.com/posts/2020-07-13-org-agenda-icons/
         ("Relations" ,(ftwynn/agenda-icon-material "nf-md-human_male_female") nil nil :ascent center)
         ("Service" ,(ftwynn/agenda-icon-material "nf-md-human_male_child") nil nil :ascent center)))
 #+end_src
+*** Change default span to day
+[2023-06-11 Sun] Week was something I never used, since I'm mostly having deadlines roll into the current day's view
+
+#+begin_src emacs-lisp
+  (setq org-agenda-span 'day)
+#+end_src
 ** org-super-agenda
 
 #+begin_src emacs-lisp
