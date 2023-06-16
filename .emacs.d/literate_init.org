@@ -1469,6 +1469,29 @@ Looking for a PARA like view. Of note:
   (use-package ox-hugo 
   :after ox)
 #+end_src
+
+*** Helper Function for Property Setting
+Adding in slug explicitly, since that's what I aim to do in the markdown files for portability.
+
+#+begin_src emacs-lisp
+    (defun ftwynn/ox-hugo-prop-defaults
+        ()
+      (interactive)
+      (org-set-property "EXPORT_FILE_NAME"
+                        (org-hugo-slug (org-get-heading :no-tags :no-todo)))
+      (org-set-property "EXPORT_HUGO_CUSTOM_FRONT_MATTER"
+                        (concat ":slug " (org-hugo-slug (org-get-heading :no-tags :no-todo))))
+  )
+#+end_src
+
+Add to general
+
+#+begin_src emacs-lisp
+  (ftwynn/leader-key-def
+    "oh"  '(:ignore t :which-key "hugo")
+    "ohp" 'ftwynn/ox-hugo-prop-defaults
+    )
+#+end_src
 ** A Better RET on headlines
 
 Picked this up from the url below. It runs a bit like my envisioning of a rapid-outliner mode
