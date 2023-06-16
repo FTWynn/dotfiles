@@ -1479,7 +1479,7 @@ Adding in slug explicitly, since that's what I aim to do in the markdown files f
       (interactive)
       (org-set-property "EXPORT_FILE_NAME"
                         (org-hugo-slug (org-get-heading :no-tags :no-todo)))
-      (org-set-property "EXPORT_HUGO_CUSTOM_FRONT_MATTER"
+      (org-set-property "EXPORT_HUGO_CUSTOM_FRONT_MATTER+"
                         (concat ":slug " (org-hugo-slug (org-get-heading :no-tags :no-todo))))
   )
 #+end_src
