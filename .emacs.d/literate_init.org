@@ -427,7 +427,14 @@ Apparently Doommodeline switched to Nerd fonts without any sort of notice, so le
     ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
     )
 #+end_src
-* git-auto-commit-mode
+* Auto Saving
+** auto-save-visited-mode
+I'm tinkering with auto-save-visited mode to make sure I don't leave dangling buffers open across machines and mess up my sync. 
+
+#+begin_src emacs-lisp
+  (setq auto-save-visited-mode t)
+#+end_src
+** git-auto-commit-mode
 Super useful package for repos that are nothing more than sync use cases, like the org notes repo.
 
 I'm only setting the installation and some customization here. The mode is actually enabled through a directory local variable in an elisp file =.dir-locals.el=.
@@ -445,10 +452,12 @@ Hmm... this actually feels close. It complains it can't find it, even though I c
 
 It should be builtin with emacs...
 
+[2023-06-16 Fri]a - Tinkering with the debounce interval so it doesn't push so often.
 #+begin_src emacs-lisp
   (use-package git-auto-commit-mode)
   ;;(require git-auto-commit-mode)
   (setq-default gac-automatically-push-p t)
+  (setq gac-debounce-interval 600)
 #+end_src
 
 It keeps telling me the symbol for git-auto-commit-mode is void... I'm not sure how though
@@ -1481,6 +1490,7 @@ Adding in slug explicitly, since that's what I aim to do in the markdown files f
                         (org-hugo-slug (org-get-heading :no-tags :no-todo)))
       (org-set-property "EXPORT_HUGO_CUSTOM_FRONT_MATTER+"
                         (concat ":slug " (org-hugo-slug (org-get-heading :no-tags :no-todo))))
+      (org-set-property "EXPORT_DATE" (format-time-string "[%Y-%m-%d %a %H:%M]"))
   )
 #+end_src
 
