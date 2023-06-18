@@ -1351,6 +1351,7 @@ https://florianwinkelbauer.com/posts/2020-07-13-org-agenda-icons/
         ("work_cal" ,(ftwynn/agenda-icon-material "nf-md-triangle_outline") nil nil :ascent center)
         ("personal" ,(list (nerd-icons-octicon "nf-oct-person_fill")) nil nil :ascent center)
         ("time_blocks" ,(ftwynn/agenda-icon-material "nf-md-square_off") nil nil :ascent center)
+        ("Read" ,(list (nerd-icons-faicon "nf-fa-book")) nil nil :ascent center)
         ("Learn_Org" ,(list (nerd-icons-sucicon "nf-custom-orgmode")) nil nil :ascent center)
         ("Art" ,(list (nerd-icons-faicon "nf-fa-paint_brush")) nil nil :ascent center)
         ("Career" ,(list (nerd-icons-codicon "nf-cod-type_hierarchy_sub")) nil nil :ascent center)
