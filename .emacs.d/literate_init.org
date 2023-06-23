@@ -1673,6 +1673,7 @@ It's prettier by default, let's try it!
 #+begin_src emacs-lisp
   (use-package doom-modeline
     :init (doom-modeline-mode 1))
+  (setq doom-modeline-enable-word-count t)
 #+end_src
 
 It apparently needs some fonts
