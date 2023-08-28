@@ -507,7 +507,7 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
     (setq org-tags-exclude-from-inheritance '("project" "epic"))
     (setq org-todo-keywords
           '((sequence "TODO(t)" "WAITING(w)" "|" "ABANDONED(a)" "DONE(d)")))
-  
+
     ;; Sets the src blocks to be fixed width
     (mapc
      (lambda (face)
@@ -2036,7 +2036,6 @@ I'm choosing the org repo, because I've already missed out if I'm this far in in
 
 * Platform Specific
 ** OSX
-Nothing here yet, but saving the placeholder in case I find anything I do want to make part of a thing
 
 #+begin_src emacs-lisp
   (when (eq system-type 'darwin)
