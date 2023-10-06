@@ -1953,7 +1953,7 @@ Taking lots of config cues from the above. Basically targeting buffer editing fo
 
 Remember C-z switches to emacs mode. C-w does window operations
 
-#+begin_src emacs-lisp
++begin_src emacs-lisp
   (defun ftwynn/evil-emacs-mode-selections ()
     (dolist (mode '(custom-mode
                     eshell-mode
@@ -1990,7 +1990,7 @@ Remember C-z switches to emacs mode. C-w does window operations
 
 Lots of premade bindings. We'll see if I like them.
 
-#+begin_src emacs-lisp
++begin_src emacs-lisp
   (use-package evil-collection
     :after evil
     :config
