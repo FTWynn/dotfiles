@@ -65,6 +65,7 @@ In case I want to call out magit or other modes like ediff explicitly. There is 
 #+end_src
 
 * General.el
+[2023-10-06 Fri] - Adding in a backdoor to my shortcuts with ~C-`~ as I test out God mode.
 
 This seems to be a big keybinding library everyone uses.
 
