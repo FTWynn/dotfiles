@@ -24,6 +24,46 @@ It notably doesn't move anything that already exists, so I want want to nuke stu
       (expand-file-name  "var/eln-cache/" user-emacs-directory))))
 #+end_src
 
+* God Mode
+Let's give God Mode a try, so we can do things more the emacs way
+
+#+begin_src emacs-lisp
+  (use-package god-mode)
+  (require 'god-mode)
+
+#+end_src
+
+Obviously define a god key here
+#+begin_src emacs-lisp
+  (global-set-key (kbd "<escape>") #'god-mode-all)
+#+end_src
+
+ Ensures special buffers aren't skipped, though I want to experiment with letting magit be magit to start
+  (setq god-exempt-major-modes nil)
+  (setq god-exempt-predicates nil)
+
+** Making god-mode visible
+Make the cursor visibly show if we're in god mode or not. There are other options like changing the modeline color or the current line or otherwise.
+#+begin_src emacs-lisp
+(defun my-god-mode-update-cursor-type ()
+  (setq cursor-type (if (or god-local-mode buffer-read-only) 'box 'bar)))
+
+(add-hook 'post-command-hook #'my-god-mode-update-cursor-type)
+#+end_src
+
+** Some useful god-mode keys
+I believe the latter functions like "return to insert mode", which might be good. But I more often used A and I to break out of normal mode in vim style.
+#+begin_src emacs-lisp
+  (define-key god-local-mode-map (kbd ".") #'repeat)
+  ;;(define-key god-local-mode-map (kbd "i") #'god-local-mode)
+#+end_src
+
+** Exempt Major modes
+In case I want to call out magit or other modes like ediff explicitly. There is a way to write a predicate for this, but I don't think that's needed to start.
+#+begin_src emacs-lisp
+(add-to-list 'god-exempt-major-modes 'dired-mode)
+#+end_src
+
 * General.el
 
 This seems to be a big keybinding library everyone uses.
@@ -35,12 +75,15 @@ Putting it first because a bunch of use-package definitions might need it.
 
   (use-package general
     :config
-    (general-evil-setup t)
+    ;(general-evil-setup t)
+
+    ;(general-create-definer ftwynn/leader-key-def
+    ;  :keymaps '(normal insert visual emacs)
+    ;  :prefix "SPC"
+    ;  :global-prefix "C-SPC")
 
     (general-create-definer ftwynn/leader-key-def
-      :keymaps '(normal insert visual emacs)
-      :prefix "SPC"
-      :global-prefix "C-SPC")
+      :prefix "C-`")
 
     (general-create-definer ftwynn/ctrl-c-keys
       :prefix "C-c"))
@@ -1702,11 +1745,12 @@ Let's set the font color for emacs mode to be more different than... normal mode
 Dat sweet sweet wtf does this key-combo do
 
 #+begin_src emacs-lisp
-  (use-package which-key
-    :init (which-key-mode)
-    :diminish which-key-mode
-    :config
-    (setq which-key-idle-delay 0.03))
+    (use-package which-key
+      :init (which-key-mode)
+      :diminish which-key-mode
+      :config
+      (setq which-key-idle-delay 0.03)
+      (which-key-enable-god-mode-support))
 #+end_src
 
 ** Vertico
