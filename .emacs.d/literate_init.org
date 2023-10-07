@@ -55,7 +55,7 @@ Make the cursor visibly show if we're in god mode or not. There are other option
 I believe the latter functions like "return to insert mode", which might be good. But I more often used A and I to break out of normal mode in vim style.
 #+begin_src emacs-lisp
   (define-key god-local-mode-map (kbd ".") #'repeat)
-  ;;(define-key god-local-mode-map (kbd "i") #'god-local-mode)
+  (define-key god-local-mode-map (kbd "i") #'god-local-mode)
 #+end_src
 
 ** Exempt Major modes
