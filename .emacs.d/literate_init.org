@@ -471,6 +471,14 @@ Apparently Doommodeline switched to Nerd fonts without any sort of notice, so le
     ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
     )
 #+end_src
+* Adaptive Wrap
+[2023-10-08 Sun]
+The goal is to try and fix org-indent indentation on wrapped lines. We'll see how well it goes.
+
+#+begin_src emacs-lisp
+  (use-package adaptive-wrap)
+#+end_src
+
 * Auto Saving
 ** auto-save-visited-mode
 I'm tinkering with auto-save-visited mode to make sure I don't leave dangling buffers open across machines and mess up my sync. 
