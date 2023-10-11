@@ -1263,6 +1263,19 @@ Note, these templates are great for when you know where the target file is going
           )
 #+end_src
 
+[2023-10-10 Tue]
+I'm changing the default new node template here to simply flip the timestamp to be last, so I see a title in truncated buffer views instead of a date. One day I might want to trim the timestamp, if not entirely drop it, depending on how my experimenting with roam style notes goes.
+
+#+begin_src emacs-lisp
+  (setq org-roam-capture-templates
+        '(("d" "default" plain "%?" :target
+  	 (file+head "${slug}-%<%Y%m%d%H%M%S>.org" "#+title: ${title}
+  ")
+  	 :unnarrowed t)
+  	)
+        )
+#+end_src
+
 *** New Node Templates
 https://systemcrafters.net/build-a-second-brain-in-emacs/capturing-notes-efficiently/#creating-a-topic-specific-template
 
