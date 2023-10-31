@@ -2100,6 +2100,15 @@ I'm choosing the org repo, because I've already missed out if I'm this far in in
   ;;(delete-other-windows) ; Maybe keep if I trust how this has been going so I don't need to see the pull results each time
 #+end_src
 
+* Fossil
+Add Fossil support to vc-mode
+#+begin_src emacs-lisp
+  (use-package vc-fossil
+    ;; Keep from loading unnecessarily at startup.
+    :defer t
+    ;; This allows VC to load vc-fossil when needed.
+    :init (add-to-list 'vc-handled-backends 'Fossil t))
+#+end_src
 * Platform Specific
 ** OSX
 
