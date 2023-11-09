@@ -328,7 +328,7 @@ They both *should* work, but the latter seems more modern
 #+begin_src emacs-lisp
   ;; Default Font
   ;;(set-frame-font "Fira Code 18")
-  (set-face-attribute 'default nil :font "Fira Code" :height 180)
+  (set-face-attribute 'default nil :font "Noto Sans Mono" :height 160)
 
   ;; Set the fixed pitch face.. .which I believe is the mono font
   (set-face-attribute 'fixed-pitch nil
@@ -529,6 +529,7 @@ I'm guessing the problem was either with:
 Org indent mode gives some nice left aligned spacing to indentation, but takes away the leading stars, which I'm kind of a fan of.
 
 Variable pitch seems to be for fonts to be non-mono
+[2023-11-08 Wed] - I've had to disable this because of indentation issues with org-indent. We'll see if I can live with the monospaced style
 
 Org-descriptive links seems to need to be off to see link highlighting syntax
 
@@ -545,7 +546,7 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
 
   (defun ftwynn/org-mode-setup ()
     (org-indent-mode)
-    (variable-pitch-mode 1)
+    ;(variable-pitch-mode 1)
     (auto-fill-mode 0)
     (visual-line-mode 1)
     (setq org-indent-indentation-per-level 3)
@@ -572,14 +573,14 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
      (list 'org-code 'org-block 'org-table))
 
     ;; Sets the faces for outline levels to a variable font, so that org-sticky-header pulls the right font
-    (set-face-attribute 'org-level-1 nil :family "Fira Sans")
-    (set-face-attribute 'org-level-2 nil :family "Fira Sans")
-    (set-face-attribute 'org-level-3 nil :family "Fira Sans")
-    (set-face-attribute 'org-level-4 nil :family "Fira Sans")
-    (set-face-attribute 'org-level-5 nil :family "Fira Sans")
-    (set-face-attribute 'org-level-6 nil :family "Fira Sans")
-    (set-face-attribute 'org-level-7 nil :family "Fira Sans")
-    (set-face-attribute 'org-level-8 nil :family "Fira Sans")
+    (set-face-attribute 'org-level-1 nil :family "Noto Sans Mono")
+    (set-face-attribute 'org-level-2 nil :family "Noto Sans Mono")
+    (set-face-attribute 'org-level-3 nil :family "Noto Sans Mono")
+    (set-face-attribute 'org-level-4 nil :family "Noto Sans Mono")
+    (set-face-attribute 'org-level-5 nil :family "Noto Sans Mono")
+    (set-face-attribute 'org-level-6 nil :family "Noto Sans Mono")
+    (set-face-attribute 'org-level-7 nil :family "Noto Sans Mono")
+    (set-face-attribute 'org-level-8 nil :family "Noto Sans Mono")
 
     )
 
