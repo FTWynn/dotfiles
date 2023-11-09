@@ -1579,6 +1579,14 @@ Actually, this doesn't work quite right, but autolist gets me half-way there. Ma
 
 On hold until I figure out a better way to do this.
 
+* Markdown Mode
+For broader collaboration, I want to include a specific markdown mode, rather than converting into and out of org mode all the time.
+#+begin_src emacs-lisp
+  (use-package markdown-mode
+    :ensure t
+    :commands (markdown-mode gfm-mode)
+    :mode (("README\\.md\\'" . gfm-mode)))
+#+end_src
 * Magit
 
 It's magit. Enough said.
