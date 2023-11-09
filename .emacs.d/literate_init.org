@@ -338,8 +338,8 @@ They both *should* work, but the latter seems more modern
 
   ;; Set the variable pitch face
   (set-face-attribute 'variable-pitch nil
-                      :font "Fira Sans"
-                      :height 180
+                      :font "Noto Sans Mono"
+                      :height 160
                       :weight 'light)
 
 #+end_src
