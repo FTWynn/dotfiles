@@ -328,7 +328,7 @@ They both *should* work, but the latter seems more modern
 #+begin_src emacs-lisp
   ;; Default Font
   ;;(set-frame-font "Fira Code 18")
-  (set-face-attribute 'default nil :font "Noto Sans Mono" :height 160)
+  (set-face-attribute 'default nil :font "DejaVu Sans Mono" :height 160)
 
   ;; Set the fixed pitch face.. .which I believe is the mono font
   (set-face-attribute 'fixed-pitch nil
@@ -338,9 +338,10 @@ They both *should* work, but the latter seems more modern
 
   ;; Set the variable pitch face
   (set-face-attribute 'variable-pitch nil
-                      :font "Noto Sans Mono"
-                      :height 160
-                      :weight 'light)
+                      :font "Fira Sans"
+                      :height 180
+                      ;:weight 'light
+  		      )
 
 #+end_src
 
@@ -573,14 +574,14 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
      (list 'org-code 'org-block 'org-table))
 
     ;; Sets the faces for outline levels to a variable font, so that org-sticky-header pulls the right font
-    (set-face-attribute 'org-level-1 nil :family "Noto Sans Mono")
-    (set-face-attribute 'org-level-2 nil :family "Noto Sans Mono")
-    (set-face-attribute 'org-level-3 nil :family "Noto Sans Mono")
-    (set-face-attribute 'org-level-4 nil :family "Noto Sans Mono")
-    (set-face-attribute 'org-level-5 nil :family "Noto Sans Mono")
-    (set-face-attribute 'org-level-6 nil :family "Noto Sans Mono")
-    (set-face-attribute 'org-level-7 nil :family "Noto Sans Mono")
-    (set-face-attribute 'org-level-8 nil :family "Noto Sans Mono")
+    (set-face-attribute 'org-level-1 nil :family "DejaVu Sans Mono")
+    (set-face-attribute 'org-level-2 nil :family "DejaVu Sans Mono")
+    (set-face-attribute 'org-level-3 nil :family "DejaVu Sans Mono")
+    (set-face-attribute 'org-level-4 nil :family "DejaVu Sans Mono")
+    (set-face-attribute 'org-level-5 nil :family "DejaVu Sans Mono")
+    (set-face-attribute 'org-level-6 nil :family "DejaVu Sans Mono")
+    (set-face-attribute 'org-level-7 nil :family "DejaVu Sans Mono")
+    (set-face-attribute 'org-level-8 nil :family "DejaVu Sans Mono")
 
     )
 
