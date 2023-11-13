@@ -553,12 +553,13 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
   (defun ftwynn/org-mode-setup ()
     (org-indent-mode)
     ;(variable-pitch-mode 1)
+    (god-local-mode)
     (auto-fill-mode 0)
     (visual-line-mode 1)
     (setq org-indent-indentation-per-level 3)
     (setq org-list-indent-offset 4)
     (setq org-descriptive-links nil)
-    (setq evil-auto-indent nil)
+    ;(setq evil-auto-indent nil)
     (setq org-M-RET-may-split-line nil)
     (setq line-spacing 0.2)
     (setq org-reverse-note-order t)
@@ -578,7 +579,7 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
          (face-attribute face :inherit))))
      (list 'org-code 'org-block 'org-table))
 
-    ;; Sets the faces for outline levels to a variable font, so that org-sticky-header pulls the right font
+    ;; Sets the faces for outline levels to the same font, so that org-sticky-header pulls the right font
     (set-face-attribute 'org-level-1 nil :family "DejaVu Sans Mono")
     (set-face-attribute 'org-level-2 nil :family "DejaVu Sans Mono")
     (set-face-attribute 'org-level-3 nil :family "DejaVu Sans Mono")
