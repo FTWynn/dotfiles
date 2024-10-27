@@ -83,6 +83,10 @@ in
     ".bashrc".source = ../bash/.bashrc;
     ".config/fish/config.fish".source = ../fish/config.fish;
     ".config/kitty/kitty.conf".source = ../kitty/kitty.conf;
+    ".emacs.d" = {
+      source = ../.emacs.d;
+      recursive = true;
+    };
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
