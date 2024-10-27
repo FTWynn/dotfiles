@@ -61,6 +61,7 @@ in
     syncthingtray
     k9s
     flameshot
+    quarto
   ])
   ++
   (with pkgs-unstable; [
