@@ -121,9 +121,9 @@ in
 
 
   # FTWynn : It is unclear to me why this is sometimes required beyond having the packages just plain installed
-  programs.vscode = {
-    enable = true;
-  };
+  # programs.vscode = {
+  #   enable = true;
+  # };
 
 
   programs.git = {
