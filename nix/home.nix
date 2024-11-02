@@ -65,7 +65,7 @@ in
   ])
   ++
   (with pkgs-unstable; [
-    zed-editor
+    #zed-editor
     #vscode
     _1password-gui
     gh
