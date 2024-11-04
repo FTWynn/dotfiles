@@ -1,0 +1,9 @@
+# Putting all the dotfiles here until I move them one by one
+# There's a way to ignore the folder and sub-items, but I like them split apart like this
+dotfiles/
+dotfiles/**
+
+
+.gitignore
+README.md
+LICENSE
