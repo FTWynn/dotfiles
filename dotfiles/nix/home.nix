@@ -60,7 +60,7 @@ in
     #qsyncthingtray
     syncthingtray
     k9s
-    flameshot
+    #flameshot
     quarto
   ])
   ++
@@ -150,4 +150,6 @@ in
     latitude = 33.8369766;
     temperature.night = 1500;
   };
+
+  services.flameshot.enable = true;
 }
