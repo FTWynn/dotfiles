@@ -126,11 +126,11 @@ in
   # };
 
 
-  programs.git = {
-    enable = true;
-    userName = "David Wynn";
-    userEmail = "Remixer96@gmail.com";
-  };
+  # programs.git = {
+  #   enable = true;
+  #   userName = "David Wynn";
+  #   userEmail = "Remixer96@gmail.com";
+  # };
 
   programs.starship.enable = true;
   programs.direnv.enable = true;
