@@ -81,13 +81,14 @@ in
 
     # FTWynn: Testing this out as stow alternative
     ".config/starship.toml".source = ../starship/starship.toml;
-    ".bashrc".source = ../bash/.bashrc;
     ".config/fish/config.fish".source = ../fish/config.fish;
     ".config/kitty/kitty.conf".source = ../kitty/kitty.conf;
     ".emacs.d" = {
       source = ../.emacs.d;
       recursive = true;
     };
+
+    # ".bashrc".source = ../bash/.bashrc;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
