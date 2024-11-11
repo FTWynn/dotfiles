@@ -71,6 +71,14 @@ in
     _1password-gui
     gh
     helix
+    # Trying to get some lang servers I see put around
+    vscode-langservers-extracted
+    typescript-language-server
+    tailwindcss-language-server
+    bash-language-server
+
+    nixfmt-rfc-style
+
   ]);
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
