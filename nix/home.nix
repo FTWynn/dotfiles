@@ -94,6 +94,7 @@ in
     ".config/fish/config.fish".source = ../fish/config.fish;
     ".config/kitty/kitty.conf".source = ../kitty/kitty.conf;
     ".config/helix/config.toml".source = ../helix/config.toml;
+    ".config/lazygit/config.yml".source = ../lazygit/config.yml;
     ".emacs.d" = {
       source = ../.emacs.d;
       recursive = true;
