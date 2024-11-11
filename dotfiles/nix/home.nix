@@ -142,14 +142,14 @@ in
     tray.command = "syncthingtray";
   };
 
-  services.redshift = {
-    enable = true;
-    provider = "manual";
-    # Atlanta Home
-    longitude = -84.4226425;
-    latitude = 33.8369766;
-    temperature.night = 1500;
-  };
+  # services.redshift = {
+  #   enable = true;
+  #   provider = "manual";
+  #   # Atlanta Home
+  #   longitude = -84.4226425;
+  #   latitude = 33.8369766;
+  #   temperature.night = 1500;
+  # };
 
   services.flameshot.enable = true;
 }

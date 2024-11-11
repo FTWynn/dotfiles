@@ -25,29 +25,37 @@
         nixos-thinkpad = lib.nixosSystem {
           specialArgs = {
             inherit inputs;
-            pkgs-unstable = import nixpkgs-unstable {
-              inherit system;
-              config.allowUnfree = true;
-            };
+            inherit pkgs-unstable;
           };
           inherit system;
           modules = [
             ./configuration.nix
             # inputs.home-manager.nixosModules.default
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              #inherit pkgs;
+              #extraSpecialArgs = {
+              #  inherit pkgs-unstable;
+              #};
+              home-manager.users.david = import ./home.nix;
+              home-manager.extraSpecialArgs = {
+                inherit pkgs-unstable;
+              };
+              # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
+            }
           ];
         };
       };
-      homeConfigurations = {
-        david = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          extraSpecialArgs = {
-            import pkgs-unstable = import nixpkgs-unstable {
-              inherit system;
-              config.allowUnfree = true;
-            };
-          };
-          modules = [ ./home.nix ];
-        };
-      };
+#      homeConfigurations = {
+#        david = home-manager.lib.homeManagerConfiguration {
+#          inherit pkgs;
+#          extraSpecialArgs = {
+#            inherit pkgs-unstable;
+#          };
+#          modules = [ ./home.nix ];
+#        };
+#      };
     };
 }
