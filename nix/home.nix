@@ -62,6 +62,7 @@ in
     k9s
     #flameshot
     quarto
+    caffeine-ng
   ])
   ++
   (with pkgs-unstable; [
