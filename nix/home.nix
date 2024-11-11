@@ -70,6 +70,7 @@ in
     vscode
     _1password-gui
     gh
+    helix
   ]);
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
