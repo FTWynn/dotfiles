@@ -93,6 +93,7 @@ in
     ".config/starship.toml".source = ../starship/starship.toml;
     ".config/fish/config.fish".source = ../fish/config.fish;
     ".config/kitty/kitty.conf".source = ../kitty/kitty.conf;
+    ".config/helix/confog.toml".source = ../helix/config.toml;
     ".emacs.d" = {
       source = ../.emacs.d;
       recursive = true;
