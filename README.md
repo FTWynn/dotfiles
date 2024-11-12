@@ -13,4 +13,5 @@ This is our second go round for nix with home-manager.
 - Cinnamon configuration
   - Dark Mode
   - gTile extension
+  - Touchpad set to multiple finger right click
 - SyncThing configuration
