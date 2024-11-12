@@ -78,6 +78,7 @@ in
     bash-language-server
 
     nixfmt-rfc-style
+    nushell
 
   ]);
 
