@@ -47,6 +47,31 @@
             }
           ];
         };
+        david-framework = lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+            inherit pkgs-unstable;
+          };
+          inherit system;
+          modules = [
+            /etc/nixos/configuration.nix
+            # inputs.home-manager.nixosModules.default
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              #inherit pkgs;
+              #extraSpecialArgs = {
+              #  inherit pkgs-unstable;
+              #};
+              home-manager.users.david = import ./home.nix;
+              home-manager.extraSpecialArgs = {
+                inherit pkgs-unstable;
+              };
+              # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
+            }
+          ];
+        };
       };
 #      homeConfigurations = {
 #        david = home-manager.lib.homeManagerConfiguration {
