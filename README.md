@@ -16,3 +16,6 @@ This is our second go round for nix with home-manager.
   - Touchpad set to multiple finger right click
   - Clock display in the taskbar
 - SyncThing configuration
+- git config
+  - git config --global user.name "David Wynn"
+  - Otherwise gh auth gets weird
