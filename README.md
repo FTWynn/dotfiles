@@ -15,6 +15,7 @@ This is our second go round for nix with home-manager.
   - gTile extension
   - Touchpad set to multiple finger right click
   - Clock display in the taskbar
+  - Set list view as default for file browser
 - SyncThing configuration
 - git config
   - git config --global user.name "David Wynn"
