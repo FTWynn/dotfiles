@@ -63,6 +63,7 @@ in
     #flameshot
     quarto
     caffeine-ng
+    xournalpp
   ])
   ++
   (with pkgs-unstable; [
