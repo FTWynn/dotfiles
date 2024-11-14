@@ -15,3 +15,4 @@
 /.emacs.d/custom-vars.el
 .emacs.d/custom-vars.el
 /.emacs.d/org-persist/
+result/
