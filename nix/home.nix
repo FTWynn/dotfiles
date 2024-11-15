@@ -64,6 +64,8 @@ in
     quarto
     caffeine-ng
     xournalpp
+    btop
+    htop
   ])
   ++
   (with pkgs-unstable; [
