@@ -79,6 +79,8 @@ in
     typescript-language-server
     tailwindcss-language-server
     bash-language-server
+    nil
+    marksman
 
     nixfmt-rfc-style
     nushell
