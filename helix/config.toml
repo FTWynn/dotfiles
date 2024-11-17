@@ -1,4 +1,4 @@
-theme = "modus_vivendi"
+theme = "dracula_at_night"
 
 [editor]
 line-number = "relative"
