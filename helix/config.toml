@@ -2,7 +2,8 @@ theme = "dracula_at_night"
 
 [editor]
 line-number = "relative"
-bufferline = "multiple"
+bufferline = "always"
+auto-format = true
 
 [editor.cursor-shape]
 insert = "bar"
@@ -10,3 +11,9 @@ normal = "block"
 
 [editor.file-picker]
 hidden = false
+
+[keys.normal]
+y = [":clipboard_yank", "yank"]
+
+[keys.select]
+y = [":clipboard_yank", "yank"]
