@@ -13,7 +13,7 @@ normal = "block"
 hidden = false
 
 [keys.normal]
-y = [":clipboard_yank", "yank"]
+y = [":clipboard-yank", "yank"]
 
 [keys.select]
-y = [":clipboard_yank", "yank"]
+y = [":clipboard-yank", "yank"]
