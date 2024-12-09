@@ -66,6 +66,8 @@
     xournalpp
     btop
     htop
+    krita
+    kdenlive
   ])
   ++
   (with pkgs-unstable; [
