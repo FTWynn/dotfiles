@@ -68,6 +68,8 @@
     htop
     krita
     kdenlive
+    obs-studio
+    tortoisehg
   ])
   ++
   (with pkgs-unstable; [
