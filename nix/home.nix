@@ -44,7 +44,7 @@
     kitty
     ptyxis
     fava
-    atuin
+    #atuin
     lazygit
     lazydocker
     spotify
