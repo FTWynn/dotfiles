@@ -107,6 +107,9 @@
       source = ../.emacs.d;
       recursive = true;
     };
+    # For unknown reasons, I can't get this to home-manage, so I copy and paste it manually for now
+    #".config/atuin/config.toml".source = ../atuin/config.toml;
+
 
     # ".bashrc".source = ../bash/.bashrc;
 
