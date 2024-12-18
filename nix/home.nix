@@ -70,6 +70,7 @@
     kdenlive
     obs-studio
     tortoisehg
+    verco
   ])
   ++
   (with pkgs-unstable; [
