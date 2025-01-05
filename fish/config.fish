@@ -5,7 +5,7 @@ if status is-interactive
     #atuin init fish | source
     direnv hook fish | source
 
-     # Aliases, also known as abbreviations
-     abbr l eza
-     abbr ll eza --group --header --group-directories-first --long --icons=always
+    # Aliases, also known as abbreviations
+    abbr l eza
+    abbr ll eza --group --header --group-directories-first --long --icons=always --all
 end
