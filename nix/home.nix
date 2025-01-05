@@ -79,6 +79,7 @@
     _1password-gui
     gh
     helix
+    emacs
     # Trying to get some lang servers I see put around
     vscode-langservers-extracted
     typescript-language-server
