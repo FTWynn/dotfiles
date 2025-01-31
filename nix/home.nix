@@ -71,6 +71,9 @@
     obs-studio
     tortoisehg
     verco
+    scribus
+    pinta
+    lmms
   ])
   ++
   (with pkgs-unstable; [
