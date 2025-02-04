@@ -74,6 +74,11 @@
     scribus
     pinta
     lmms
+    fira
+    fira-code
+    source-sans-pro
+    source-serif-pro
+    ibm-plex
   ])
   ++
   (with pkgs-unstable; [
