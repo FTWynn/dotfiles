@@ -1,5 +1,9 @@
 
+# Enable startship prompt
+mkdir ($nu.data-dir | path join "vendor/autoload")
+starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
 
+# Enable direnv
 $env.config = {
   hooks: {
     pre_prompt: [{ ||
