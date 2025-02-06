@@ -1,14 +1,29 @@
 #+TITLE: Literate Init File for FTWynn
 #+PROPERTY: header-args:emacs-lisp 
+#+TODO: TODO EVALUATING | DONE AVOIDING
 
-* Lexical Binding
+* Cleanup TODOs
+** TODO Replace literal path names with an indirected variable and concatting the particulars around
+** TODO Auto save doesn't seem to do what I think it does... I'd like it to actually save the file as if I'd really saved it
+** TODO Maybe change the elipses symbol for "more content below" to something that I don't use so often :-P
+
+* AVOIDING Lexical Binding
 This is largely for consult, but it says it's required and the wiki seems to think it's alright.
 
-#+begin_src emacs-lisp :comments no :tangle yes
+##+begin_src emacs-lisp :comments no :tangle yes
   ;; -*- lexical-binding: t -*-
+##+end_src
+
+* DONE Cleaning Up Files
+** DONE Set Customize vars in a different file
+
+Move automated customization variables to a separate file and load it
+#+begin_src emacs-lisp
+  (setq custom-file (locate-user-emacs-file "custom-vars.el"))
+  (load custom-file 'noerror 'nomessage)
 #+end_src
 
-* no-littering
+** DONE no-littering
 This package should help with all the temp file stuff, as well as various config files for packages
 
 It notably doesn't move anything that already exists, so I want want to nuke stuff and restart from scratch to see how that goes
@@ -24,7 +39,7 @@ It notably doesn't move anything that already exists, so I want want to nuke stu
       (expand-file-name  "var/eln-cache/" user-emacs-directory))))
 #+end_src
 
-* God Mode
+* EVALUATING God Mode
 Let's give God Mode a try, so we can do things more the emacs way
 
 #+begin_src emacs-lisp
@@ -42,7 +57,7 @@ Obviously define a god key here
   (setq god-exempt-major-modes nil)
   (setq god-exempt-predicates nil)
 
-** Making god-mode visible
+** DONE Making god-mode visible
 Make the cursor visibly show if we're in god mode or not. There are other options like changing the modeline color or the current line or otherwise.
 #+begin_src emacs-lisp
 (defun my-god-mode-update-cursor-type ()
@@ -51,20 +66,36 @@ Make the cursor visibly show if we're in god mode or not. There are other option
 (add-hook 'post-command-hook #'my-god-mode-update-cursor-type)
 #+end_src
 
-** Some useful god-mode keys
+** DONE Some useful god-mode keys
 I believe the latter functions like "return to insert mode", which might be good. But I more often used A and I to break out of normal mode in vim style.
 #+begin_src emacs-lisp
   (define-key god-local-mode-map (kbd ".") #'repeat)
   (define-key god-local-mode-map (kbd "i") #'god-local-mode)
 #+end_src
 
-** Exempt Major modes
+** DONE Exempt Major modes
 In case I want to call out magit or other modes like ediff explicitly. There is a way to write a predicate for this, but I don't think that's needed to start.
 #+begin_src emacs-lisp
-(add-to-list 'god-exempt-major-modes 'dired-mode)
+  (add-to-list 'god-exempt-major-modes 'dired-mode)
 #+end_src
 
-* General.el
+** DONE Disable God Mode by default in the capture buffer
+Gemini, be my guide.
+
+Also I fullscreened it here to test that out for a bit.
+
+#+begin_src emacs-lisp
+    (defun ftwynn/disable-god-mode-in-capture-buffer ()
+      "Disables God mode in the capture buffer."
+      (if (string-match-p "Capture" (buffer-name))
+          (god-mode-all -1)
+          (toggle-frame-fullscreen)))
+
+    (add-hook 'org-capture-mode-hook 'ftwynn/disable-god-mode-in-capture-buffer)
+#+end_src
+
+
+* AVOIDING General.el
 This seems to be a big keybinding library everyone uses.
 
 Putting it first because a bunch of use-package definitions might need it.
@@ -79,7 +110,7 @@ Putting it first because a bunch of use-package definitions might need it.
 - ~C-v~'s turn
 -  I'm giving up... clearly I lucked out on picking ~`~ somehow, and I'm just not going to question it
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (straight-use-package 'general)
 
   (use-package general
@@ -91,11 +122,11 @@ Putting it first because a bunch of use-package definitions might need it.
       :prefix "C-c"))
 
   ;;(require 'general)
-#+end_src
+##+end_src
 
 I can just add whatever I want to the leader-key-def to set up the map. It works in any block just as below.
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (ftwynn/leader-key-def
     ;;"ff" '((lambda () (interactive) (find-file "~/org-roam-repo/")) :which-key "org-roam files")
     "ff" '(find-file :which-key "org-roam files")
@@ -112,25 +143,25 @@ I can just add whatever I want to the leader-key-def to set up the map. It works
     ;;"fdw" '((lambda () (interactive) (find-file (expand-file-name "~/.dotfiles/Workflow.org"))) :which-key "workflow")
     ;;"fdv" '((lambda () (interactive) (find-file "~/.dotfiles/.config/vimb/config")) :which-key "vimb")
     )
-#+end_src
+##+end_src
 
 ** Buffer Shortcuts
 
 Save doesn't work here... not totally sure why. But then, I can't find the function exactly either
 - Works now! Had to get the right command name through describe-key
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (ftwynn/leader-key-def
     "b"  '(:ignore t :which-key "buffer")
     "bs" 'save-buffer
     )
-#+end_src
+##+end_src
 
 ** Toggles
 
 Set up some general toggles here
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (ftwynn/leader-key-def
     "t"  '(:ignore t :which-key "toggles")
     "tl" 'org-toggle-link-display
@@ -138,9 +169,9 @@ Set up some general toggles here
     "ti" 'org-toggle-inline-images
     )
 
-#+end_src
+##+end_src
 
-* Consult
+* TODO Consult
 The new ivy and whatnot. It just adds commands, so they'll need to be bound appropriately.
 
 This config is from https://github.com/minad/consult#configuration, but I've knocked out the function names for now
@@ -269,7 +300,7 @@ This config is from https://github.com/minad/consult#configuration, but I've kno
 
 Then the general bindings...
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (ftwynn/leader-key-def
     "bb" 'consult-buffer
     "s"  '(:ignore t :which-key "search")
@@ -278,10 +309,10 @@ Then the general bindings...
     "sr"  'consult-ripgrep
     "ss"  'consult-line
     "sh"  'consult-org-heading
-    )
-#+end_src
+     )
+##+end_src
 * Startup and Display Properties
-** Native Compilation Warning Suppression
+** DONE Native Compilation Warning Suppression
 [2023-05-28 Sun] There is a lot of stuff going on in native comp that will pop up the warning buffer from time to time, so there are options to deal with it
 - Turn off the messages altogether
 - Turn off the popup behavior
@@ -292,25 +323,25 @@ I'm opting for the second for now
 #+begin_src emacs-lisp
   (setq native-comp-async-report-warnings-errors 'silent)
 #+end_src
-** Ripgrep
+** DONE Ripgrep
 #+begin_src emacs-lisp
   (use-package rg)
 #+end_src
 
-** Start out maximized with no splash screen
+** DONE Start out maximized with no splash screen
 
 #+begin_src emacs-lisp
   (setq default-frame-alist '((fullscreen . maximized)))
   (setq inhibit-startup-screen t)
 #+end_src
 
-** Install modus-themes for emacs27
+** DONE Install modus-themes for emacs27
 
 #+begin_src emacs-lisp
   (use-package modus-themes)
 #+end_src
 
-** Turning off most of the frame stuff
+** DONE Turning off most of the frame stuff
 
 Leaving menu-bar on for discoverability as I re-learn
 
@@ -320,7 +351,7 @@ Leaving menu-bar on for discoverability as I re-learn
   (scroll-bar-mode -1)
 #+end_src
 
-** Nicer font please!
+** DONE Nicer font please!
 
 Height is 1/10th of a point here.
 
@@ -346,9 +377,7 @@ They both *should* work, but the latter seems more modern
 
 #+end_src
 
-#+RESULTS:
-
-** Visible Bell
+** DONE Visible Bell
 
 I'm tinkering with a visible bell. It's nice feedback when I
 don't have headphones on
@@ -357,25 +386,25 @@ don't have headphones on
   (setq visible-bell t)
 #+end_src
 
-** Line and Column Numbers
+** AVOIDING Line and Column Numbers
 Don't display line numbers in every buffer... but I'm not sure
 I really need this
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (global-display-line-numbers-mode 0)
   (column-number-mode)
-#+end_src
+##+end_src
 
 Disable in some buffers
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (dolist (mode '(term-mode-hook
                   eshell-mode-hook
                   shell-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
-#+end_src
+##+end_src
 
-** Window margin
+** AVOIDING Window margin
 Without line numbers, it's nice to give a little space to the left of the screen. =left-fringe-width= should work for graphical displays, and =(set-window-margins nil 1)= should work for consoles too since that's measured in chars instead of pixels
 
 +begin_src emacs-lisp
@@ -390,21 +419,21 @@ Without line numbers, it's nice to give a little space to the left of the screen
 
 [2023-04-24 Mon] Removing the for now as I'm going to try olivetti mode
 
-** Rainbow Delimeters
+** DONE Rainbow Delimeters
 
 #+begin_src emacs-lisp
   (use-package rainbow-delimiters
     :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
-** Native Dialog Boxes
+** DONE Native Dialog Boxes
 
-Don't pop up UI dialogs when prompting, sticking to the more kweyboard native stuff
+Don't pop up UI dialogs when prompting, sticking to the more keyboard native stuff
 #+begin_src emacs-lisp
   (setq use-dialog-box nil)
 #+end_src
 
-** Watch Files on Disk (aka Revert)
+** DONE Watch Files on Disk (aka Revert)
 
 Watch files on disk and generally keep them in sync with buffers
 
@@ -417,19 +446,23 @@ Watch files on disk and generally keep them in sync with buffers
   (setq global-auto-revert-non-file-buffers t)
 #+end_src
 
-** Word Wrapping
-
-~visual-line-mode~ is what we're looking for
+** DONE Word Wrapping
 
 Note, some operations work on these virtual "screen" lines, like C-k, C-a, and C-e. M- prefixes do the logical lines... or maybe sentences?
 
-#+begin_src emacs-lisp
+~visual-line-mode~ is what we're looking for
+
+##+begin_src emacs-lisp
   (global-visual-line-mode 1)
+##+end_src
+
+https://lucidmanager.org/productivity/writing-prose-with-emacs/ has a better thought on only wrapping this for text modes
+
+#+begin_src emacs-lisp
+  (add-hook 'text-mode-hook 'visual-line-mode)
 #+end_src
 
-** Emojis
-Borrowed from here: https://ianyepan.github.io/posts/emacs-emojis/, but switched to Noto Color Emoji since that's an OSS font.
-
+** TODO Emojis
 #+begin_src emacs-lisp
   (use-package emojify
     :config
@@ -441,15 +474,17 @@ Borrowed from here: https://ianyepan.github.io/posts/emacs-emojis/, but switched
   ;;(bind-key* (kbd "C-c .") #'emojify-insert-emoji) ; override binding in any mode ; Don't want this for now
 #+end_src
 
+Borrowed from here: https://ianyepan.github.io/posts/emacs-emojis/, but switched to Noto Color Emoji since that's an OSS font.
+
 Let's try another way...
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (set-fontset-font t 'symbol "Noto Color Emoji" nil 'append)
-#+end_src
+##+end_src
 
 Doesn't seem to work on WSL on Windows, but Chromebook is fine
 
-** Pulse highlight line on various buffer jump operations
+** DONE Pulse highlight line on various buffer jump operations
 Pulled from https://karl-voit.at/2021/04/10/GLT21-emacs-org-features/
 
 #+begin_src emacs-lisp
@@ -461,34 +496,36 @@ Pulled from https://karl-voit.at/2021/04/10/GLT21-emacs-org-features/
     (advice-add command :after #'my-pulse-line))
 #+end_src
 
-** Nerd Icons
-Apparently Doommodeline switched to Nerd fonts without any sort of notice, so let's install the basics there too
+** DONE Olivetti Mode
+An alternative for fiddling with margins
 
 #+begin_src emacs-lisp
-  (use-package nerd-icons
-    ;; :custom
-    ;; The Nerd Font you want to use in GUI
-    ;; "Symbols Nerd Font Mono" is the default and is recommended
-    ;; but you can use any other Nerd Font if you want
-    ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
-    )
+  (use-package olivetti
+    :hook (org-mode . olivetti-mode))
+
+  (setq olivetti-body-width 0.9)
+
 #+end_src
-* Adaptive Wrap
+
+* AVOIDING Adaptive Wrap
 [2023-10-08 Sun]
 The goal is to try and fix org-indent indentation on wrapped lines. We'll see how well it goes.
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (use-package adaptive-wrap)
-#+end_src
+##+end_src
 
-* Auto Saving
-** auto-save-visited-mode
+* DONE Auto Saving
+** DONE auto-save-visited-mode
 I'm tinkering with auto-save-visited mode to make sure I don't leave dangling buffers open across machines and mess up my sync. 
 
 #+begin_src emacs-lisp
   (setq auto-save-visited-mode t)
+  (setq auto-save-interval 60)
+  (setq auto-save-default t)
 #+end_src
-** git-auto-commit-mode
+
+** AVOIDING git-auto-commit-mode
 Super useful package for repos that are nothing more than sync use cases, like the org notes repo.
 
 I'm only setting the installation and some customization here. The mode is actually enabled through a directory local variable in an elisp file =.dir-locals.el=.
@@ -497,22 +534,22 @@ I'm only setting the installation and some customization here. The mode is actua
 
 2023-03-27 Trying diving into the code to see if I can figure it out
 Hmm... interesting require... let's try using it manually
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   ;;(straight-use-package 'subr-x)
   (require 'subr-x)
-#+end_src
+##+end_src
 
 Hmm... this actually feels close. It complains it can't find it, even though I can see this package here: https://github.com/emacs-mirror/emacs/blob/master/lisp/emacs-lisp/subr-x.el
 
 It should be builtin with emacs...
 
 [2023-06-16 Fri]a - Tinkering with the debounce interval so it doesn't push so often.
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (use-package git-auto-commit-mode)
   ;;(require git-auto-commit-mode)
   (setq-default gac-automatically-push-p t)
   (setq gac-debounce-interval 600)
-#+end_src
+##+end_src
 
 It keeps telling me the symbol for git-auto-commit-mode is void... I'm not sure how though
 
@@ -526,7 +563,7 @@ I'm guessing the problem was either with:
 - Let's see if it holds
 
 * Org Mode
-** Basic Org Mode
+** EVALUATING Basic Org Mode
 
 Org indent mode gives some nice left aligned spacing to indentation, but takes away the leading stars, which I'm kind of a fan of.
 
@@ -548,26 +585,25 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
 
   (defun ftwynn/org-mode-setup ()
     (org-indent-mode)
-    ;(variable-pitch-mode 1)
+    (variable-pitch-mode 1)
     (god-local-mode)
     (auto-fill-mode 0)
     (visual-line-mode 1)
-    (setq org-indent-indentation-per-level 3)
-    (setq org-list-indent-offset 4)
+    ;(setq org-indent-indentation-per-level 3)
+    ;(setq org-list-indent-offset 4)
     (setq org-descriptive-links nil)
-    ;(setq evil-auto-indent nil)
     (setq org-M-RET-may-split-line nil)
-    (setq line-spacing 0.2)
-    (setq org-reverse-note-order t)
+    ;(setq line-spacing 0.2)
+    ;(setq org-reverse-note-order t)
     (setq org-agenda-timegrid-use-ampm t)
     (setq org-tags-exclude-from-inheritance '("project" "epic"))
     (setq org-todo-keywords
           '((sequence "TODO(t)" "WAITING(w)" "|" "ABANDONED(a)" "DONE(d)")))
 
-    ;; Sets the src blocks to be fixed width
+    ; Sets the src blocks to be fixed width
     (mapc
      (lambda (face)
-       (set-face-attribute
+      (set-face-attribute
         face nil
         :inherit
         (my-adjoin-to-list-or-symbol
@@ -576,14 +612,14 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
      (list 'org-code 'org-block 'org-table))
 
     ;; Sets the faces for outline levels to the same font, so that org-sticky-header pulls the right font
-    (set-face-attribute 'org-level-1 nil :family "DejaVu Sans Mono")
-    (set-face-attribute 'org-level-2 nil :family "DejaVu Sans Mono")
-    (set-face-attribute 'org-level-3 nil :family "DejaVu Sans Mono")
-    (set-face-attribute 'org-level-4 nil :family "DejaVu Sans Mono")
-    (set-face-attribute 'org-level-5 nil :family "DejaVu Sans Mono")
-    (set-face-attribute 'org-level-6 nil :family "DejaVu Sans Mono")
-    (set-face-attribute 'org-level-7 nil :family "DejaVu Sans Mono")
-    (set-face-attribute 'org-level-8 nil :family "DejaVu Sans Mono")
+    ;(set-face-attribute 'org-level-1 nil :family "DejaVu Sans Mono")
+    ;(set-face-attribute 'org-level-2 nil :family "DejaVu Sans Mono")
+    ;(set-face-attribute 'org-level-3 nil :family "DejaVu Sans Mono")
+    ;(set-face-attribute 'org-level-4 nil :family "DejaVu Sans Mono")
+    ;(set-face-attribute 'org-level-5 nil :family "DejaVu Sans Mono")
+    ;(set-face-attribute 'org-level-6 nil :family "DejaVu Sans Mono")
+    ;(set-face-attribute 'org-level-7 nil :family "DejaVu Sans Mono")
+    ;(set-face-attribute 'org-level-8 nil :family "DejaVu Sans Mono")
 
     )
 
@@ -591,7 +627,7 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
     :defer t
     :hook (org-mode . ftwynn/org-mode-setup)
     :config
-    (setq org-ellipsis " ▾"
+    (setq ;org-ellipsis " ▾"
           ;;org-hide-emphasis-markers t
           org-src-fontify-natively t
           org-fontify-quote-and-verse-blocks t
@@ -603,16 +639,16 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
           org-cycle-separator-lines 2)
 
 
-    (setq org-modules
-          '(org-crypt
-            org-habit
-            org-bookmark
-            org-eshell
-            org-irc))
+    ;(setq org-modules
+    ;      '(org-crypt
+    ;        org-habit
+    ;        org-bookmark
+    ;        org-eshell
+    ;        org-irc))
 
     (setq org-refile-targets '((nil :maxlevel . 6)
-                               ("~/org-roam-repo/20230321152713-para.org" :maxlevel . 3)
-                               ("~/org-roam-repo/20230406142458-recipes.org" :level . 1)
+                               ("~/org-roam-repo/v002/brain.org" :maxlevel . 6)
+  			     ("~/org-roam-repo/v002/journal.org" :maxlevel . 6)
                                ))
 
     (setq org-outline-path-complete-in-steps nil)
@@ -632,7 +668,9 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
     )
 #+end_src
 
-** Custom ID Function
+#+RESULTS:
+
+** DONE Custom ID Function
 Taken from Voit's https://github.com/novoid/dot-emacs/blob/master/config.org#my-id-get-or-generate,  I agree with the basic premise that since we don't need to worry about DB hotspots via time, a timestamp and human readable string is objectively better than a guid for IDs in this case.
 
 #+begin_src emacs-lisp
@@ -732,35 +770,24 @@ Taken from Voit's https://github.com/novoid/dot-emacs/blob/master/config.org#my-
 
 Add in general mapping
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (ftwynn/leader-key-def
     "oI" 'ftwynn/id-get-or-generate)
-#+end_src
+##+end_src
 
-** Save buffer on any TODO modification
+** EVALUATING Save buffer on any TODO modification
 [2023-05-21 Sun] Trying this out because I need a way for the agenda to save the TODOs it edits.
 #+begin_src emacs-lisp
   (add-hook 'org-trigger-hook 'save-buffer)
 #+end_src
 
-** Olivetti Mode
-Including here as it's mostly for org mode. An alternative for fiddling with margins
-
-#+begin_src emacs-lisp
-  (use-package olivetti
-    :hook (org-mode . olivetti-mode))
-
-  (setq olivetti-body-width 0.9)
-
-#+end_src
-
-** Code Block Shortcodes
+** AVOIDING Code Block Shortcodes
 
 Tempo (from contrib) makes the ~<s <TAB>~ shortcode work
 
 Gotta get org-roam in there too of course
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (straight-use-package 'org-contrib)
   (require 'org-tempo)
 
@@ -772,9 +799,9 @@ Gotta get org-roam in there too of course
   (add-to-list 'org-structure-template-alist '("go" . "src go"))
   (add-to-list 'org-structure-template-alist '("yaml" . "src yaml"))
   (add-to-list 'org-structure-template-alist '("json" . "src json"))
-#+end_src
+##+end_src
 
-** Stoic Daily Prompt Function
+** DONE Stoic Daily Prompt Function
 Might as well define this here
 
 So I couldn't for the life of me figure out how to do this in an associative array... at least not in the scratch buffer. Maybe it has elisp limits I'm unaware of. So, I split the doc strings out into individual variables and the function call now just concats and grabs the right date.
@@ -1165,10 +1192,14 @@ https://emacsredux.com/blog/2014/12/05/converting-between-symbols-and-strings/
     )
 #+end_src
 
-** Adding Capture templates to vanilla org-capture
-Mostly I will use roam insert templates, but adding org-only ones to org-capture enables the shortcut to insert them at point with (by preceding with =C-0=), assuming I haven't added any roam-specific escapes.
+** EVALUATING Vanilla org-capture templates
+Org-only capture templates can be inserted at point by preceding with =C-0=.
 
-Mostly used for recipes for now, since I can't define those in advance in Roam configs.
+Still tinkering with the right binding command, since the typical advice of =C-c c= is an extra space I don't want.. but boy is it proving to be a headache
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-c c") 'org-capture)
+#+end_src
 
 #+begin_src emacs-lisp
   (setq org-capture-templates
@@ -1180,14 +1211,34 @@ Mostly used for recipes for now, since I can't define those in advance in Roam c
            (file "~/org-roam-repo/templates/project_scaffold.org") :prepend t)
           ("c" "New Contact" entry (file+olp "~/org-roam-repo/mobile/contacts.org" "Inbox") 
            (file "~/org-roam-repo/templates/new_contact.org") :jump-to-captured t)
+  	("i" "Interstitial Journal" entry (file+olp+datetree
+  					   "~/org-roam-repo/v002/journal.org" "Journal")
+  	 (file "~/org-roam-repo/templates/interstitial_journal.org")
+  	 :jump-to-captured t)
+  	("m" "Morning Journal" entry (file+olp+datetree
+  				      "~/org-roam-repo/v002/journal.org" "Journal")
+  	 (file "~/org-roam-repo/templates/morning_journal.org")
+  	 :jump-to-captured t)
+  	("e" "Evening Journal" entry (file+olp+datetree
+  				      "~/org-roam-repo/v002/journal.org" "Journal")
+  	 (file "~/org-roam-repo/templates/evening_journal.org")
+  	 :jump-to-captured t) 
           ))
 #+end_src
 
+** AVOIDING org-bullets
+Time to try it in light of no indent mode
+
+##+begin_src emacs-lisp
+    (use-package org-bullets
+    :config
+    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+##+end_src
 ** Org General.el Additions
 
 Baseline org shortcuts here. Still need agendas and clocks. Possibly refining refiling as well.
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (ftwynn/leader-key-def
     "o"  '(:ignore t :which-key "org")
     "or" 'org-refile
@@ -1203,25 +1254,23 @@ Baseline org shortcuts here. Still need agendas and clocks. Possibly refining re
     "o0" '((lambda () (interactive) (org-capture 0)) :which-key "capture at point") 
     ;; Clock subgroup
     )
-#+end_src
-
-#+RESULTS:  
+##+end_src
 
 ** Org Roam
 
 *** Basic Installation
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (straight-use-package 'org-roam)
   (setq org-roam-directory (file-truename "~/org-roam-repo"))
   (org-roam-db-autosync-mode)
-#+end_src
+##+end_src
 
 *** Basic Config
 Some basic config for daily journals and the like.
 
 Note, these templates are great for when you know where the target file is going to be. If not, you need to insert the template at point, which these don't support, and you have to use the normal org-capture templates.
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
     (setq org-roam-dailies-directory "journals/")
 
     (setq org-roam-dailies-capture-templates
@@ -1251,7 +1300,7 @@ Note, these templates are great for when you know where the target file is going
                                 "#+title: %<%Y-%m-%d>\n")
              :jump-to-target t)
             ("j" "Interstitial journal" entry
-             (file "~/org-roam-repo/templates/interstitial_journal.org")
+             (file  "~/org-roam-repo/templates/interstitial_journal.org")
              :target (file+head "%<%Y-%m-%d>.org"
                                 "#+title: %<%Y-%m-%d>\n")
              :jump-to-target t)
@@ -1265,12 +1314,12 @@ Note, these templates are great for when you know where the target file is going
              :prepend t)
             )
           )
-#+end_src
+##+end_src
 
 [2023-10-10 Tue]
 I'm changing the default new node template here to simply flip the timestamp to be last, so I see a title in truncated buffer views instead of a date. One day I might want to trim the timestamp, if not entirely drop it, depending on how my experimenting with roam style notes goes.
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (setq org-roam-capture-templates
         '(("d" "default" plain "%?" :target
   	 (file+head "${slug}-%<%Y%m%d%H%M%S>.org" "#+title: ${title}
@@ -1278,7 +1327,7 @@ I'm changing the default new node template here to simply flip the timestamp to 
   	 :unnarrowed t)
   	)
         )
-#+end_src
+##+end_src
 
 *** New Node Templates
 https://systemcrafters.net/build-a-second-brain-in-emacs/capturing-notes-efficiently/#creating-a-topic-specific-template
@@ -1292,21 +1341,21 @@ Big examples from here:
 
 https://github.com/org-roam/org-roam/wiki/User-contributed-Tricks#some-filter-fn-examples
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (defun ftwynn/org-roam-insert-today ()
     "Filter node insertion to today's date for quickly inserting a link to the daily."
     (interactive)
     (org-roam-node-insert 
      (lambda (node)
        (string-equal (org-roam-node-title node) (format-time-string "%Y-%m-%d")))))
-#+end_src
+##+end_src
 
 *** Change org-roam-find to show hierarchies
 https://cmdln.org/2023/03/25/how-i-org-in-2023/
 
 A good idea, particularly if I want to use Refile at all
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
 (cl-defmethod org-roam-node-hierarchy ((node org-roam-node))
   (let ((level (org-roam-node-level node)))
     (concat
@@ -1315,11 +1364,11 @@ A good idea, particularly if I want to use Refile at all
      (org-roam-node-title node))))
 
   (setq org-roam-node-display-template "${hierarchy:200} ${tags:20}")
-#+end_src
+##+end_src
 *** General.el mappings
 Let's get some general mappings in there
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (ftwynn/leader-key-def
     "om"  '(:ignore t :which-key "org-roam")
     "omi" 'org-roam-node-insert
@@ -1335,16 +1384,16 @@ Let's get some general mappings in there
     ;; Add Interstitial journal to not visit the daily page, which is above with non-nil arg
     )
 
-#+end_src
+##+end_src
 
 ** org-contacts
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (use-package org-contacts
     :ensure nil
     :after org
     :custom (org-contacts-files '("~/org-roam-repo/templates/contacts.org")))
-#+end_src
+##+end_src
 
 ** Org Agenda
 
@@ -1353,7 +1402,7 @@ Agenda Files... I'm starting with them all explicitly, though I think directory 
 
 Might want to add in some fun ways to dynamically generate this from the whole roam repo later (or maybe to get them all into TODOs.org), but this will do for now.
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (setq org-agenda-files (list "~/org-roam-repo/gcal/personal.org"
                                "~/org-roam-repo/gcal/time_blocks.org"
                                "~/org-roam-repo/gcal/w_time_block.org"
@@ -1363,20 +1412,20 @@ Might want to add in some fun ways to dynamically generate this from the whole r
                                "~/org-roam-repo/Learning_Org.org"
                                "~/org-roam-repo/Edge_Delta.org"
                                "~/org-roam-repo/PARA.org"))
-#+end_src
+##+end_src
 
 *** Agenda File No Calendars
 For cases where I don't want to list these explicitly
 
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (setq ftwynn/org-agenda-files-no-cals (list 
                                          "~/org-roam-repo/mobile/TODOs.org"
                                          "~/org-roam-repo/mobile/contacts.org"
                                          "~/org-roam-repo/Learning_Org.org"
                                          "~/org-roam-repo/Edge_Delta.org"
                                          "~/org-roam-repo/PARA.org"))
-#+end_src
+##+end_src
 *** Disable Visual Line Mode just in Agenda
 [2023-04-10 Mon 07:49]
 Tags get wrapped weirdly in visual line mode, so let's turn it off just for the org agenda
@@ -1385,9 +1434,9 @@ https://emacs.stackexchange.com/questions/68160/disabling-visual-line-mode-only-
 (add-hook 'org-agenda-mode-hook (lambda () (visual-line-mode -1) (setq truncate-lines 1)))
 
 Not sure if I'll need the truncate lines piece, because just turning off the lines seemed to work for me in testing
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (add-hook 'org-agenda-mode-hook (lambda () (visual-line-mode -1) (setq truncate-lines 1)))
-#+end_src
+##+end_src
 
 It's possible I might want to set the column part that starts the tags manually instead, as listed here:
 
@@ -1395,10 +1444,10 @@ https://www.reddit.com/r/emacs/comments/uq9882/line_gets_broken_wrapped_in_orgag
 *** Full screen agenda
 Making sure to restore any window configs after exiting as well
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (setq org-agenda-window-setup 'only-window)
   (setq org-agenda-restore-windows-after-quit t)
-#+end_src
+##+end_src
 *** Adding Icons to org Agenda
 I originally wanted to color the categories differently like in Google Calendar, but that seems to be much more difficult to do, so I'm opting for the much easier including an icon in from of the category
 
@@ -1417,7 +1466,7 @@ I originally wanted to color the categories differently like in Google Calendar,
 https://florianwinkelbauer.com/posts/2020-07-13-org-agenda-icons/
 - Works... but I'm not sure I like it really
 - I'll tinker and let it sink in
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
 (defun ftwynn/agenda-icon-material (name)
   "Returns an all-the-icons-material icon"
   (list (nerd-icons-mdicon name)))
@@ -1440,21 +1489,21 @@ https://florianwinkelbauer.com/posts/2020-07-13-org-agenda-icons/
         ("Purpose" ,(ftwynn/agenda-icon-material "nf-md-fire") nil nil :ascent center)
         ("Relations" ,(ftwynn/agenda-icon-material "nf-md-human_male_female") nil nil :ascent center)
         ("Service" ,(ftwynn/agenda-icon-material "nf-md-human_male_child") nil nil :ascent center)))
-#+end_src
+##+end_src
 *** Change default span to day
 [2023-06-11 Sun] Week was something I never used, since I'm mostly having deadlines roll into the current day's view
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (setq org-agenda-span 'day)
-#+end_src
+##+end_src
 ** org-super-agenda
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (use-package org-super-agenda)
   (org-super-agenda-mode 1)
-#+end_src
+##+end_src
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
     (setq org-super-agenda-groups
           '(
             (:name "Upcoming/Weekly Projects"
@@ -1477,7 +1526,7 @@ https://florianwinkelbauer.com/posts/2020-07-13-org-agenda-icons/
                    :order 1)
             )
           )
-#+end_src
+##+end_src
 
 ** org-sticky-header
 Never lose my place in big files again! I use a lot of deep files, so this seems better than not.
@@ -1495,28 +1544,28 @@ I might want to turn a toggle on and off for lots of smaller header files. We sh
 ** org-download
 Trying to wrangle where binary files go in Org. The big case is pictures, though I suppose pdf's and the likes should go here and just be linked through =file= links as well
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (use-package org-download)
   (setq-default org-download-image-dir "~/blobs-for-org/img")
-#+end_src
+##+end_src
 
 On chromebook, needed to install xclip program
 
 ** org-autolist
 It doesn't quite get where I want with headlines, but it gets close with lists, which is at least a step in the right direction
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (use-package org-autolist
     :hook (org-mode . org-autolist-mode))
-#+end_src
+##+end_src
 
 ** Org-ql
 *** Basic Installation
 [2023-04-26 Wed] - Disabling here for lack of use for the moment. It was also throwing errors, which isn't great
 [2023-05-28 Sun] - Diving back in boys!
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
 (use-package org-ql)
-#+end_src
+##+end_src
 
 *** Configuration
 Looking for a PARA like view. Of note:
@@ -1544,15 +1593,15 @@ Looking for a PARA like view. Of note:
 ** ox-hugo
 [2023-05-29 Mon] Getting this started
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (use-package ox-hugo 
   :after ox)
-#+end_src
+##+end_src
 
 *** Helper Function for Property Setting
 Adding in slug explicitly, since that's what I aim to do in the markdown files for portability.
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
     (defun ftwynn/ox-hugo-prop-defaults
         ()
       (interactive)
@@ -1562,16 +1611,16 @@ Adding in slug explicitly, since that's what I aim to do in the markdown files f
                         (concat ":slug " (org-hugo-slug (org-get-heading :no-tags :no-todo))))
       (org-set-property "EXPORT_DATE" (format-time-string "[%Y-%m-%d %a %H:%M]"))
   )
-#+end_src
+##+end_src
 
 Add to general
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (ftwynn/leader-key-def
     "oh"  '(:ignore t :which-key "hugo")
     "ohp" 'ftwynn/ox-hugo-prop-defaults
     )
-#+end_src
+##+end_src
 ** A Better RET on headlines
 
 Picked this up from the url below. It runs a bit like my envisioning of a rapid-outliner mode
@@ -1582,7 +1631,7 @@ Actually, this doesn't work quite right, but autolist gets me half-way there. Ma
 
 On hold until I figure out a better way to do this.
 
-* Markdown Mode
+* DONE Markdown Mode
 For broader collaboration, I want to include a specific markdown mode, rather than converting into and out of org mode all the time.
 #+begin_src emacs-lisp
   (use-package markdown-mode
@@ -1594,13 +1643,16 @@ For broader collaboration, I want to include a specific markdown mode, rather th
 
 It's magit. Enough said.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package magit
     :bind ("C-M-;" . magit-status)
     :commands (magit-status magit-get-current-branch)
     :custom
     (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+#+end_src
 
+
+##+begin_src emacs-lisp
   (ftwynn/leader-key-def
     "g"   '(:ignore t :which-key "git")
     "gg"  'magit-status
@@ -1616,7 +1668,7 @@ It's magit. Enough said.
     "gf"  'magit-fetch
     "gF"  'magit-fetch-all
     "gr"  'magit-rebase)
-#+END_SRC
+##+END_SRC
 
 ** Magit TODOs
 
@@ -1632,7 +1684,7 @@ Didn't seem to work though, so I'm skipping for now
 
 * Mastering Emacs Lifts
 
-** TODO Explore different completion frameworks
+** EVALUATING Explore different completion frameworks
 
 Remember M-j takes your current typings and runs with it to make new files
 
@@ -1642,7 +1694,7 @@ Vertico seems to be what the cool kids are using.
 
 ;(fido-vertical-mode 1)
 
-** Change Buffer List to ibuffer
+** DONE Change Buffer List to ibuffer and M-o for Other window
 
 Seems nicer. I'll keep it for now.
 
@@ -1651,15 +1703,15 @@ Seems nicer. I'll keep it for now.
   (global-set-key (kbd "M-o") 'other-window)
 #+end_src
 
-** Minibuffer History
+** AVOIDING Minibuffer History
 
 ;; Save what you enter into minibuffer prompts to cycle thorugh with M-p and M-n
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (setq history-length 25)
   (savehist-mode 1)
-#+end_src
+##+end_src
 
-** Remember Cursor Placement
+** AVOIDING Remember Cursor Placement
 
 Remember and restore the last cursor location of opened files
 
@@ -1667,38 +1719,13 @@ Remember and restore the last cursor location of opened files
 
 ;;(save-place-mode 1)
 
-** Recent Files
+** DONE Recent Files
 
 ;; Make recent files a thing with M-x recentf-open-files
 #+begin_src emacs-lisp
   (recentf-mode 1)
 #+end_src
 
-* Cleaning Up Files
-** Set Customize vars in a different file
-
-Move automated customization variables to a separate file and load it
-#+begin_src emacs-lisp
-  (setq custom-file (locate-user-emacs-file "custom-vars.el"))
-  (load custom-file 'noerror 'nomessage)
-#+end_src
-
-* Chromebook Platform Specific
-
-** TODO Need to remap Page Up and Down
-
-This org-mode-map doesn't seem to work anymore... needs more homework
-
-shell-command of uname -r should give similar to:
-5.10.159-20950-g396322d9eb4
-
-The g looks to be consistent
-
-;;(define-key org-mode-map (kbd "<prior>") 'org-metaup)
-;;(define-key org-mode-map (kbd "<next>") 'org-metadown)
-
-* Windows Platform Specific
-* OSX Platform Specific
 * Themes
 ** Modus Theme Customizations
 
@@ -1738,12 +1765,12 @@ There's also a *lot* that borders on non-theme stuff
 #+end_src
 
 #+begin_src emacs-lisp
-  (load-theme 'modus-vivendi)
+  (load-theme 'modus-vivendi t)
 #+end_src
 
 * Doom Steals
 
-** Doom Modeline
+** DONE Doom Modeline
 
 It's prettier by default, let's try it!
 
@@ -1772,6 +1799,20 @@ Let's set the font color for emacs mode to be more different than... normal mode
                       :foreground "MediumPurple")
 #+end_src
 
+UPDATE: Nerd Icons
+Apparently Doommodeline switched to Nerd fonts without any sort of notice, so let's install the basics there too
+
+~M-x nerd-icons-install-fonts~
+
+#+begin_src emacs-lisp
+  (use-package nerd-icons
+    ;; :custom
+    ;; The Nerd Font you want to use in GUI
+    ;; "Symbols Nerd Font Mono" is the default and is recommended
+    ;; but you can use any other Nerd Font if you want
+    ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
+    )
+#+end_src
 * Completions
 
 ** Which-key
@@ -1787,14 +1828,16 @@ Dat sweet sweet wtf does this key-combo do
       (which-key-enable-god-mode-support))
 #+end_src
 
-** Vertico
+** FIDO Mode
+
+** AVOIDING Vertico
 
 It's more idiomatic emacs... a wonder it took this long to get popular
 
 Starting with a custom function to help backspace delete directories and filenames when using backspace
 https://systemcrafters.cc/live-streams/may-21-2021/
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
 (defun ftwynn/minibuffer-backward-kill (arg)
   "When minibuffer is completing a file name delete up to parent
 folder, otherwise delete a character backward"
@@ -1810,9 +1853,9 @@ folder, otherwise delete a character backward"
 ;;(use-package vertico
 ;;  :bind (:map minibuffer-local-map
  ;;        ("C-<backspace>" . ftwynn/minibuffer-backward-kill))
-#+end_src
+##+end_src
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   ;; Enable vertico
   (use-package vertico
     :bind (:map minibuffer-local-map
@@ -1841,9 +1884,9 @@ folder, otherwise delete a character backward"
               "C-M-p" #'vertico-previous-group)
     )
 
-#+end_src
+##+end_src
 
-** Orderless
+** EVALUATING Orderless
 
 This appears to be important for... fuzzy matching I think?
 
@@ -1864,7 +1907,7 @@ Trying a much more involved version from a blog post to see how it feels.
 
 The above is just the docs' basic recommendation.
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (use-package orderless
     :custom
     (completion-styles '(orderless))
@@ -1940,9 +1983,24 @@ The above is just the docs' basic recommendation.
       (when (string-suffix-p "." pattern)
         `(orderless-flex . ,(substring pattern 0 -1))))
     )
+##+end_src
+
+What even is this... trying something minimal with fido
+
+#+begin_src emacs-lisp
+(use-package orderless
+  :ensure t
+  :config
+  (fido-vertical-mode)
+  :custom
+  (completion-styles '(orderless)))
+
+(defun my-icomplete-styles ()
+  (setq-local completion-styles '(orderless flex)))
+(add-hook 'icomplete-minibuffer-setup-hook 'my-icomplete-styles)
 #+end_src
 
-** Consult
+** AVOIDING Consult
 
 This may not be necessary with marginalia?
 
@@ -1950,9 +2008,9 @@ https://kristofferbalintona.me/posts/202202211546/
 
 The above post doesn't use it... I'd have to check what it does to see if I really need it
 
-** Marginalia
+** AVOIDING Marginalia
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (use-package marginalia
                                           ;:general
                                           ;(:keymaps 'minibuffer-local-map
@@ -1963,19 +2021,19 @@ The above post doesn't use it... I'd have to check what it does to see if I real
     :init
     (marginalia-mode))
 
-#+end_src
+##+end_src
 
 That gives nice text, but there's icons too with all-the-icons!
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (use-package all-the-icons-completion
     :after (marginalia all-the-icons)
     :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
     :init
     (all-the-icons-completion-mode))
-#+end_src
+##+end_src
 
-* Evil Mode
+* AVOIDING Evil Mode
 
 I'm not philosophicaly opposed to emacs bindings, but I do think my hands, even with remapping the CAPS LOCK key, can't quite take it. I'll take the inefficiencies of figuring out the evilness of things and the occaisional longer keystrokes over constant chords.
 
@@ -2018,7 +2076,7 @@ Remember C-z switches to emacs mode. C-w does window operations
     ;; Use visual line motions even outside of visual-line mode, because they use logical lines otherwise
     (evil-global-set-key 'motion "j" 'evil-next-visual-line)
     (evil-global-set-key 'motion "k" 'evil-previous-visual-line))
-#+end_src
+##+end_src
 
 ** Evil-collection
 
@@ -2029,13 +2087,13 @@ Lots of premade bindings. We'll see if I like them.
     :after evil
     :config
     (evil-collection-init))
-#+end_src
+##+end_src
 
-* Projectile
+* AVOIDING Projectile
 
 Mostly good for directory level search I'm told. 
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (use-package projectile
     :diminish projectile-mode
     :config (projectile-mode)
@@ -2056,7 +2114,7 @@ Mostly good for directory level search I'm told.
     "pc"  'projectile-compile-project
     "pd"  'projectile-dired)
 
-#+end_src
+##+end_src
 
 * Flyspell
 So much text writing... and I'm so bad at spelling...
@@ -2065,28 +2123,28 @@ Opting for ispell since it seems easy to install and Flyspell uses it by default
 
 Don't forget to install it from the base package manager
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (dolist (hook '(text-mode-hook))
     (add-hook hook (lambda () (flyspell-mode 1))))
   (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
     (add-hook hook (lambda () (flyspell-mode -1))))
-#+end_src
+##+end_src
 
 * Read reddit inside of emacs
 It's read only, so I'll still have to jump to the UI to reply.
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (use-package reddigg)
   (setq reddigg-subs '(Stoicism))
   (setq org-confirm-elisp-link-function nil)
-#+end_src
+##+end_src
 
-* Cron Tasks via Timers
+* AVOIDING Cron Tasks via Timers
 Some Tasks need to be run regularly in emacs to keep it smooth if I leave it open on multiple devices. Let's define those here.
 
 https://stackoverflow.com/questions/3841459/how-to-periodically-run-a-task-within-emacs
 Midnight mode seems to be another options for a more hook based approach
 
-** Sync the Org Roam DB Every 5 Mins
+** AVOIDING Sync the Org Roam DB Every 5 Mins
 If I run (org-roam-db-sync t), it'll force a full rebuild, but I can't find a way to do this in the background.
 +begin_src emacs-lisp
   (run-with-timer 0 (* 5 60) 'org-roam-db-sync)
@@ -2105,26 +2163,27 @@ Picking a starting buffer to do a magit pull from, so I don't find myself doing 
 
 I'm choosing the org repo, because I've already missed out if I'm this far in init and didn't pull the dotfiles. The org is much more a sync repo, while the init repo is a much more standard code repo I'd want to be careful of.
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (org-roam-dailies-goto-today "m")
   (vc-git-pull nil)
   (revert-buffer t t)
   ;;(delete-other-windows) ; Maybe keep if I trust how this has been going so I don't need to see the pull results each time
-#+end_src
+##+end_src
 
 * Fossil
 Add Fossil support to vc-mode
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (use-package vc-fossil
     ;; Keep from loading unnecessarily at startup.
     :defer t
     ;; This allows VC to load vc-fossil when needed.
     :init (add-to-list 'vc-handled-backends 'Fossil t))
-#+end_src
+##+end_src
 * Platform Specific
+** NixOS
 ** OSX
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (when (eq system-type 'darwin)
     (setq mac-command-modifier 'meta)
 
@@ -2144,7 +2203,7 @@ Add Fossil support to vc-mode
                         :height 220
                         :weight 'light)
     )
-#+end_src
+##+end_src
 ** Chromebook
 
 =system-type = gnu/linux=
@@ -2159,6 +2218,19 @@ Maybe grep it to get the right thing
 
 =hostnamectl= also gives both penguin and Debian
 
+TODO Need to remap Page Up and Down
+
+This org-mode-map doesn't seem to work anymore... needs more homework
+
+shell-command of uname -r should give similar to:
+5.10.159-20950-g396322d9eb4
+
+The g looks to be consistent
+
+;;(define-key org-mode-map (kbd "<prior>") 'org-metaup)
+;;(define-key org-mode-map (kbd "<next>") 'org-metadown)
+
+** Windows
 This snippet tests for wsl found here
 https://stackoverflow.com/questions/1817257/how-to-determine-operating-system-in-elisp
 
@@ -2196,5 +2268,3 @@ Commenting out because I fixed this at the theme level, which is probably more c
 
 )
 ##+end_src
-
-
