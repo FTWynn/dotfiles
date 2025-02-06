@@ -115,6 +115,7 @@
     ".config/kitty/kitty.conf".source = ../kitty/kitty.conf;
     ".config/helix/config.toml".source = ../helix/config.toml;
     ".config/lazygit/config.yml".source = ../lazygit/config.yml;
+    ".config/nushell/config.nu".source = ../nushell/config.nu;
     ".emacs.d" = {
       source = ../.emacs.d;
       recursive = true;
