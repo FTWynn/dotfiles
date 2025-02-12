@@ -2,11 +2,11 @@
 #+PROPERTY: header-args:emacs-lisp 
 #+TODO: TODO EVALUATING | DONE AVOIDING
 
-* Cleanup TODOs
+* Remaining TODOs
 ** TODO Replace literal path names with an indirected variable and concatting the particulars around
 ** TODO Auto save doesn't seem to do what I think it does... I'd like it to actually save the file as if I'd really saved it
 ** TODO Maybe change the elipses symbol for "more content below" to something that I don't use so often :-P
-
+** TODO Experiment with meow-mode
 * AVOIDING Lexical Binding
 This is largely for consult, but it says it's required and the wiki seems to think it's alright.
 
@@ -39,19 +39,124 @@ It notably doesn't move anything that already exists, so I want want to nuke stu
       (expand-file-name  "var/eln-cache/" user-emacs-directory))))
 #+end_src
 
+* EVALUATING Meow Mode
+After enough homework, it seems like meow mode is just a touch more than god mode, with a lot of the same emacs-first philosophy. I'm gonna give it a go for a bit, and we'll see how it turns out.
+
+** Key mapping
+#+BEGIN_SRC emacs-lisp
+  (defun meow-setup ()
+    (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+    (meow-motion-overwrite-define-key
+     '("j" . meow-next)
+     '("k" . meow-prev)
+     '("<escape>" . ignore))
+    (meow-leader-define-key
+     ;; SPC j/k will run the original command in MOTION state.
+     '("j" . "H-j")
+     '("k" . "H-k")
+     ;; Use SPC (0-9) for digit arguments.
+     '("1" . meow-digit-argument)
+     '("2" . meow-digit-argument)
+     '("3" . meow-digit-argument)
+     '("4" . meow-digit-argument)
+     '("5" . meow-digit-argument)
+     '("6" . meow-digit-argument)
+     '("7" . meow-digit-argument)
+     '("8" . meow-digit-argument)
+     '("9" . meow-digit-argument)
+     '("0" . meow-digit-argument)
+     '("/" . meow-keypad-describe-key)
+     '("?" . meow-cheatsheet))
+    (meow-normal-define-key
+     '("0" . meow-expand-0)
+     '("9" . meow-expand-9)
+     '("8" . meow-expand-8)
+     '("7" . meow-expand-7)
+     '("6" . meow-expand-6)
+     '("5" . meow-expand-5)
+     '("4" . meow-expand-4)
+     '("3" . meow-expand-3)
+     '("2" . meow-expand-2)
+     '("1" . meow-expand-1)
+     '("-" . negative-argument)
+     '(";" . meow-reverse)
+     '("," . meow-inner-of-thing)
+     '("." . meow-bounds-of-thing)
+     '("[" . meow-beginning-of-thing)
+     '("]" . meow-end-of-thing)
+     '("a" . meow-append)
+     '("A" . meow-open-below)
+     '("b" . meow-back-word)
+     '("B" . meow-back-symbol)
+     '("c" . meow-change)
+     '("d" . meow-delete)
+     '("D" . meow-backward-delete)
+     '("e" . meow-next-word)
+     '("E" . meow-next-symbol)
+     '("f" . meow-find)
+     '("g" . meow-cancel-selection)
+     '("G" . meow-grab)
+     '("h" . meow-left)
+     '("H" . meow-left-expand)
+     '("i" . meow-insert)
+     '("I" . meow-open-above)
+     '("j" . meow-next)
+     '("J" . meow-next-expand)
+     '("k" . meow-prev)
+     '("K" . meow-prev-expand)
+     '("l" . meow-right)
+     '("L" . meow-right-expand)
+     '("m" . meow-join)
+     '("n" . meow-search)
+     '("o" . meow-block)
+     '("O" . meow-to-block)
+     '("p" . meow-yank)
+     '("q" . meow-quit)
+     '("Q" . meow-goto-line)
+     '("r" . meow-replace)
+     '("R" . meow-swap-grab)
+     '("s" . meow-kill)
+     '("t" . meow-till)
+     '("u" . meow-undo)
+     '("U" . meow-undo-in-selection)
+     '("v" . meow-visit)
+     '("w" . meow-mark-word)
+     '("W" . meow-mark-symbol)
+     '("x" . meow-line)
+     '("X" . meow-goto-line)
+     '("y" . meow-save)
+     '("Y" . meow-sync-grab)
+     '("z" . meow-pop-selection)
+     '("'" . repeat)
+     '("<escape>" . ignore)))
+#+END_SRC
+
+** Setup
+
+#+BEGIN_SRC emacs-lisp
+  (use-package meow
+    :ensure t; Ensure the package is installed
+    :config
+    ;; Configuration goes here (see below)
+    (require 'meow)
+    (meow-setup)
+    (meow-global-mode 1)
+    )
+#+END_SRC
+
 * EVALUATING God Mode
 Let's give God Mode a try, so we can do things more the emacs way
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (use-package god-mode)
   (require 'god-mode)
 
-#+end_src
+##+end_src
 
 Obviously define a god key here
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (global-set-key (kbd "<escape>") #'god-mode-all)
-#+end_src
+##+end_src
 
  Ensures special buffers aren't skipped, though I want to experiment with letting magit be magit to start
   (setq god-exempt-major-modes nil)
@@ -59,32 +164,32 @@ Obviously define a god key here
 
 ** DONE Making god-mode visible
 Make the cursor visibly show if we're in god mode or not. There are other options like changing the modeline color or the current line or otherwise.
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
 (defun my-god-mode-update-cursor-type ()
   (setq cursor-type (if (or god-local-mode buffer-read-only) 'box 'bar)))
 
 (add-hook 'post-command-hook #'my-god-mode-update-cursor-type)
-#+end_src
+##+end_src
 
 ** DONE Some useful god-mode keys
 I believe the latter functions like "return to insert mode", which might be good. But I more often used A and I to break out of normal mode in vim style.
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (define-key god-local-mode-map (kbd ".") #'repeat)
   (define-key god-local-mode-map (kbd "i") #'god-local-mode)
-#+end_src
+##+end_src
 
 ** DONE Exempt Major modes
 In case I want to call out magit or other modes like ediff explicitly. There is a way to write a predicate for this, but I don't think that's needed to start.
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (add-to-list 'god-exempt-major-modes 'dired-mode)
-#+end_src
+##+end_src
 
 ** DONE Disable God Mode by default in the capture buffer
 Gemini, be my guide.
 
 Also I fullscreened it here to test that out for a bit.
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
     (defun ftwynn/disable-god-mode-in-capture-buffer ()
       "Disables God mode in the capture buffer."
       (if (string-match-p "Capture" (buffer-name))
@@ -92,8 +197,7 @@ Also I fullscreened it here to test that out for a bit.
           (toggle-frame-fullscreen)))
 
     (add-hook 'org-capture-mode-hook 'ftwynn/disable-god-mode-in-capture-buffer)
-#+end_src
-
+##+end_src
 
 * AVOIDING General.el
 This seems to be a big keybinding library everyone uses.
@@ -507,6 +611,29 @@ An alternative for fiddling with margins
 
 #+end_src
 
+** DONE Change Sentence definition to single space after period
+What a relic from another time that two spaces are required to end a sentence (and thus, use sentence motion commands).
+
+#+begin_src emacs-lisp
+  (setq sentence-end-double-space nil)
+#+end_src
+** EVALUATING Turning on keycast to see the different bindings rather than describing keys all the time
+As the heading says... org mode remaps a bunch of the movement commands to be more org-y... and I want to just know what they are instead of looking them up all the time
+
+##+BEGIN_SRC emacs-lisp
+  (use-package keycast
+    :hook (after-init . keycast-mode)
+    :config
+    (define-minor-mode keycast-mode
+  	"Show current command and its key binding in the mode line (fix for use with doom-modeline)."
+  	:global t
+  	(if keycast-mode
+  		(add-hook 'pre-command-hook 'keycast--update t)
+        (remove-hook 'pre-command-hook 'keycast--update)))
+
+    (add-to-list 'global-mode-string '("" keycast-mode-line)))
+##+END_SRC
+
 * AVOIDING Adaptive Wrap
 [2023-10-08 Sun]
 The goal is to try and fix org-indent indentation on wrapped lines. We'll see how well it goes.
@@ -561,7 +688,6 @@ I'm guessing the problem was either with:
 - The require statement (there are no installation instructions for this mode)
 - The fact that I'd accidentally installed git-auto-commit previous, and maybe straight was having trouble merging them, so I manually deleted both directories and slowly re-included things line by line
 - Let's see if it holds
-
 * Org Mode
 ** EVALUATING Basic Org Mode
 
@@ -582,11 +708,14 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
                   list-or-symbol)))
       (require 'cl-lib)
       (cl-adjoin element list)))
+#+end_src
 
+  
+#+begin_src emacs-lisp
   (defun ftwynn/org-mode-setup ()
     (org-indent-mode)
     (variable-pitch-mode 1)
-    (god-local-mode)
+    ;(god-local-mode)
     (auto-fill-mode 0)
     (visual-line-mode 1)
     ;(setq org-indent-indentation-per-level 3)
@@ -600,6 +729,11 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
     (setq org-todo-keywords
           '((sequence "TODO(t)" "WAITING(w)" "|" "ABANDONED(a)" "DONE(d)")))
 
+    ;; keybinding for editing source code blocks
+    (local-set-key (kbd "C-c s e") 'org-edit-src-code)
+    ;; keybinding for inserting code blocks
+    (local-set-key (kbd "C-c s i") 'org-insert-src-block)
+    
     ; Sets the src blocks to be fixed width
     (mapc
      (lambda (face)
@@ -622,7 +756,10 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
     ;(set-face-attribute 'org-level-8 nil :family "DejaVu Sans Mono")
 
     )
+#+end_src
 
+
+#+begin_src emacs-lisp  
   (use-package org
     :defer t
     :hook (org-mode . ftwynn/org-mode-setup)
@@ -667,8 +804,6 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
     ;;    (ledger . t)))
     )
 #+end_src
-
-#+RESULTS:
 
 ** DONE Custom ID Function
 Taken from Voit's https://github.com/novoid/dot-emacs/blob/master/config.org#my-id-get-or-generate,  I agree with the basic premise that since we don't need to worry about DB hotspots via time, a timestamp and human readable string is objectively better than a guid for IDs in this case.
@@ -1192,6 +1327,29 @@ https://emacsredux.com/blog/2014/12/05/converting-between-symbols-and-strings/
     )
 #+end_src
 
+** DONE Add an insert function for src blocks
+Crazy this isn't baked in. Took this from https://www.handsonprogramming.io/blog/2021/12/source-block/#question2
+
+#+begin_src emacs-lisp
+  (defun org-insert-src-block (src-code-type)
+  "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
+  (interactive
+   (let ((src-code-types
+          '("emacs-lisp" "python" "C" "sh" "java" "js" "clojure" "C++" "css"
+            "calc" "asymptote" "dot" "gnuplot" "ledger" "lilypond" "mscgen"
+            "octave" "oz" "plantuml" "R" "sass" "screen" "sql" "awk" "ditaa"
+            "haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby"
+            "scheme" "sqlite")))
+     (list (ido-completing-read "Source code type: " src-code-types))))
+  (progn
+    (newline-and-indent)
+    (insert (format "#+BEGIN_SRC %s\n" src-code-type))
+    (newline-and-indent)
+    (insert "#+END_SRC\n")
+    (previous-line 2)
+    (org-edit-src-code)))
+#+end_src
+
 ** EVALUATING Vanilla org-capture templates
 Org-only capture templates can be inserted at point by preceding with =C-0=.
 
@@ -1211,16 +1369,16 @@ Still tinkering with the right binding command, since the typical advice of =C-c
            (file "~/org-roam-repo/templates/project_scaffold.org") :prepend t)
           ("c" "New Contact" entry (file+olp "~/org-roam-repo/mobile/contacts.org" "Inbox") 
            (file "~/org-roam-repo/templates/new_contact.org") :jump-to-captured t)
-  	("i" "Interstitial Journal" entry (file+olp+datetree
-  					   "~/org-roam-repo/v002/journal.org" "Journal")
+  	("i" "Interstitial Journal" entry (file+datetree
+  					   "~/org-roam-repo/v002/journal.org")
   	 (file "~/org-roam-repo/templates/interstitial_journal.org")
   	 :jump-to-captured t)
-  	("m" "Morning Journal" entry (file+olp+datetree
-  				      "~/org-roam-repo/v002/journal.org" "Journal")
+  	("m" "Morning Journal" entry (file+datetree
+  				      "~/org-roam-repo/v002/journal.org")
   	 (file "~/org-roam-repo/templates/morning_journal.org")
   	 :jump-to-captured t)
-  	("e" "Evening Journal" entry (file+olp+datetree
-  				      "~/org-roam-repo/v002/journal.org" "Journal")
+  	("e" "Evening Journal" entry (file+datetree
+  				      "~/org-roam-repo/v002/journal.org")
   	 (file "~/org-roam-repo/templates/evening_journal.org")
   	 :jump-to-captured t) 
           ))
@@ -1786,18 +1944,18 @@ It apparently needs some fonts
 =M-x all-the-icons-install-fonts=
 AFTER this is installed the first time on a new system (Linux or OSX)
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (use-package all-the-icons
     :if (display-graphic-p))
-#+end_src
+##+end_src
 
 Let's set the font color for emacs mode to be more different than... normal mode... which it isn't by default
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   ;; Set emacs mode color in doom mode line to a purpleish
   (set-face-attribute 'doom-modeline-evil-emacs-state nil
                       :foreground "MediumPurple")
-#+end_src
+##+end_src
 
 UPDATE: Nerd Icons
 Apparently Doommodeline switched to Nerd fonts without any sort of notice, so let's install the basics there too
