@@ -74,7 +74,7 @@
               # source: https://nixos-and-flakes.thiscute.world/best-practices/nix-path-and-flake-registry#custom-nix-path-and-flake-registry-1
               nix.registry.nixpkgs.flake = nixpkgs;
               environment.etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
-              nix.settings.nix-path = lib.mkForce "nixpkgs=/etc/nix/inputs/nixpkgs";
+              # nix.settings.nix-path = lib.mkForce "nixpkgs=/etc/nix/inputs/nixpkgs";
             }
           ];
         };
