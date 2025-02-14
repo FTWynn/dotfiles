@@ -95,9 +95,21 @@
     bash-language-server
     nil
     marksman
+    yaml-language-server
+    terraform-ls
+    ruff
+    jq-lsp
+    jsonnet-language-server
+    helm-ls
+    elixir-ls
+    gopls
+    awk-language-server
+    dockerfile-language-server-nodejs
+    docker-compose-language-service
 
     nixfmt-rfc-style
     nushell
+    microsoft-edge
 
   ]);
 
