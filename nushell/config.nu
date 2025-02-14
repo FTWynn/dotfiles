@@ -18,3 +18,6 @@ $env.config = {
     }]
   }
 }
+
+# Alises
+alias ll = ls -l
