@@ -282,7 +282,6 @@ Gotta have some of my own keys, right?
   (global-set-key (kbd "C-c r") 'recentf-open)
 #+END_SRC
 
-
 * TODO Consult
 The new ivy and whatnot. It just adds commands, so they'll need to be bound appropriately.
 
@@ -2343,12 +2342,63 @@ Opting for ispell since it seems easy to install and Flyspell uses it by default
 
 Don't forget to install it from the base package manager
 
-##+begin_src emacs-lisp
-  (dolist (hook '(text-mode-hook))
-    (add-hook hook (lambda () (flyspell-mode 1))))
-  (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
-    (add-hook hook (lambda () (flyspell-mode -1))))
-##+end_src
+[2025-02-18 Tue]
+Windows - Using hunspell
+
+
+;#+BEGIN_SRC emacs-lisp
+  (cond
+   ((string-equal system-type "windows-nt")
+    (progn
+      (setq ispell-program-name "C:\\ProgramData\\chocolatey\\bin\\hunspell.exe")
+      ;(setq ispell-hunspell-dict-paths-alist "C:\\Hunspell")
+      (use-package rw-hunspell
+    :ensure t)
+      (setq ispell-local-dictionary-alist (quote ((nil "[[:alpha:]]" "[^[:alpha:]]" "[']" t ("-d" "en_US") nil utf-8))))
+      (setq ispell-hunspell-dict-paths-alist '(("en_US" . "C:\\Hunspell")))
+  	))
+   )
+;#+END_SRC
+
+;#+BEGIN_SRC emacs-lisp
+  (use-package flyspell
+    :ensure t
+    :init
+    (add-hook 'org-mode-hook
+              (lambda () (flyspell-mode 1))))
+;#+END_SRC
+
+
+;#+BEGIN_SRC emacs-lisp
+  (setq flyspell-default-dictionary "en_US")
+  (setq ispell-program-name (locate-file "hunspell"
+  				       exec-path exec-suffixes 'file-executable-p))
+  (setq ispell-local-dictionary-alist '(
+  				      (nil
+  				       "[[:alpha:]]"
+  				       "[^[:alpha:]]"
+  				       "[']"
+  				       t
+  				       ("-d" "en_US")
+  				       nil
+  				       utf-8)
+
+  				      ("en_US"
+  				       "[[:alpha:]]"
+  				       "[^[:alpha:]]"
+  				       "[']"
+  				       t
+  				       ("-d" "en_US")
+  				       nil
+  				       utf-8)))
+;#+END_SRC
+
+;#+begin_src emacs-lisp
+    (dolist (hook '(text-mode-hook))
+      (add-hook hook (lambda () (flyspell-mode 1))))
+    (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
+      (add-hook hook (lambda () (flyspell-mode -1))))
+;#+end_src
 
 * Read reddit inside of emacs
 It's read only, so I'll still have to jump to the UI to reply.
