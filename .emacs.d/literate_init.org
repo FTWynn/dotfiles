@@ -2335,7 +2335,46 @@ Mostly good for directory level search I'm told.
 
 ##+end_src
 
-* Flyspell
+* Spelling
+** ltex-lsp
+Switching to eglot, because hunspell on windows is a nightmare
+
+;#+BEGIN_SRC emacs-lisp
+  (use-package eglot-ltex
+    :ensure t
+    :straight (eglot-ltex :host github :repo "emacs-languagetool/eglot-ltex")
+    :hook (text-mode . (lambda ()
+                         (require 'eglot-ltex)
+                         (eglot-ensure)))
+    :init
+    (cond
+     ((string-equal system-type "windows-nt")
+      (progn
+        (setq eglot-ltex-server-path "C:\\ExtractedPrograms\\ltex-ls-plus-18.4.0\\bin")
+        ))
+     )
+
+    (setq eglot-ltex-communication-channel 'stdio))         ; 'stdio or 'tcp
+#+END_SRC
+
+This is simple and Gemini generated, but seems to work. Might be a bit slow andnoisy to be practical, with lots of hangs and a jumping mini-buffer by default because it spans two lines... but it does seem to work.
+
+Notably, ltex-ls seems to have errors on startup in windows, while ltex-ls-plus does not.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'eglot)
+
+  (add-to-list 'eglot-server-programs
+                 '(org-mode . ("ltex-ls-plus")))
+
+  (add-to-list 'eglot-server-programs
+                 '(markdown-mode . ("ltex-ls-plus")))
+
+  (add-hook 'org-mode-hook 'eglot-ensure)
+  (add-hook 'markdown-mode-hook 'eglot-ensure)
+#+END_SRC
+
+** Flyspell
 So much text writing... and I'm so bad at spelling...
 
 Opting for ispell since it seems easy to install and Flyspell uses it by default
@@ -2513,28 +2552,3 @@ https://stackoverflow.com/questions/1817257/how-to-determine-operating-system-in
 (message "Running under Linux subsystem for Windows")
 (message "Not running under Linux subsystem for Windows")
 )
-** Fedora KDE
-This doesn't run for some reason... probably using a symbol instead of a string?
-
-Commenting out because I fixed this at the theme level, which is probably more correct anyway.
-
-##+begin_src emacs-lisp
-(when (eq system-configuration 'x86_64-redhat-linux-gnu)
-;; Default Font
-;;(set-frame-font "Fira Code 18")
-(set-face-attribute 'default nil :font "Fira Code" :height 110)
-
-;; Set the fixed pitch face.. .which I believe is the mono font
-(set-face-attribute 'fixed-pitch nil
-:font "Fira Code"
-:weight 'light
-:height 110)
-
-;; Set the variable pitch face
-(set-face-attribute 'variable-pitch nil
-:font "Source Code Pro"
-:height 110
-:weight 'light)
-
-)
-##+end_src
