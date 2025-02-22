@@ -3,10 +3,9 @@
 #+TODO: TODO EVALUATING | DONE AVOIDING
 
 * Remaining TODOs
+** TODO Maybe change the elipses symbol for "more content below" to something that I don't use so often :-P
 ** TODO Replace literal path names with an indirected variable and concatting the particulars around
 ** TODO Auto save doesn't seem to do what I think it does... I'd like it to actually save the file as if I'd really saved it
-** TODO Maybe change the elipses symbol for "more content below" to something that I don't use so often :-P
-** TODO Experiment with meow-mode
 * AVOIDING Lexical Binding
 This is largely for consult, but it says it's required and the wiki seems to think it's alright.
 
@@ -144,7 +143,7 @@ After enough homework, it seems like meow mode is just a touch more than god mod
     )
 #+END_SRC
 
-* EVALUATING God Mode
+* AVOIDING God Mode
 Let's give God Mode a try, so we can do things more the emacs way
 
 ##+begin_src emacs-lisp
@@ -2335,8 +2334,8 @@ Mostly good for directory level search I'm told.
 
 ##+end_src
 
-* Spelling
-** ltex-lsp
+* DONE Spelling
+** AVOIDING ltex-lsp
 Switching to eglot, because hunspell on windows is a nightmare
 
 ;#+BEGIN_SRC emacs-lisp
@@ -2361,7 +2360,7 @@ This is simple and Gemini generated, but seems to work. Might be a bit slow andn
 
 Notably, ltex-ls seems to have errors on startup in windows, while ltex-ls-plus does not.
 
-#+BEGIN_SRC emacs-lisp
+;#+BEGIN_SRC emacs-lisp
   (require 'eglot)
 
   (add-to-list 'eglot-server-programs
@@ -2372,9 +2371,9 @@ Notably, ltex-ls seems to have errors on startup in windows, while ltex-ls-plus 
 
   (add-hook 'org-mode-hook 'eglot-ensure)
   (add-hook 'markdown-mode-hook 'eglot-ensure)
-#+END_SRC
+;#+END_SRC
 
-** Flyspell
+** DONE Flyspell
 So much text writing... and I'm so bad at spelling...
 
 Opting for ispell since it seems easy to install and Flyspell uses it by default
@@ -2382,55 +2381,38 @@ Opting for ispell since it seems easy to install and Flyspell uses it by default
 Don't forget to install it from the base package manager
 
 [2025-02-18 Tue]
-Windows - Using hunspell
+Windows - Using Hunspell
 
-
-;#+BEGIN_SRC emacs-lisp
+FINALLY
+So arcane...
+- Gemini was unaware of the ispell-local-dictionary-alist monstrosity that seems to need to be there
+- There is chatter on StackOverflow that the hunspell-dictionary-alist doesn't auto-populate correctly... so you need to write it from the ispell one
+- Then you need the extra paths as well for searching, since I couldn't change the command line version in the OS for some ungodly reason
+- Obviously this is only on Windows. I'm sure this'll be easier on nix.
+  
+#+BEGIN_SRC emacs-lisp
   (cond
    ((string-equal system-type "windows-nt")
     (progn
       (setq ispell-program-name "C:\\ProgramData\\chocolatey\\bin\\hunspell.exe")
-      ;(setq ispell-hunspell-dict-paths-alist "C:\\Hunspell")
+  	;(setq ispell-hunspell-dict-paths-alist "C:\\Hunspell")
       (use-package rw-hunspell
-    :ensure t)
+        :ensure t)
       (setq ispell-local-dictionary-alist (quote ((nil "[[:alpha:]]" "[^[:alpha:]]" "[']" t ("-d" "en_US") nil utf-8))))
-      (setq ispell-hunspell-dict-paths-alist '(("en_US" . "C:\\Hunspell")))
-  	))
+      (setq ispell-hunspell-dict-paths-alist '(("en_US" . ("C:\\Users\\Remix\\Dictionaries\\en_US"))))
+      (setq ispell-hunspell-dictionary-alist ispell-local-dictionary-alist)
+      ))
    )
-;#+END_SRC
+#+END_SRC
 
-;#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (use-package flyspell
     :ensure t
     :init
-    (add-hook 'org-mode-hook
-              (lambda () (flyspell-mode 1))))
-;#+END_SRC
-
-
-;#+BEGIN_SRC emacs-lisp
-  (setq flyspell-default-dictionary "en_US")
-  (setq ispell-program-name (locate-file "hunspell"
-  				       exec-path exec-suffixes 'file-executable-p))
-  (setq ispell-local-dictionary-alist '(
-  				      (nil
-  				       "[[:alpha:]]"
-  				       "[^[:alpha:]]"
-  				       "[']"
-  				       t
-  				       ("-d" "en_US")
-  				       nil
-  				       utf-8)
-
-  				      ("en_US"
-  				       "[[:alpha:]]"
-  				       "[^[:alpha:]]"
-  				       "[']"
-  				       t
-  				       ("-d" "en_US")
-  				       nil
-  				       utf-8)))
-;#+END_SRC
+    (add-hook 'org-mode-hook (lambda () (flyspell-mode 1)))
+    (add-hook 'markdown-mode-hook (lambda () (flyspell-mode 1)))
+    )
+#+END_SRC
 
 ;#+begin_src emacs-lisp
     (dolist (hook '(text-mode-hook))
@@ -2488,7 +2470,7 @@ Add Fossil support to vc-mode
     ;; This allows VC to load vc-fossil when needed.
     :init (add-to-list 'vc-handled-backends 'Fossil t))
 ##+end_src
-* Platform Specific
+* AVOIDING Platform Specific
 ** NixOS
 ** OSX
 
@@ -2552,3 +2534,23 @@ https://stackoverflow.com/questions/1817257/how-to-determine-operating-system-in
 (message "Running under Linux subsystem for Windows")
 (message "Not running under Linux subsystem for Windows")
 )
+
+* Reveal Integration
+org-reveal apparently comes as part of ox-reveal
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ox-reveal
+    :ensure t
+    :config
+    (require 'ox-reveal)
+    (string-equal system-type "windows-nt")
+    (progn
+      (setq org-reveal-root "file:///c:/ExtractedPrograms/reveal.js-5.1.0")))
+#+END_SRC
+
+Seems to need htmlize to do some good things
+
+#+BEGIN_SRC emacs-lisp
+  (use-package htmlize
+    :ensure t)
+#+END_SRC
