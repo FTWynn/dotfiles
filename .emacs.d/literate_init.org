@@ -3,7 +3,6 @@
 #+TODO: TODO EVALUATING | DONE AVOIDING
 
 * Remaining TODOs
-** TODO Maybe change the elipses symbol for "more content below" to something that I don't use so often :-P
 ** TODO Replace literal path names with an indirected variable and concatting the particulars around
 ** TODO Auto save doesn't seem to do what I think it does... I'd like it to actually save the file as if I'd really saved it
 * AVOIDING Lexical Binding
@@ -771,6 +770,7 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
     :hook (org-mode . ftwynn/org-mode-setup)
     :config
     (setq ;org-ellipsis " ▾"
+          org-ellipsis " [+]"
           ;;org-hide-emphasis-markers t
           org-src-fontify-natively t
           org-fontify-quote-and-verse-blocks t
@@ -1375,18 +1375,12 @@ Still tinkering with the right binding command, since the typical advice of =C-c
            (file "~/org-roam-repo/templates/project_scaffold.org") :prepend t)
           ("c" "New Contact" entry (file+olp "~/org-roam-repo/mobile/contacts.org" "Inbox") 
            (file "~/org-roam-repo/templates/new_contact.org") :jump-to-captured t)
-  	("i" "Interstitial Journal" entry (file+datetree
-  					   "~/org-roam-repo/v002/journal.org")
-  	 (file "~/org-roam-repo/templates/interstitial_journal.org")
-  	 :jump-to-captured t)
-  	("m" "Morning Journal" entry (file+datetree
-  				      "~/org-roam-repo/v002/journal.org")
-  	 (file "~/org-roam-repo/templates/morning_journal.org")
-  	 :jump-to-captured t)
-  	("e" "Evening Journal" entry (file+datetree
-  				      "~/org-roam-repo/v002/journal.org")
-  	 (file "~/org-roam-repo/templates/evening_journal.org")
-  	 :jump-to-captured t) 
+  	("i" "Interstitial Journal" entry (file+datetree "~/org-roam-repo/v002/journal.org")
+  	 (file "~/org-roam-repo/templates/interstitial_journal.org"))
+  	("m" "Morning Journal" entry (file+datetree "~/org-roam-repo/v002/journal.org")
+  	 (file "~/org-roam-repo/templates/morning_journal.org"))
+  	("e" "Evening Journal" entry (file+datetree "~/org-roam-repo/v002/journal.org")
+  	 (file "~/org-roam-repo/templates/evening_journal.org"))
           ))
 #+end_src
 
@@ -2335,6 +2329,57 @@ Mostly good for directory level search I'm told.
 ##+end_src
 
 * DONE Spelling
+** DONE Flyspell
+So much text writing... and I'm so bad at spelling...
+
+Opting for ispell since it seems easy to install and Flyspell uses it by default
+
+Don't forget to install it from the base package manager
+
+[2025-02-18 Tue]
+Windows - Using Hunspell
+
+FINALLY
+So arcane...
+- Gemini was unaware of the ispell-local-dictionary-alist monstrosity that seems to need to be there
+- There is chatter on StackOverflow that the hunspell-dictionary-alist doesn't auto-populate correctly... so you need to write it from the ispell one
+- Then you need the extra paths as well for searching, since I couldn't change the command line version in the OS for some ungodly reason
+- Obviously this is only on Windows. I'm sure this'll be easier on nix.
+  
+#+BEGIN_SRC emacs-lisp
+    (cond
+     ((string-equal system-type "windows-nt")
+      (progn
+        (setq ispell-program-name "C:\\ProgramData\\chocolatey\\bin\\hunspell.exe")
+    					;(setq ispell-hunspell-dict-paths-alist "C:\\Hunspell")
+        (use-package rw-hunspell
+          :ensure t)
+        (setq ispell-local-dictionary-alist (quote ((nil "[[:alpha:]]" "[^[:alpha:]]" "[']" t ("-d" "en_US") nil utf-8))))
+        (setq ispell-hunspell-dict-paths-alist '(("en_US" . ("C:\\Users\\Remix\\Dictionaries\\en_US"))))
+        (setq ispell-hunspell-dictionary-alist ispell-local-dictionary-alist)
+        )
+      (progn
+        (setq-default ispell-program-name "aspell"
+  		    ispell-dictionary "american")))
+     )
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flyspell
+    :ensure t
+    :init
+    (add-hook 'org-mode-hook (lambda () (flyspell-mode 1)))
+    (add-hook 'markdown-mode-hook (lambda () (flyspell-mode 1)))
+    )
+#+END_SRC
+
+;#+begin_src emacs-lisp
+    (dolist (hook '(text-mode-hook))
+      (add-hook hook (lambda () (flyspell-mode 1))))
+    (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
+      (add-hook hook (lambda () (flyspell-mode -1))))
+;#+end_src
+
 ** AVOIDING ltex-lsp
 Switching to eglot, because hunspell on windows is a nightmare
 
@@ -2372,54 +2417,6 @@ Notably, ltex-ls seems to have errors on startup in windows, while ltex-ls-plus 
   (add-hook 'org-mode-hook 'eglot-ensure)
   (add-hook 'markdown-mode-hook 'eglot-ensure)
 ;#+END_SRC
-
-** DONE Flyspell
-So much text writing... and I'm so bad at spelling...
-
-Opting for ispell since it seems easy to install and Flyspell uses it by default
-
-Don't forget to install it from the base package manager
-
-[2025-02-18 Tue]
-Windows - Using Hunspell
-
-FINALLY
-So arcane...
-- Gemini was unaware of the ispell-local-dictionary-alist monstrosity that seems to need to be there
-- There is chatter on StackOverflow that the hunspell-dictionary-alist doesn't auto-populate correctly... so you need to write it from the ispell one
-- Then you need the extra paths as well for searching, since I couldn't change the command line version in the OS for some ungodly reason
-- Obviously this is only on Windows. I'm sure this'll be easier on nix.
-  
-#+BEGIN_SRC emacs-lisp
-  (cond
-   ((string-equal system-type "windows-nt")
-    (progn
-      (setq ispell-program-name "C:\\ProgramData\\chocolatey\\bin\\hunspell.exe")
-  	;(setq ispell-hunspell-dict-paths-alist "C:\\Hunspell")
-      (use-package rw-hunspell
-        :ensure t)
-      (setq ispell-local-dictionary-alist (quote ((nil "[[:alpha:]]" "[^[:alpha:]]" "[']" t ("-d" "en_US") nil utf-8))))
-      (setq ispell-hunspell-dict-paths-alist '(("en_US" . ("C:\\Users\\Remix\\Dictionaries\\en_US"))))
-      (setq ispell-hunspell-dictionary-alist ispell-local-dictionary-alist)
-      ))
-   )
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (use-package flyspell
-    :ensure t
-    :init
-    (add-hook 'org-mode-hook (lambda () (flyspell-mode 1)))
-    (add-hook 'markdown-mode-hook (lambda () (flyspell-mode 1)))
-    )
-#+END_SRC
-
-;#+begin_src emacs-lisp
-    (dolist (hook '(text-mode-hook))
-      (add-hook hook (lambda () (flyspell-mode 1))))
-    (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
-      (add-hook hook (lambda () (flyspell-mode -1))))
-;#+end_src
 
 * Read reddit inside of emacs
 It's read only, so I'll still have to jump to the UI to reply.
@@ -2535,7 +2532,17 @@ https://stackoverflow.com/questions/1817257/how-to-determine-operating-system-in
 (message "Not running under Linux subsystem for Windows")
 )
 
-* Reveal Integration
+* Slides
+** DSlide
+https://github.com/positron-solutions/dslide
+The idea is to have a lightweight, straight-from-org presentation layer for quick drafting. Seems to require MoC?
+
+#+BEGIN_SRC emacs-lisp
+  (use-package moc)
+  (use-package dslide)
+#+END_SRC
+
+** Reveal Integration
 org-reveal apparently comes as part of ox-reveal
 
 #+BEGIN_SRC emacs-lisp
