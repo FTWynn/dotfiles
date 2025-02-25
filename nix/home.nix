@@ -79,6 +79,8 @@
     source-sans-pro
     source-serif-pro
     ibm-plex
+    aspell
+    aspellDicts.en
   ])
   ++
   (with pkgs-unstable; [
