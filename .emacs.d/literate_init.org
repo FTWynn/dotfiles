@@ -608,13 +608,13 @@ Pulled from https://karl-voit.at/2021/04/10/GLT21-emacs-org-features/
 ** DONE Olivetti Mode
 An alternative for fiddling with margins
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (use-package olivetti
     :hook (org-mode . olivetti-mode))
 
   (setq olivetti-body-width 0.9)
 
-#+end_src
+##+end_src
 
 ** DONE Change Sentence definition to single space after period
 What a relic from another time that two spaces are required to end a sentence (and thus, use sentence motion commands).
@@ -1392,6 +1392,15 @@ Time to try it in light of no indent mode
     :config
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 ##+end_src
+** Cause Babel runs to use minibuffer by default instead of inline
+
+Still inserts the Results header, but it's better than cleaning up /all/ the junk lines
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'org-babel-default-header-args
+               '(:results . "output silent"))
+#+END_SRC
+
 ** Org General.el Additions
 
 Baseline org shortcuts here. Still need agendas and clocks. Possibly refining refiling as well.
@@ -2349,21 +2358,24 @@ So arcane...
 - Obviously this is only on Windows. I'm sure this'll be easier on nix.
   
 #+BEGIN_SRC emacs-lisp
-    (cond
-     ((string-equal system-type "windows-nt")
-      (progn
-        (setq ispell-program-name "C:\\ProgramData\\chocolatey\\bin\\hunspell.exe")
+  (cond
+   ((string-equal system-type "windows-nt")
+    (progn
+      (setq ispell-program-name "C:\\ProgramData\\chocolatey\\bin\\hunspell.exe")
     					;(setq ispell-hunspell-dict-paths-alist "C:\\Hunspell")
-        (use-package rw-hunspell
-          :ensure t)
-        (setq ispell-local-dictionary-alist (quote ((nil "[[:alpha:]]" "[^[:alpha:]]" "[']" t ("-d" "en_US") nil utf-8))))
-        (setq ispell-hunspell-dict-paths-alist '(("en_US" . ("C:\\Users\\Remix\\Dictionaries\\en_US"))))
-        (setq ispell-hunspell-dictionary-alist ispell-local-dictionary-alist)
-        )
-      (progn
-        (setq-default ispell-program-name "aspell"
-  		    ispell-dictionary "american")))
-     )
+      (use-package rw-hunspell
+        :ensure t)
+      (setq ispell-local-dictionary-alist (quote ((nil "[[:alpha:]]" "[^[:alpha:]]" "[']" t ("-d" "en_US") nil utf-8))))
+      (setq ispell-hunspell-dict-paths-alist '(("en_US" . ("C:\\Users\\Remix\\Dictionaries\\en_US"))))
+      (setq ispell-hunspell-dictionary-alist ispell-local-dictionary-alist)
+      )))
+
+  (cond
+   ((string-equal system-type "gnu/linux")
+    (progn
+      (setq-default ispell-program-name "aspell"
+    		  ispell-dictionary "american")))
+   )
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
