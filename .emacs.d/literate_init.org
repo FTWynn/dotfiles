@@ -638,6 +638,14 @@ As the heading says... org mode remaps a bunch of the movement commands to be mo
 
     (add-to-list 'global-mode-string '("" keycast-mode-line)))
 ##+END_SRC
+** EVALUATING Add png icons to dired buffer
+
+#+BEGIN_SRC emacs-lisp
+  (use-package treemacs-icons-dired
+    :after treemacs dired
+    :ensure t
+    :config (treemacs-icons-dired-mode))
+#+END_SRC
 
 * AVOIDING Adaptive Wrap
 [2023-10-08 Sun]
