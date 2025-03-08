@@ -5,6 +5,9 @@
 * Remaining TODOs
 ** TODO Replace literal path names with an indirected variable and concatting the particulars around
 ** TODO Auto save doesn't seem to do what I think it does... I'd like it to actually save the file as if I'd really saved it
+** TODO Create a Rapid outlining minor mode that tweaks headlines to be the main unit, making it difficult to tuck things under them rather than vice versa
+** TODO Create an emacs-org-tutor that combines the Mastering Emacs approach with Org with how I do things... a sort of living example documentation
+** TODO Figure out a way to jump into the content of a headline should property drawers get too big
 * AVOIDING Lexical Binding
 This is largely for consult, but it says it's required and the wiki seems to think it's alright.
 
@@ -131,7 +134,7 @@ After enough homework, it seems like meow mode is just a touch more than god mod
 
 ** Setup
 
-#+BEGIN_SRC emacs-lisp
+##+BEGIN_SRC emacs-lisp
   (use-package meow
     :ensure t; Ensure the package is installed
     :config
@@ -140,7 +143,7 @@ After enough homework, it seems like meow mode is just a touch more than god mod
     (meow-setup)
     (meow-global-mode 1)
     )
-#+END_SRC
+##+END_SRC
 
 * AVOIDING God Mode
 Let's give God Mode a try, so we can do things more the emacs way
@@ -1942,7 +1945,7 @@ There's also a *lot* that borders on non-theme stuff
 - Completions
 - Etc
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (setq modus-themes-mode-line '(accented borderless)
         modus-themes-bold-constructs t
         modus-themes-italic-constructs t
@@ -1965,7 +1968,7 @@ There's also a *lot* that borders on non-theme stuff
         ;;   (8 . (rainbow bold 1.2))
         ;;   (t . (semilight 1.1)))
         )
-#+end_src
+##+end_src
 
 #+begin_src emacs-lisp
   (load-theme 'modus-vivendi t)
@@ -1981,14 +1984,15 @@ There are some pretty nice themes in doom-themes. Worth checking out.
     ;; Global settings (defaults)
     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
           doom-themes-enable-italic t) ; if nil, italics is universally disabled
-    (load-theme 'doom-one t)
+    ;(load-theme 'doom-one t)
+    (load-theme 'doom-old-hope t)
 
     ;; Enable flashing mode-line on errors
     (doom-themes-visual-bell-config)
     ;; Enable custom neotree theme (nerd-icons must be installed!)
     (doom-themes-neotree-config)
     ;; or for treemacs users
-    (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+    (setq doom-themes-treemacs-theme "doom-colors") ; use "doom-colors" for less minimal icon theme, "doom-atom" otherwise
     (doom-themes-treemacs-config)
     ;; Corrects (and improves) org-mode's native fontification.
     (doom-themes-org-config))
