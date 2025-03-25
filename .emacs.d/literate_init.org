@@ -43,7 +43,7 @@ It notably doesn't move anything that already exists, so I want want to nuke stu
 * EVALUATING Meow Mode
 After enough homework, it seems like meow mode is just a touch more than god mode, with a lot of the same emacs-first philosophy. I'm gonna give it a go for a bit, and we'll see how it turns out.
 
-** Key mapping
+** Initial Key mapping
 #+BEGIN_SRC emacs-lisp
   (defun meow-setup ()
     (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
@@ -132,9 +132,9 @@ After enough homework, it seems like meow mode is just a touch more than god mod
      '("<escape>" . ignore)))
 #+END_SRC
 
-** Setup
+** Actual Setup
 
-##+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (use-package meow
     :ensure t; Ensure the package is installed
     :config
@@ -143,7 +143,63 @@ After enough homework, it seems like meow mode is just a touch more than god mod
     (meow-setup)
     (meow-global-mode 1)
     )
-##+END_SRC
+#+END_SRC
+
+** EVALUATING Speedy Org Motion Keymap
+Stolen shamelessly from here, because the idea is amazing
+https://aatmunbaxi.netlify.app/comp/meow_state_org_speed/
+
+
+#+BEGIN_SRC emacs-lisp
+  (setq meow-org-motion-keymap (make-keymap))
+  (meow-define-state org-motion
+    "Org-mode structural motion"
+    :lighter "[O]"
+    :keymap meow-org-motion-keymap)
+
+  (meow-define-keys 'org-motion
+    '("<escape>" . meow-normal-mode)
+    '("i" . meow-insert-mode)
+    '("g" . meow-normal-mode)
+    '("u" .  meow-undo)
+    ;; Moving between headlines
+    '("k" .  org-previous-visible-heading)
+    '("j" .  org-next-visible-heading)
+    ;; Moving between headings at the same level
+    '("p" .  org-backward-heading-same-level)
+    '("n" .  org-forward-heading-same-level)
+    ;; Moving subtrees themselves
+    '("K" .  org-subtree-up)
+    '("J" .  org-subtree-down)
+    ;; Subtree de/promotion
+    '("L" .  org-demote-subtree)
+    '("H" .  org-promote-subtree)
+    ;; Completion-style search of headings
+    '("v" .  consult-org-heading)
+    ;; Setting subtree metadata
+    '("l" .  org-set-property)
+    '("t" .  org-todo)
+    '("d" .  org-deadline)
+    '("s" .  org-schedule)
+    '("e" .  org-set-effort)
+    ;; Block navigation
+    '("b" .  org-previous-block)
+    '("f" .  org-next-block)
+    ;; Narrowing/widening
+    '("N" .  org-narrow-to-subtree)
+    '("W" .  widen))
+
+  (meow-define-keys 'normal
+    '("O" . meow-org-motion-mode))
+#+END_SRC
+
+** Allow expand overlays in org and markdown mode
+The expand numbers are excluded from org and markdown by default, assuming you'll use variable pitch fonts. I'm turning it off to test it out since I'm using fixed width.
+
+
+#+BEGIN_SRC emacs-lisp
+  (setq meow-expand-exclude-mode-list nil)
+#+END_SRC
 
 * AVOIDING God Mode
 Let's give God Mode a try, so we can do things more the emacs way
