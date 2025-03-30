@@ -148,13 +148,13 @@ After enough homework, it seems like meow mode is just a touch more than god mod
 ** EVALUATING Speedy Org Motion Keymap
 Stolen shamelessly from here, because the idea is amazing
 https://aatmunbaxi.netlify.app/comp/meow_state_org_speed/
-
+- Needed to change the keymap to trigger on ~P~, because ~O~ seems to have a different use in meow now
 
 #+BEGIN_SRC emacs-lisp
   (setq meow-org-motion-keymap (make-keymap))
   (meow-define-state org-motion
     "Org-mode structural motion"
-    :lighter "[O]"
+    :lighter "[P]"
     :keymap meow-org-motion-keymap)
 
   (meow-define-keys 'org-motion
@@ -190,7 +190,7 @@ https://aatmunbaxi.netlify.app/comp/meow_state_org_speed/
     '("W" .  widen))
 
   (meow-define-keys 'normal
-    '("O" . meow-org-motion-mode))
+    '("P" . meow-org-motion-mode))
 #+END_SRC
 
 ** Allow expand overlays in org and markdown mode
@@ -2026,9 +2026,9 @@ There's also a *lot* that borders on non-theme stuff
         )
 ##+end_src
 
-#+begin_src emacs-lisp
+##+begin_src emacs-lisp
   (load-theme 'modus-vivendi t)
-#+end_src
+##+end_src
 ** Doom Themes
 There are some pretty nice themes in doom-themes. Worth checking out.
 
@@ -2041,7 +2041,7 @@ There are some pretty nice themes in doom-themes. Worth checking out.
     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
           doom-themes-enable-italic t) ; if nil, italics is universally disabled
     ;(load-theme 'doom-one t)
-    (load-theme 'doom-old-hope t)
+    ;(load-theme 'doom-old-hope t)
 
     ;; Enable flashing mode-line on errors
     (doom-themes-visual-bell-config)
@@ -2054,10 +2054,12 @@ There are some pretty nice themes in doom-themes. Worth checking out.
     (doom-themes-org-config))
 #+END_SRC
 
-##+begin_src emacs-lisp
+#+begin_src emacs-lisp
   ;(load-theme 'doom-challenger-deep t)
-  (load-theme 'doom-challenger-deep t)
-##+end_src
+  ;(load-theme 'doom-challenger-deep t)
+  (load-theme 'doom-old-hope t)
+  (load-theme 'modus-vivendi t)
+#+end_src
 
 * Doom Steals
 
