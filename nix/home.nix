@@ -112,6 +112,7 @@
     nixfmt-rfc-style
     nushell
     microsoft-edge
+    lan-mouse
 
   ]);
 
