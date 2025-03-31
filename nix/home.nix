@@ -113,6 +113,7 @@
     nushell
     microsoft-edge
     lan-mouse
+    input-leap
 
   ]);
 
