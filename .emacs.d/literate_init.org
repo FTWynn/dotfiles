@@ -610,6 +610,13 @@ Without line numbers, it's nice to give a little space to the left of the screen
     :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
+** DONE Turn off blinking cursor
+I never noticed how annoying it was until Bedrock turned it off.
+
+#+BEGIN_SRC emacs-lisp
+  (blink-cursor-mode -1)
+#+END_SRC
+
 ** DONE Native Dialog Boxes
 
 Don't pop up UI dialogs when prompting, sticking to the more keyboard native stuff
