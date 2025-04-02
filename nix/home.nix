@@ -79,8 +79,11 @@
     source-sans-pro
     source-serif-pro
     ibm-plex
-    aspell
-    aspellDicts.en
+    (aspellWithDicts (dicts: with dicts; [
+      en
+      en-computers
+      en-science
+    ]))
   ])
   ++
   (with pkgs-unstable; [
