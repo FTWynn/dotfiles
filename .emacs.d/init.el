@@ -32,5 +32,8 @@
 ;; Let's get some packages
 (straight-use-package 'org)
 
+;; From Emacs bedrock... just copying this in case
+(setq gc-cons-threshold (or bedrock--initial-gc-threshold 800000))
+
 (require 'org)
 (org-babel-load-file (expand-file-name (concat user-emacs-directory "literate_init.org")))
