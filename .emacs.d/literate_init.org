@@ -40,6 +40,22 @@ It notably doesn't move anything that already exists, so I want want to nuke stu
       (expand-file-name  "var/eln-cache/" user-emacs-directory))))
 #+end_src
 
+** Adding Emacs bedrock attempt to clean up backup files
+#+BEGIN_SRC emacs-lisp
+  ;; Don't litter file system with *~ backup files; put them all inside
+  ;; ~/.emacs.d/backup or wherever
+  (defun bedrock--backup-file-name (fpath)
+    "Return a new file path of a given file path.
+  If the new path's directories does not exist, create them."
+    (let* ((backupRootDir (concat user-emacs-directory "emacs-backup/"))
+           (filePath (replace-regexp-in-string "[A-Za-z]:" "" fpath )) ; remove Windows driver letter in path
+           (backupFilePath (replace-regexp-in-string "//" "/" (concat backupRootDir filePath "~") )))
+      (make-directory (file-name-directory backupFilePath) (file-name-directory backupFilePath))
+      backupFilePath))
+  (setopt make-backup-file-name-function 'bedrock--backup-file-name)
+
+#+END_SRC
+
 * EVALUATING Meow Mode
 After enough homework, it seems like meow mode is just a touch more than god mode, with a lot of the same emacs-first philosophy. I'm gonna give it a go for a bit, and we'll see how it turns out.
 
@@ -2444,7 +2460,8 @@ So arcane...
    ((string-equal system-type "gnu/linux")
     (progn
       (setq-default ispell-program-name "aspell"
-    		  ispell-dictionary "american")))
+    		  ispell-dictionary "en")
+      ))
    )
 #+END_SRC
 
