@@ -355,147 +355,17 @@ Gotta have some of my own keys, right?
   (global-set-key (kbd "C-c r") 'recentf-open)
 #+END_SRC
 
-* TODO Consult
-The new ivy and whatnot. It just adds commands, so they'll need to be bound appropriately.
+* EVALUATING Avy
+Starting with config straight from emacs bedrock
 
-This config is from https://github.com/minad/consult#configuration, but I've knocked out the function names for now
+#+BEGIN_SRC emacs-lisp
+  (use-package avy
+    :ensure t
+    :demand t
+    :bind (("C-c j" . avy-goto-line)
+           ("s-j"   . avy-goto-char-timer)))
+#+END_SRC
 
-#+begin_src emacs-lisp
-  ;; Example configuration for Consult
-  (use-package consult
-    ;; Replace bindings. Lazily loaded due by `use-package'.
-    :bind (;; C-c bindings in `mode-specific-map'
-           ;;("C-c M-x" . consult-mode-command)
-           ;;("C-c h" . consult-history)
-           ;;("C-c k" . consult-kmacro)
-           ;;("C-c m" . consult-man)
-           ;;("C-c i" . consult-info)
-           ;;([remap Info-search] . consult-info)
-           ;;;; C-x bindings in `ctl-x-map'
-           ;;("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
-           ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
-           ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-           ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
-           ;;("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
-           ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
-           ;;;; Custom M-# bindings for fast register access
-           ;;("M-#" . consult-register-load)
-           ;;("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
-           ;;("C-M-#" . consult-register)
-           ;;;; Other custom bindings
-           ;;("M-y" . consult-yank-pop)                ;; orig. yank-pop
-           ;;;; M-g bindings in `goto-map'
-           ;;("M-g e" . consult-compile-error)
-           ;;("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
-           ;;("M-g g" . consult-goto-line)             ;; orig. goto-line
-           ;;("M-g M-g" . consult-goto-line)           ;; orig. goto-line
-           ;;("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
-           ;;("M-g m" . consult-mark)
-           ;;("M-g k" . consult-global-mark)
-           ;;("M-g i" . consult-imenu)
-           ;;("M-g I" . consult-imenu-multi)
-           ;;;; M-s bindings in `search-map'
-           ;;("M-s d" . consult-find)
-           ;;("M-s D" . consult-locate)
-           ;;("M-s g" . consult-grep)
-           ;;("M-s G" . consult-git-grep)
-           ;;("M-s r" . consult-ripgrep)
-           ;;("M-s l" . consult-line)
-           ;;("M-s L" . consult-line-multi)
-           ;;("M-s k" . consult-keep-lines)
-           ;;("M-s u" . consult-focus-lines)
-           ;;;; Isearch integration
-           ;;("M-s e" . consult-isearch-history)
-           ;;:map isearch-mode-map
-           ;;("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
-           ;;("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
-           ;;("M-s l" . consult-line)                  ;; needed by consult-line to detect ;;isearch
-           ;;("M-s L" . consult-line-multi)            ;; needed by consult-line to detect ;;isearch
-           ;;;; Minibuffer history
-           ;;:map minibuffer-local-map
-           ;;("M-s" . consult-history)                 ;; orig. next-matching-history-element
-           ;;("M-r" . consult-history)                ;; orig. ;;previous-matching-history-element
-  	 )
-
-    ;; Enable automatic preview at point in the *Completions* buffer. This is
-    ;; relevant when you use the default completion UI.
-    :hook (completion-list-mode . consult-preview-at-point-mode)
-
-    ;; The :init configuration is always executed (Not lazy)
-    :init
-
-    ;; Optionally configure the register formatting. This improves the register
-    ;; preview for `consult-register', `consult-register-load',
-    ;; `consult-register-store' and the Emacs built-ins.
-    (setq register-preview-delay 0.5
-          register-preview-function #'consult-register-format)
-
-    ;; Optionally tweak the register preview window.
-    ;; This adds thin lines, sorting and hides the mode line of the window.
-    (advice-add #'register-preview :override #'consult-register-window)
-
-    ;; Use Consult to select xref locations with preview
-    (setq xref-show-xrefs-function #'consult-xref
-          xref-show-definitions-function #'consult-xref)
-
-    ;; Configure other variables and modes in the :config section,
-    ;; after lazily loading the package.
-    :config
-
-    ;; Optionally configure preview. The default value
-    ;; is 'any, such that any key triggers the preview.
-    ;; (setq consult-preview-key 'any)
-    (setq consult-preview-key "M-.")
-    ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
-    ;; For some commands and buffer sources it is useful to configure the
-    ;; :preview-key on a per-command basis using the `consult-customize' macro.
-    (consult-customize
-     consult-theme :preview-key '(:debounce 0.2 any)
-     ;;consult-line :preview-key '(:debounce 0.1 any)
-     consult-ripgrep consult-git-grep consult-grep
-     consult-bookmark consult-recent-file consult-xref
-     consult--source-bookmark consult--source-file-register
-     consult--source-recent-file consult--source-project-recent-file
-     :preview-key "M-."
-      )
-
-    ;; Optionally configure the narrowing key.
-    ;; Both < and C-+ work reasonably well.
-    (setq consult-narrow-key "<") ;; "C-+"
-
-    ;; Optionally make narrowing help available in the minibuffer.
-    ;; You may want to use `embark-prefix-help-command' or which-key instead.
-    ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
-
-    ;; By default `consult-project-function' uses `project-root' from project.el.
-    ;; Optionally configure a different project root function.
-    ;;;; 1. project.el (the default)
-    ;; (setq consult-project-function #'consult--default-project--function)
-    ;;;; 2. vc.el (vc-root-dir)
-    ;; (setq consult-project-function (lambda (_) (vc-root-dir)))
-    ;;;; 3. locate-dominating-file
-    ;; (setq consult-project-function (lambda (_) (locate-dominating-file "." ".git")))
-    ;;;; 4. projectile.el (projectile-project-root)
-    ;; (autoload 'projectile-project-root "projectile")
-    ;; (setq consult-project-function (lambda (_) (projectile-project-root)))
-    ;;;; 5. No project support
-    ;; (setq consult-project-function nil)
-  )
-#+end_src
-
-Then the general bindings...
-
-##+begin_src emacs-lisp
-  (ftwynn/leader-key-def
-    "bb" 'consult-buffer
-    "s"  '(:ignore t :which-key "search")
-    "sd"  'consult-find
-    "sg"  'consult-grep
-    "sr"  'consult-ripgrep
-    "ss"  'consult-line
-    "sh"  'consult-org-heading
-     )
-##+end_src
 * Startup and Display Properties
 ** DONE Native Compilation Warning Suppression
 [2023-05-28 Sun] There is a lot of stuff going on in native comp that will pop up the warning buffer from time to time, so there are options to deal with it
@@ -654,6 +524,17 @@ https://lucidmanager.org/productivity/writing-prose-with-emacs/ has a better tho
   (add-hook 'text-mode-hook 'visual-line-mode)
 #+end_src
 
+** EVALUATING Golden Ratio
+Not maintained, but might still be nice to tinker with
+
+#+BEGIN_SRC emacs-lisp
+  (use-package golden-ratio
+    :ensure t
+    :hook (after-init . golden-ratio-mode)
+    :custom
+    (golden-ratio-exclude-modes '(occur-mode)))
+#+END_SRC
+
 ** TODO Emojis
 #+begin_src emacs-lisp
   (use-package emojify
@@ -705,6 +586,7 @@ What a relic from another time that two spaces are required to end a sentence (a
 #+begin_src emacs-lisp
   (setq sentence-end-double-space nil)
 #+end_src
+
 ** EVALUATING Turning on keycast to see the different bindings rather than describing keys all the time
 As the heading says... org mode remaps a bunch of the movement commands to be more org-y... and I want to just know what they are instead of looking them up all the time
 
@@ -1484,7 +1366,7 @@ Still inserts the Results header, but it's better than cleaning up /all/ the jun
                '(:results . "output silent"))
 #+END_SRC
 
-** Org General.el Additions
+** AVOIDING Org General.el Additions
 
 Baseline org shortcuts here. Still need agendas and clocks. Possibly refining refiling as well.
 
@@ -1700,7 +1582,7 @@ Let's get some general mappings in there
 
 ##+end_src
 
-** org-contacts
+** AVOIDING org-contacts
 
 ##+begin_src emacs-lisp
   (use-package org-contacts
@@ -1709,7 +1591,7 @@ Let's get some general mappings in there
     :custom (org-contacts-files '("~/org-roam-repo/templates/contacts.org")))
 ##+end_src
 
-** Org Agenda
+** TODO Org Agenda
 
 *** Agenda Files
 Agenda Files... I'm starting with them all explicitly, though I think directory specs should work as well.
@@ -1810,7 +1692,7 @@ https://florianwinkelbauer.com/posts/2020-07-13-org-agenda-icons/
 ##+begin_src emacs-lisp
   (setq org-agenda-span 'day)
 ##+end_src
-** org-super-agenda
+** TODO org-super-agenda
 
 ##+begin_src emacs-lisp
   (use-package org-super-agenda)
@@ -1842,7 +1724,7 @@ https://florianwinkelbauer.com/posts/2020-07-13-org-agenda-icons/
           )
 ##+end_src
 
-** org-sticky-header
+** TODO org-sticky-header
 Never lose my place in big files again! I use a lot of deep files, so this seems better than not.
 
 [2023-04-26 Wed] - I'm opting for reversed after using full for a while. I go deep a lot, and full would tend to cut off anything meaningful. Barring a good way to only specify 2 headings, I'm trying out ='reversed=.
@@ -1855,7 +1737,7 @@ Never lose my place in big files again! I use a lot of deep files, so this seems
 #+end_src
 
 I might want to turn a toggle on and off for lots of smaller header files. We shall see.
-** org-download
+** TODO org-download
 Trying to wrangle where binary files go in Org. The big case is pictures, though I suppose pdf's and the likes should go here and just be linked through =file= links as well
 
 ##+begin_src emacs-lisp
@@ -1865,7 +1747,7 @@ Trying to wrangle where binary files go in Org. The big case is pictures, though
 
 On chromebook, needed to install xclip program
 
-** org-autolist
+** TODO org-autolist
 It doesn't quite get where I want with headlines, but it gets close with lists, which is at least a step in the right direction
 
 ##+begin_src emacs-lisp
@@ -1873,7 +1755,7 @@ It doesn't quite get where I want with headlines, but it gets close with lists, 
     :hook (org-mode . org-autolist-mode))
 ##+end_src
 
-** Org-ql
+** TODO Org-ql
 *** Basic Installation
 [2023-04-26 Wed] - Disabling here for lack of use for the moment. It was also throwing errors, which isn't great
 [2023-05-28 Sun] - Diving back in boys!
@@ -1904,7 +1786,7 @@ Looking for a PARA like view. Of note:
     :super-groups '((:auto-parent t))))
 +end_src
 
-** ox-hugo
+** TODO ox-hugo
 [2023-05-29 Mon] Getting this started
 
 ##+begin_src emacs-lisp
@@ -1935,16 +1817,6 @@ Add to general
     "ohp" 'ftwynn/ox-hugo-prop-defaults
     )
 ##+end_src
-** A Better RET on headlines
-
-Picked this up from the url below. It runs a bit like my envisioning of a rapid-outliner mode
-
-https://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/
-
-Actually, this doesn't work quite right, but autolist gets me half-way there. Maybe I can tweak it for just headlines...
-
-On hold until I figure out a better way to do this.
-
 * DONE Markdown Mode
 For broader collaboration, I want to include a specific markdown mode, rather than converting into and out of org mode all the time.
 #+begin_src emacs-lisp
@@ -2140,7 +2012,6 @@ There are some pretty nice themes in doom-themes. Worth checking out.
   (load-theme 'doom-old-hope t)
   (load-theme 'modus-vivendi t)
 #+end_src
-
 * Doom Steals
 
 ** DONE Doom Modeline
@@ -2160,8 +2031,19 @@ It apparently needs some fonts
 AFTER this is installed the first time on a new system (Linux or OSX)
 
 ##+begin_src emacs-lisp
-  (use-package all-the-icons
-    :if (display-graphic-p))
+    (use-package all-the-icons
+      :if (display-graphic-p))
+;    (use-package all-the-icons
+;        :if (display-graphic-p)
+;        :config
+;        ;; Make sure the icon fonts are good to go
+;        (set-fontset-font t 'unicode (font-spec :family "all-the-icons") nil 'append)
+;        (set-fontset-font t 'unicode (font-spec :family "file-icons") nil 'append)
+;        (set-fontset-font t 'unicode (font-spec :family "Material Icons") nil 'append)
+;        (set-fontset-font t 'unicode (font-spec :family "github-octicons") nil 'append)
+;        (set-fontset-font t 'unicode (font-spec :family "FontAwesome") nil 'append)
+;        (set-fontset-font t 'unicode (font-spec :family "Weather Icons") nil 'append))
+
 ##+end_src
 
 Let's set the font color for emacs mode to be more different than... normal mode... which it isn't by default
@@ -2186,9 +2068,7 @@ Apparently Doommodeline switched to Nerd fonts without any sort of notice, so le
     ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
     )
 #+end_src
-* Completions
-
-** Which-key
+* Which-key
 
 Dat sweet sweet wtf does this key-combo do
 
@@ -2201,210 +2081,278 @@ Dat sweet sweet wtf does this key-combo do
       (which-key-enable-god-mode-support))
 #+end_src
 
-** FIDO Mode
+* EVALUATING Consult
+The new ivy and whatnot. It just adds commands, so they'll need to be bound appropriately.
 
-** AVOIDING Vertico
+This config is from https://github.com/minad/consult#configuration, but I've knocked out the function names for now
 
-It's more idiomatic emacs... a wonder it took this long to get popular
+2025-04-03 - I'm re-adding in configs from emacs bedrock for a more minimal but functional experience
 
-Starting with a custom function to help backspace delete directories and filenames when using backspace
-https://systemcrafters.cc/live-streams/may-21-2021/
+#+begin_src emacs-lisp
+  ;; Example configuration for Consult
+  (use-package consult
+    ;; Replace bindings. Lazily loaded due by `use-package'.
+    :bind (;; C-c bindings in `mode-specific-map'
+           ;;("C-c M-x" . consult-mode-command)
+           ;;("C-c h" . consult-history)
+           ;;("C-c k" . consult-kmacro)
+           ;;("C-c m" . consult-man)
+           ;;("C-c i" . consult-info)
+           ;;([remap Info-search] . consult-info)
+           ;;;; C-x bindings in `ctl-x-map'
+           ;;("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+           ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
+           ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+           ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+           ;;("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
+           ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
+           ;;;; Custom M-# bindings for fast register access
+           ;;("M-#" . consult-register-load)
+           ;;("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+           ;;("C-M-#" . consult-register)
+           ;;;; Other custom bindings
+           ("M-y" . consult-yank-pop)                ;; orig. yank-pop
+           ;;;; M-g bindings in `goto-map'
+           ;;("M-g e" . consult-compile-error)
+           ;;("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
+           ;;("M-g g" . consult-goto-line)             ;; orig. goto-line
+           ;;("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+           ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+           ;;("M-g m" . consult-mark)
+           ;;("M-g k" . consult-global-mark)
+           ;;("M-g i" . consult-imenu)
+           ;;("M-g I" . consult-imenu-multi)
+           ;;;; M-s bindings in `search-map'
+           ;;("M-s d" . consult-find)
+           ;;("M-s D" . consult-locate)
+           ;;("M-s g" . consult-grep)
+           ;;("M-s G" . consult-git-grep)
+           ("M-s r" . consult-ripgrep)
+           ("M-s l" . consult-line)
+           ("M-s L" . consult-line-multi)
+           ;;("M-s k" . consult-keep-lines)
+           ;;("M-s u" . consult-focus-lines)
+           ;;;; Isearch integration
+  	 ;;("M-s e" . consult-isearch-history)
+           :map isearch-mode-map
+           ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
+           ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
+           ("M-s l" . consult-line)                  ;; needed by consult-line to detect ;;isearch
+           ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect ;;isearch
+           ;;;; Minibuffer history
+           ;;:map minibuffer-local-map
+           ;;("M-s" . consult-history)                 ;; orig. next-matching-history-element
+           ;;("M-r" . consult-history)                ;; orig. ;;previous-matching-history-element
+  	 )
 
-##+begin_src emacs-lisp
-(defun ftwynn/minibuffer-backward-kill (arg)
-  "When minibuffer is completing a file name delete up to parent
-folder, otherwise delete a character backward"
-  (interactive "p")
-  (if minibuffer-completing-file-name
-      ;; Borrowed from https://github.com/raxod502/selectrum/issues/498#issuecomment-803283608
-      (if (string-match-p "/." (minibuffer-contents))
-          (zap-up-to-char (- arg) ?/)
-        (delete-minibuffer-contents))
-      (delete-backward-char arg)))
+    ;; Enable automatic preview at point in the *Completions* buffer. This is
+    ;; relevant when you use the default completion UI.
+    :hook (completion-list-mode . consult-preview-at-point-mode)
 
-;; This is not a full config, just an example of the :bind!
-;;(use-package vertico
-;;  :bind (:map minibuffer-local-map
- ;;        ("C-<backspace>" . ftwynn/minibuffer-backward-kill))
-##+end_src
-
-##+begin_src emacs-lisp
-  ;; Enable vertico
-  (use-package vertico
-    :bind (:map minibuffer-local-map
-          ("C-<backspace>" . ftwynn/minibuffer-backward-kill))
+    ;; The :init configuration is always executed (Not lazy)
     :init
-    (vertico-mode)
 
-    ;; Different scroll margin
-    ;; (setq vertico-scroll-margin 0)
+    ;; Optionally configure the register formatting. This improves the register
+    ;; preview for `consult-register', `consult-register-load',
+    ;; `consult-register-store' and the Emacs built-ins.
+    (setq register-preview-delay 0.5
+          register-preview-function #'consult-register-format)
 
-    ;; Show more candidates
-    (setq vertico-count 15)
+    ;; Optionally tweak the register preview window.
+    ;; This adds thin lines, sorting and hides the mode line of the window.
+    (advice-add #'register-preview :override #'consult-register-window)
 
-    ;; Grow and shrink the Vertico minibuffer
-    (setq vertico-resize t)
+    ;; Use Consult to select xref locations with preview
+    (setq xref-show-xrefs-function #'consult-xref
+          xref-show-definitions-function #'consult-xref)
 
-    ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-    (setq vertico-cycle nil)
+    ;; Configure other variables and modes in the :config section,
+    ;; after lazily loading the package.
+    :config
 
-    :general
-    (:keymaps 'vertico-map
-              "<tab>" #'vertico-insert  ; Insert selected candidate into text area
-              "<escape>" #'minibuffer-keyboard-quit ; Close minibuffer
-              ;; NOTE 2022-02-05: Cycle through candidate groups
-              "C-M-n" #'vertico-next-group
-              "C-M-p" #'vertico-previous-group)
-    )
+    ;; Optionally configure preview. The default value
+    ;; is 'any, such that any key triggers the preview.
+    ;; (setq consult-preview-key 'any)
+    (setq consult-preview-key "M-.")
+    ;; (setq consult-preview-key '("S-<down>" "S-<up>"))
+    ;; For some commands and buffer sources it is useful to configure the
+    ;; :preview-key on a per-command basis using the `consult-customize' macro.
+    (consult-customize
+     consult-theme :preview-key '(:debounce 0.2 any)
+     ;;consult-line :preview-key '(:debounce 0.1 any)
+     consult-ripgrep consult-git-grep consult-grep
+     consult-bookmark consult-recent-file consult-xref
+     consult--source-bookmark consult--source-file-register
+     consult--source-recent-file consult--source-project-recent-file
+     :preview-key "M-."
+      )
 
+    ;; Optionally configure the narrowing key.
+    ;; Both < and C-+ work reasonably well.
+    (setq consult-narrow-key "<") ;; "C-+"
+
+    ;; Optionally make narrowing help available in the minibuffer.
+    ;; You may want to use `embark-prefix-help-command' or which-key instead.
+    ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
+
+    ;; By default `consult-project-function' uses `project-root' from project.el.
+    ;; Optionally configure a different project root function.
+    ;;;; 1. project.el (the default)
+    ;; (setq consult-project-function #'consult--default-project--function)
+    ;;;; 2. vc.el (vc-root-dir)
+    ;; (setq consult-project-function (lambda (_) (vc-root-dir)))
+    ;;;; 3. locate-dominating-file
+    ;; (setq consult-project-function (lambda (_) (locate-dominating-file "." ".git")))
+    ;;;; 4. projectile.el (projectile-project-root)
+    ;; (autoload 'projectile-project-root "projectile")
+    ;; (setq consult-project-function (lambda (_) (projectile-project-root)))
+    ;;;; 5. No project support
+    ;; (setq consult-project-function nil)
+  )
+#+end_src
+
+Then the general bindings...
+
+##+begin_src emacs-lisp
+  (ftwynn/leader-key-def
+    "bb" 'consult-buffer
+    "s"  '(:ignore t :which-key "search")
+    "sd"  'consult-find
+    "sg"  'consult-grep
+    "sr"  'consult-ripgrep
+    "ss"  'consult-line
+    "sh"  'consult-org-heading
+     )
 ##+end_src
+
+* EVALUATING Embark
+Note that it needs the paired package to work well with consult... I think.
+
+This gives a super-charged right-click style menu
+
+
+#+BEGIN_SRC emacs-lisp
+  (use-package embark
+    :ensure t
+    :demand t
+    :after avy
+    :bind (("C-c a" . embark-act))        ; bind this to an easy key to hit
+    :init
+    ;; Add the option to run embark when using avy
+    (defun bedrock/avy-action-embark (pt)
+      (unwind-protect
+          (save-excursion
+            (goto-char pt)
+            (embark-act))
+        (select-window
+         (cdr (ring-ref avy-ring 0))))
+      t)
+
+    ;; After invoking avy-goto-char-timer, hit "." to run embark at the next
+    ;; candidate you select
+    (setf (alist-get ?. avy-dispatch-alist) 'bedrock/avy-action-embark))
+
+  (use-package embark-consult
+    :ensure t)
+
+#+END_SRC
+
+* Completions
+** EVALUATING Vertico
+Vertical completion for minibuffer
+
+#+BEGIN_SRC emacs-lisp
+  (use-package vertico
+    :ensure t
+    :init
+    ;; You'll want to make sure that e.g. fido-mode isn't enabled
+    (vertico-mode))
+#+END_SRC
+
+This was included in bedrock, but wouldn't pull for me for some reason
+##+BEGIN_SRC emacs-lisp
+
+  (use-package vertico-directory
+    :ensure nil
+    :after vertico
+    :bind (:map vertico-map
+                ("M-DEL" . vertico-directory-delete-word)))
+##+END_SRC
+** EVALUATING Marginalia
+Minibuffer annotations
+
+#+BEGIN_SRC emacs-lisp
+  (use-package marginalia
+    :ensure t
+    :config
+    (marginalia-mode))
+#+END_SRC
+** EVALUATING Corfu
+Popular pop-up completion at point
+
+#+BEGIN_SRC emacs-lisp
+  (use-package corfu
+    :ensure t
+    :init
+    (global-corfu-mode)
+    :bind
+    (:map corfu-map
+          ("SPC" . corfu-insert-separator)
+          ("C-n" . corfu-next)
+          ("C-p" . corfu-previous)))
+
+  ;; Part of corfu
+  ;; (use-package corfu-popupinfo
+  ;;   :after corfu
+  ;;   :ensure nil
+  ;;   :hook (corfu-mode . corfu-popupinfo-mode)
+  ;;   :custom
+  ;;   (corfu-popupinfo-delay '(0.25 . 0.1))
+  ;;   (corfu-popupinfo-hide nil)
+  ;;   :config
+  ;;   (corfu-popupinfo-mode))
+
+  ;; Make corfu popup come up in terminal overlay
+  (use-package corfu-terminal
+    :if (not (display-graphic-p))
+    :ensure t
+    :config
+    (corfu-terminal-mode))
+
+  ;; Pretty icons for corfu
+  (use-package kind-icon
+    :if (display-graphic-p)
+    :ensure t
+    :after corfu
+    :config
+    (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+#+END_SRC
 
 ** EVALUATING Orderless
 
-This appears to be important for... fuzzy matching I think?
-
-;;#+begin_src emacs-lisp
-;; Optionally use the `orderless' completion style.
-(use-package orderless
-:init
-;; Configure a custom style dispatcher (see the Consult wiki)
-;; (setq orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch)
-;;       orderless-component-separator #'orderless-escapable-split-on-space)
-(setq completion-styles '(orderless basic)
-completion-category-defaults nil
-completion-category-overrides '((file (styles partial-completion)))))
-
-;;#+end_src
-
-Trying a much more involved version from a blog post to see how it feels.
-
-The above is just the docs' basic recommendation.
-
-##+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (use-package orderless
-    :custom
-    (completion-styles '(orderless))
-    (completion-category-defaults nil)    ; I want to be in control!
-    (completion-category-overrides
-     '((file (styles basic-remote ; For `tramp' hostname completion with `vertico'
-                     orderless
-                     ))
-       ))
+    :ensure t
+    :config
+    (setq completion-styles '(orderless)))
 
-    (orderless-component-separator 'orderless-escapable-split-on-space)
-    (orderless-matching-styles
-     '(orderless-literal
-       orderless-prefixes
-       orderless-initialism
-       orderless-regexp
-       orderless-flex
-       ;; orderless-strict-leading-initialism
-       ;; orderless-strict-initialism
-       ;; orderless-strict-full-initialism
-       ;; orderless-without-literal          ; Recommended for dispatches instead
-       ))
-    (orderless-style-dispatchers
-     '(prot-orderless-literal-dispatcher
-       prot-orderless-strict-initialism-dispatcher
-       prot-orderless-flex-dispatcher
-       ))
-    :init
-    (defun orderless--strict-*-initialism (component &optional anchored)
-      "Match a COMPONENT as a strict initialism, optionally ANCHORED.
-  The characters in COMPONENT must occur in the candidate in that
-  order at the beginning of subsequent words comprised of letters.
-  Only non-letters can be in between the words that start with the
-  initials.
+#+END_SRC
 
-  If ANCHORED is `start' require that the first initial appear in
-  the first word of the candidate.  If ANCHORED is `both' require
-  that the first and last initials appear in the first and last
-  words of the candidate, respectively."
-      (orderless--separated-by
-          '(seq (zero-or-more alpha) word-end (zero-or-more (not alpha)))
-        (cl-loop for char across component collect `(seq word-start ,char))
-        (when anchored '(seq (group buffer-start) (zero-or-more (not alpha))))
-        (when (eq anchored 'both)
-          '(seq (zero-or-more alpha) word-end (zero-or-more (not alpha)) eol))))
+* EVALUATING Eat Terminal
+Tinkering with this a bit
 
-    (defun orderless-strict-initialism (component)
-      "Match a COMPONENT as a strict initialism.
-  This means the characters in COMPONENT must occur in the
-  candidate in that order at the beginning of subsequent words
-  comprised of letters.  Only non-letters can be in between the
-  words that start with the initials."
-      (orderless--strict-*-initialism component))
+#+BEGIN_SRC emacs-lisp
+  (straight-use-package
+   '(eat :type git
+         :host codeberg
+         :repo "akib/emacs-eat"
+         :files ("*.el" ("term" "term/*.el") "*.texi"
+                 "*.ti" ("terminfo/e" "terminfo/e/*")
+                 ("terminfo/65" "terminfo/65/*")
+                 ("integration" "integration/*")
+                 (:exclude ".dir-locals.el" "*-tests.el"))))
+#+END_SRC
 
-    (defun prot-orderless-literal-dispatcher (pattern _index _total)
-      "Literal style dispatcher using the equals sign as a suffix.
-  It matches PATTERN _INDEX and _TOTAL according to how Orderless
-  parses its input."
-      (when (string-suffix-p "=" pattern)
-        `(orderless-literal . ,(substring pattern 0 -1))))
-
-    (defun prot-orderless-strict-initialism-dispatcher (pattern _index _total)
-      "Leading initialism  dispatcher using the comma suffix.
-  It matches PATTERN _INDEX and _TOTAL according to how Orderless
-  parses its input."
-      (when (string-suffix-p "," pattern)
-        `(orderless-strict-initialism . ,(substring pattern 0 -1))))
-
-    (defun prot-orderless-flex-dispatcher (pattern _index _total)
-      "Flex  dispatcher using the tilde suffix.
-  It matches PATTERN _INDEX and _TOTAL according to how Orderless
-  parses its input."
-      (when (string-suffix-p "." pattern)
-        `(orderless-flex . ,(substring pattern 0 -1))))
-    )
-##+end_src
-
-What even is this... trying something minimal with fido
-
-#+begin_src emacs-lisp
-(use-package orderless
-  :ensure t
-  :config
-  (fido-vertical-mode)
-  :custom
-  (completion-styles '(orderless)))
-
-(defun my-icomplete-styles ()
-  (setq-local completion-styles '(orderless flex)))
-(add-hook 'icomplete-minibuffer-setup-hook 'my-icomplete-styles)
-#+end_src
-
-** AVOIDING Consult
-
-This may not be necessary with marginalia?
-
-https://kristofferbalintona.me/posts/202202211546/
-
-The above post doesn't use it... I'd have to check what it does to see if I really need it
-
-** AVOIDING Marginalia
-
-##+begin_src emacs-lisp
-  (use-package marginalia
-                                          ;:general
-                                          ;(:keymaps 'minibuffer-local-map
-                                          ;"M-A" 'marginalia-cycle)
-    :custom
-    (marginalia-max-relative-age 0)
-    (marginalia-align 'right)
-    :init
-    (marginalia-mode))
-
-##+end_src
-
-That gives nice text, but there's icons too with all-the-icons!
-
-##+begin_src emacs-lisp
-  (use-package all-the-icons-completion
-    :after (marginalia all-the-icons)
-    :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
-    :init
-    (all-the-icons-completion-mode))
-##+end_src
 
 * AVOIDING Evil Mode
 
