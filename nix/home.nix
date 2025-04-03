@@ -93,6 +93,7 @@
     gh
     helix
     emacs
+    emacs-all-the-icons-fonts
     # Trying to get some lang servers I see put around
     vscode-langservers-extracted
     typescript-language-server
@@ -192,6 +193,13 @@
   programs.direnv.enable = true;
   programs.eza.enable = true;
 
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 7d --keep 3";
+    flake = "/home/david/dotfiles/nix";
+  };
+  
   services.syncthing = {
     enable = true;
     tray.enable = true;
