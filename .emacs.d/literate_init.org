@@ -1475,14 +1475,6 @@ Still tinkering with the right binding command, since the typical advice of =C-c
           ))
 #+end_src
 
-** AVOIDING org-bullets
-Time to try it in light of no indent mode
-
-##+begin_src emacs-lisp
-    (use-package org-bullets
-    :config
-    (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-##+end_src
 ** Cause Babel runs to use minibuffer by default instead of inline
 
 Still inserts the Results header, but it's better than cleaning up /all/ the junk lines
