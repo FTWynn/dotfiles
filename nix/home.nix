@@ -118,6 +118,7 @@
     microsoft-edge
     lan-mouse
     input-leap
+    ghostty
 
   ]);
 
@@ -136,6 +137,7 @@
     ".config/helix/config.toml".source = ../helix/config.toml;
     ".config/lazygit/config.yml".source = ../lazygit/config.yml;
     ".config/nushell/config.nu".source = ../nushell/config.nu;
+    #".config/nushell/env.nu".source = ../nushell/env.nu; #Causing switch to choke for reasons unknown
     ".emacs.d" = {
       source = ../.emacs.d;
       recursive = true;
