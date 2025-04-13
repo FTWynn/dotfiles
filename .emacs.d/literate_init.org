@@ -783,7 +783,7 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
     ;;    (ledger . t)))
     )
 #+end_src
-** EVALUATING COMMENT Improved Return Function
+** EVALUATING Improved Return Function
 An improved set of ideas around Org-return originally from here: https://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/
 
 I like how readable the code is. I've commented out `org-inlinetask` since I don't use it for now. 
@@ -863,76 +863,67 @@ Use a prefix arg to get regular RET. "
   'scimax/org-return)
 ##+END_SRC
 
-My attempt, heavily inspired
+My attempt, heavily inspired by the above and Gemini
 
-##+BEGIN_SRC emacs-lisp
-  ;(require 'org-inlinetask)
+
+#+BEGIN_SRC emacs-lisp
+  (require 'org-inlinetask)
+
+  (defun ftwynn/item-list-trailing-whitespace-p ()
+    (and
+     (org-in-item-p)
+     (save-excursion (beginning-of-line) (looking-at "^[[:space:]]+$")) t)
+    )
+
+  (defun ftwynn/point-on-heading-or-item-p ()
+    (or
+     (org-at-item-checkbox-p)
+     (and (org-in-item-p)
+    	(not (ftwynn/item-list-trailing-whitespace-p)))
+     (org-at-heading-p)
+     ))
+
+  (defun ftwynn/empty-item-or-heading-p ()
+    (cond
+     ((org-at-heading-p)
+      (string= "" (org-element-property :title (org-element-context))))
+     ((org-in-item-p)
+      (not (save-excursion (beginning-of-line) (org-element-property :contents-begin (org-element-context)))))))
+      
 
   (defun ftwynn/org-return (&optional ignore)
-    "Add new list item, heading or table row with RET.
-  A double return on an empty element deletes it.
-  Use a prefix arg to get regular RET. "
     (interactive "P")
-    (if ignore
-        (org-return)
-      (cond
-
-       ((eq 'line-break (car (org-element-context)))
-        (org-return-indent))
-
-       ;; Open links like usual, unless point is at the end of a line.
-       ;; and if at beginning of line, just press enter.
-       ((or (and (eq 'link (car (org-element-context))) (not (eolp)))
-  	  (bolp))
-        (org-return))
-
-       ;; checkboxes too
-       ((org-at-item-checkbox-p)
-        (org-insert-item t))
-
-       ;; lists end with two blank lines, so we need to make sure we are also not
-       ;; at the beginning of a line to avoid a loop where a new entry gets
-       ;; created with only one blank line.
-       ((org-in-item-p)
-        (if (save-excursion (beginning-of-line) (org-element-property :contents-begin (org-element-context)))
-  	  (org-insert-heading)
-  	(beginning-of-line)
-  	(delete-region (line-beginning-position) (line-end-position))
-  	(org-return)))
-
-       ;; org-heading
-       ((org-at-heading-p)
-        (if (not (string= "" (org-element-property :title (org-element-context))))
-  	  (progn (org-end-of-meta-data)
-  		 (org-insert-heading-respect-content)
-  		 (outline-show-entry))
-  	(beginning-of-line)
-  	(setf (buffer-substring
-  	       (line-beginning-position) (line-end-position)) "")))
-
-       ;; tables
-       ;; ((org-at-table-p)
-       ;;  (if (-any?
-       ;; 	   (lambda (x) (not (string= "" x)))
-       ;; 	   (nth
-       ;; 	    (- (org-table-current-dline) 1)
-       ;; 	    (org-table-to-lisp)))
-       ;; 	  (org-return)
-       ;; 	;; empty row
-       ;; 	(beginning-of-line)
-       ;; 	(setf (buffer-substring
-       ;; 	       (line-beginning-position) (line-end-position)) "")
-       ;; 	(org-return)))
-
-       ;; fall-through case
-       (t
-        (org-return)))))
-
+    (cond
+     ;; Needs to be a valid item for us to replace
+     ((ignore) 
+      (org-return))
+     ((org-inlinetask-in-task-p)
+      (org-return))
+     ((not (ftwynn/point-on-heading-or-item-p))
+      (org-return))
+     ;; Clear if empty
+     ((and (ftwynn/point-on-heading-or-item-p) (ftwynn/empty-item-or-heading-p))
+      (beginning-of-line)
+      (delete-region (line-beginning-position) (line-end-position)))
+     ;; Add a checkbox after a checkbox
+     ((org-at-item-checkbox-p)
+      (org-insert-item t))
+     ;; Add a list item after an item
+     ((org-in-item-p)
+      (org-meta-return))
+     ;; Add a heading after a heading
+     ((org-at-heading-p)
+      (org-meta-return))
+     ;; Default in case I forgot something
+     (t
+      (org-return)))
+    )
 
   (define-key org-mode-map (kbd "RET")
-    'ftwynn/org-return)
+  	    'ftwynn/org-return)
 
-##+END_SRC
+#+END_SRC
+
 
 
 ** DONE Custom ID Function
