@@ -2181,7 +2181,7 @@ It apparently needs some fonts
 =M-x all-the-icons-install-fonts=
 AFTER this is installed the first time on a new system (Linux or OSX)
 
-##+begin_src emacs-lisp
+#+begin_src emacs-lisp
     (use-package all-the-icons
       :if (display-graphic-p))
 ;    (use-package all-the-icons
@@ -2195,7 +2195,7 @@ AFTER this is installed the first time on a new system (Linux or OSX)
 ;        (set-fontset-font t 'unicode (font-spec :family "FontAwesome") nil 'append)
 ;        (set-fontset-font t 'unicode (font-spec :family "Weather Icons") nil 'append))
 
-##+end_src
+#+end_src
 
 Let's set the font color for emacs mode to be more different than... normal mode... which it isn't by default
 
