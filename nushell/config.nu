@@ -19,5 +19,8 @@ $env.config = {
   }
 }
 
+# Enable zoxide
+source "~/.zoxide.nu"
+
 # Alises
 alias ll = ls -l
