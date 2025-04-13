@@ -119,6 +119,8 @@
     lan-mouse
     input-leap
     ghostty
+    chezmoi
+    stow
 
   ]);
 
@@ -131,17 +133,19 @@
     # ".screenrc".source = dotfiles/screenrc;
 
     # FTWynn: Testing this out as stow alternative
-    ".config/starship.toml".source = ../starship/starship.toml;
-    ".config/fish/config.fish".source = ../fish/config.fish;
-    ".config/kitty/kitty.conf".source = ../kitty/kitty.conf;
-    ".config/helix/config.toml".source = ../helix/config.toml;
-    ".config/lazygit/config.yml".source = ../lazygit/config.yml;
-    ".config/nushell/config.nu".source = ../nushell/config.nu;
+    # 2025-04-14: Bailing on this as each rebuild replaces the symlinks... and I just don't find tying them to nix generations to be helpful... and I edit my emacs config A LOT
+
+    #".config/starship.toml".source = ../starship/starship.toml;
+    #".config/fish/config.fish".source = ../fish/config.fish;
+    #".config/kitty/kitty.conf".source = ../kitty/kitty.conf;
+    #".config/helix/config.toml".source = ../helix/config.toml;
+    #".config/lazygit/config.yml".source = ../lazygit/config.yml;
+    #".config/nushell/config.nu".source = ../nushell/config.nu;
     #".config/nushell/env.nu".source = ../nushell/env.nu; #Causing switch to choke for reasons unknown
-    ".emacs.d" = {
-      source = ../.emacs.d;
-      recursive = true;
-    };
+    #".emacs.d" = {
+    #  source = ../.emacs.d;
+    #  recursive = true;
+    #};
     # For unknown reasons, I can't get this to home-manage, so I copy and paste it manually for now
     #".config/atuin/config.toml".source = ../atuin/config.toml;
 
