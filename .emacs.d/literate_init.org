@@ -763,8 +763,8 @@ Org-descriptive links seems to need to be off to see link highlighting syntax
     ;        org-irc))
 
     (setq org-refile-targets '((nil :maxlevel . 6)
-                               ("~/org-roam-repo/v002/brain.org" :maxlevel . 6)
-  			     ("~/org-roam-repo/v002/journal.org" :maxlevel . 6)
+                               ("~/org-roam-repo/brain.org" :maxlevel . 6)
+  			     ("~/org-roam-repo/journal.org" :maxlevel . 6)
                                ))
 
     (setq org-outline-path-complete-in-steps nil)
@@ -1490,11 +1490,11 @@ Still tinkering with the right binding command, since the typical advice of =C-c
            (file "~/org-roam-repo/templates/project_scaffold.org") :prepend t)
           ("c" "New Contact" entry (file+olp "~/org-roam-repo/mobile/contacts.org" "Inbox") 
            (file "~/org-roam-repo/templates/new_contact.org") :jump-to-captured t)
-  	("i" "Interstitial Journal" entry (file+datetree "~/org-roam-repo/v002/journal.org")
+  	("i" "Interstitial Journal" entry (file+datetree "~/org-roam-repo/journal.org")
   	 (file "~/org-roam-repo/templates/interstitial_journal.org"))
-  	("m" "Morning Journal" entry (file+datetree "~/org-roam-repo/v002/journal.org")
+  	("m" "Morning Journal" entry (file+datetree "~/org-roam-repo/journal.org")
   	 (file "~/org-roam-repo/templates/morning_journal.org"))
-  	("e" "Evening Journal" entry (file+datetree "~/org-roam-repo/v002/journal.org")
+  	("e" "Evening Journal" entry (file+datetree "~/org-roam-repo/journal.org")
   	 (file "~/org-roam-repo/templates/evening_journal.org"))
           ))
 #+end_src
@@ -1577,7 +1577,7 @@ This is the full config as specified in the denote manual as of 2025-04-02.
 
     :config
     ;; Remember to check the doc string of each of those variables.
-    (setq denote-directory (expand-file-name "~/org-roam-repo/v002"))
+    (setq denote-directory (expand-file-name "~/org-roam-repo"))
     (setq denote-save-buffers nil)
     (setq denote-known-keywords '("emacs" "philosophy" "politics" "economics" "crm" "project" "customer" "antithesis"))
     (setq denote-infer-keywords t)
