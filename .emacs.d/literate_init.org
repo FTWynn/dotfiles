@@ -524,6 +524,17 @@ https://lucidmanager.org/productivity/writing-prose-with-emacs/ has a better tho
   (add-hook 'text-mode-hook 'visual-line-mode)
 #+end_src
 
+** EVALUATING Show Line Numbers in Programming modes
+This feels more structured, but I think I'm leaning this way instead of pretty these days
+
+#+BEGIN_SRC emacs-lisp
+  ;(add-hook 'prog-mode-hook 'display-line-numbers-mode)  
+  (global-display-line-numbers-mode 1)
+  ; Set a minimum width
+  (setopt display-line-numbers-width 3)
+  (setq display-line-numbers-type 'relative)
+#+END_SRC
+
 ** EVALUATING Golden Ratio
 Not maintained, but might still be nice to tinker with
 
