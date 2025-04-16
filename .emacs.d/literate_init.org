@@ -209,12 +209,25 @@ https://aatmunbaxi.netlify.app/comp/meow_state_org_speed/
     '("P" . meow-org-motion-mode))
 #+END_SRC
 
-** Allow expand overlays in org and markdown mode
+** DONE Allow expand overlays in org and markdown mode
 The expand numbers are excluded from org and markdown by default, assuming you'll use variable pitch fonts. I'm turning it off to test it out since I'm using fixed width.
 
 
 #+BEGIN_SRC emacs-lisp
   (setq meow-expand-exclude-mode-list nil)
+#+END_SRC
+
+** DONE Changing the initial meow-state for some modes
+Taking the initial defaults and adding some of my own
+
+#+BEGIN_SRC emacs-lisp
+  (setq meow-mode-state-list
+        '((conf-mode . normal)
+         (fundamental-mode . normal)
+         (help-mode . motion)
+         (prog-mode . normal)
+         (text-mode . normal)
+         (vc-git-log-edit-mode . insert)))
 #+END_SRC
 
 * AVOIDING God Mode
