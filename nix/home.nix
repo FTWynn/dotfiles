@@ -84,12 +84,14 @@
       en-computers
       en-science
     ]))
+    lsof
     jdk
     clojure
     boot
     leiningen
     cljfmt
     babashka
+    tree
   ])
   ++
   (with pkgs-unstable; [
