@@ -2106,6 +2106,51 @@ There are a few modes I use a fair amount that aren't included. Ideally I'd like
   (add-hook 'sh-mode-hook #'eglot-ensure)
 #+END_SRC
 
+** Clojure
+It needs it's whole own section I think
+
+
+#+BEGIN_SRC emacs-lisp
+  (use-package clojure-mode
+    :ensure t
+    :mode (
+  	 ("\\.clj\\'" . clojure-mode)
+  	 ("\\.cljs\\'" . clojure-mode)
+  	 ("\\.cljc\\'" . clojure-mode)
+  	 ("\\.edn\\'" . clojure-mode)))
+
+
+  ;; --- CIDER Integration (Full-Featured REPL Environment) ---
+  ;; Choose this OR inf-clojure below as your primary tool
+  (use-package cider
+    :ensure t
+    :after clojure-mode ; Ensure clojure-mode loads first
+    ;; Defer loading until a CIDER command is actually run
+    :commands (cider-jack-in cider-connect cider-jack-in-cljs cider-connect-cljs
+                           cider-repl-quit cider-refresh cider-eval-buffer cider-eval-last-sexp
+                           cider-load-buffer cider-doc cider-apropos)
+    ;; Hook CIDER's minor mode into clojure-mode buffers for keybindings & features
+    :hook (clojure-mode . cider-mode)
+    :config
+    ;; --- Basic CIDER Customizations (Examples) ---
+    ;; Don't automatically pop up the REPL buffer when connecting
+    (setq cider-repl-pop-to-buffer-on-connect nil)
+    ;; How to display the REPL buffer (consult `display-buffer-alist` for options)
+    (setq cider-repl-display-help-buffer-function 'other-window)
+    ;; Avoid cluttering the *Messages* buffer with nREPL messages
+    (setq nrepl-hide-special-buffers t)
+    ;; Show documentation in eldoc when point is on a symbol
+    (setq cider-eldoc-display-for-symbol-at-point t)
+    ;; Where to show compilation/error messages (options: 'only-in-repl, t, nil)
+    (setq cider-show-error-buffer 'only-in-repl)
+    ;; Enhance syntax highlighting for specific forms
+    (setq cider-font-lock-dynamically '(macro core function var))
+    ;; Set default ClojureScript REPL type (e.g., 'shadow-select', 'figwheel-main', 'node')
+    ;; (setq cider-default-cljs-repl 'shadow-select)
+    )
+#+END_SRC
+
+
 * Themes
 ** Modus Theme Customizations
 

@@ -84,6 +84,12 @@
       en-computers
       en-science
     ]))
+    jdk
+    clojure
+    boot
+    leiningen
+    cljfmt
+    babashka
   ])
   ++
   (with pkgs-unstable; [
@@ -112,6 +118,7 @@
     awk-language-server
     dockerfile-language-server-nodejs
     docker-compose-language-service
+    clojure-lsp
 
     nixfmt-rfc-style
     nushell
