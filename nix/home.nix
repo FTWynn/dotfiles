@@ -92,6 +92,9 @@
     cljfmt
     babashka
     tree
+    podman-tui
+    k3s
+    input-leap
   ])
   ++
   (with pkgs-unstable; [
@@ -126,7 +129,6 @@
     nushell
     microsoft-edge
     lan-mouse
-    input-leap
     ghostty
     chezmoi
     stow
