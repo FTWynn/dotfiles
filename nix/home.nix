@@ -95,6 +95,9 @@
     podman-tui
     k3s
     input-leap
+    slack
+    poppler_utils
+    devcontainer
   ])
   ++
   (with pkgs-unstable; [
