@@ -1777,6 +1777,64 @@ Might want to add in some fun ways to dynamically generate this from the whole r
                                "~/org-roam-repo/PARA.org"))
 ##+end_src
 
+
+#+BEGIN_SRC emacs-lisp
+  (defvar ftwynn/org-projects-file (expand-file-name "~/org-roam-repo/20250414T104922--projects.org")
+    "The main projects file to scan for linked org files.")
+
+  (defun ftwynn/org-get-dynamic-agenda-files ()
+    "Dynamically generate the list of org-agenda-files.
+  Includes `ftwynn/org-projects-file` and any org files linked within it."
+    (let ((project-file ftwynn/org-projects-file)
+          (agenda-files '())) ;; Initialize empty list
+
+      ;; 1. Add the main projects file itself, if it exists
+      (when (file-exists-p project-file)
+        (add-to-list 'agenda-files project-file))
+
+      ;; 2. Find and add linked .org files from within the projects file
+      (when (file-exists-p project-file)
+        (let ((project-dir (file-name-directory project-file))
+              ;; Regex to find [[file:*.org]] links. Captures the path.
+  	    ;; TODO: update for denote links
+              (org-link-regexp "\\[\\[file:\\([^]]+\\.org\\)\\]"))
+          ;; Process the file content in a temporary buffer
+          (with-temp-buffer
+            (insert-file-contents project-file)
+            (goto-char (point-min))
+            ;; Search for links throughout the buffer
+            (while (re-search-forward org-link-regexp nil t)
+              (let* ((linked-file-relative (match-string 1))
+                     ;; Resolve relative paths based on project-dir
+                     (linked-file-absolute (expand-file-name linked-file-relative project-dir)))
+                ;; Add the absolute path to the list if it exists
+                (when (file-exists-p linked-file-absolute)
+                  (add-to-list 'agenda-files linked-file-absolute)))))))
+
+      ;; Return the potentially modified list (duplicates already handled by add-to-list)
+      ;; It's good practice to ensure the list contains *existing* files,
+      ;; which we did inside the loop and when adding the main project file.
+      ;; If you want to be extra robust, you could filter here, but it's likely redundant.
+      ;; (seq-filter #'file-exists-p agenda-files)
+      agenda-files))
+
+  ;; Set org-agenda-files to *call* our function dynamically
+  (setq org-agenda-files #'ftwynn/org-get-dynamic-agenda-files)
+
+  ;; Optional: Advise org-agenda-prepare-buffers to refresh if needed,
+  ;; although calling the function directly usually suffices.
+  ;; (advice-add 'org-agenda-prepare-buffers :before
+  ;;             (lambda (&rest args) (setq org-agenda-files (my/org-get-dynamic-agenda-files))))
+  ;; --> Note: The above advice is generally *not* needed when setting
+  ;;     org-agenda-files to a function symbol, as Org mode handles calling it.
+  ;;     Keeping it commented out is recommended unless you observe issues.
+
+  (message "Org agenda files set to dynamically update from %s" ftwynn/org-projects-file)
+#+END_SRC
+
+#+RESULTS:
+
+
 *** Agenda File No Calendars
 For cases where I don't want to list these explicitly
 
