@@ -135,6 +135,7 @@
     ghostty
     chezmoi
     stow
+    calibre
 
   ]);
 
