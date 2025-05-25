@@ -1,37 +1,71 @@
+;;; early-init.el --- Emacs Solo (no external packages) Configuration --- Early Init  -*- lexical-binding: t; -*-
+;;
+;; Author: Rahul Martim Juliato
+;; URL: https://github.com/LionyxML/emacs-solo
+;; Package-Requires: ((emacs "30.1"))
+;; Keywords: config
+;; SPDX-License-Identifier: GPL-3.0-or-later
+;;
 
-;; 2023-03-11 Turned off for straight.el
-(setq package-enable-at-startup nil)
+;;; Commentary:
+;;  Early init configuration for Emacs Solo
+;;
+
+;;; Code:
+
+;;; -------------------- PERFORMANCE & HACKS
+;; HACK: inscrease startup speed
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.6
+      vc-handled-backends '(Git))
+
+(setopt native-comp-async-on-battery-power nil) ; EMACS-31
+
+;; HACK: avoid being flashbanged
+(defun emacs-solo/avoid-initial-flash-of-light ()
+  "Avoid flash of light when starting Emacs."
+  (setq mode-line-format nil)
+  ;; These colors should match your selected theme for maximum effect
+  (set-face-attribute 'default nil :background "#292D3E" :foreground "#292D3E"))
+
+(defun emacs-solo/reset-default-foreground ()
+  "Reset the foreground color of the default face."
+    (set-face-attribute 'default nil :foreground (face-foreground 'default)))
+
+(emacs-solo/avoid-initial-flash-of-light)                           ; HACK start
+(add-hook 'after-init-hook #'emacs-solo/reset-default-foreground)   ; HACK undo
 
 
-					; Stolen shamelessly from Emacs bedrock
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
-;;;   Basic settings for quick startup and convenience
-;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Always start Emacs and new frames maximized
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-;; Startup speed, annoyance suppression
-(setq bedrock--initial-gc-threshold gc-cons-threshold)
-(setq gc-cons-threshold 10000000)
-(setq byte-compile-warnings '(not obsolete))
-(setq warning-suppress-log-types '((comp) (bytecomp)))
-(setq native-comp-async-report-warnings-errors 'silent)
 
-;; Silence stupid startup message
-(setq inhibit-startup-echo-area-message (user-login-name))
+;; Better Window Management handling
+(setq frame-resize-pixelwise t
+      frame-inhibit-implied-resize t
+      frame-title-format
+      '(:eval
+        (let ((project (project-current)))
+          (if project
+              (concat "Emacs - [p] "
+                      (file-name-nondirectory (directory-file-name (project-root project))))
+              (concat "Emacs - " (buffer-name))))))
 
-;; Default frame configuration: full screen, good-looking title bar on macOS
-(setq frame-resize-pixelwise t)
-(tool-bar-mode -1)                      ; All these tools are in the menu-bar anyway
-(setq default-frame-alist '((fullscreen . maximized)
+(setq inhibit-compacting-font-caches t)
 
-                            ;; You can turn off scroll bars by uncommenting these lines:
-                            ;; (vertical-scroll-bars . nil)
-                            ;; (horizontal-scroll-bars . nil)
 
-                            ;; Setting the face in here prevents flashes of
-                            ;; color as the theme gets activated
-                            (background-color . "#000000")
-                            (foreground-color . "#ffffff")
-                            (ns-appearance . dark)
-                            (ns-transparent-titlebar . t)))
+;; Disables unused UI Elements
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'tooltip-mode) (tooltip-mode -1))
+
+
+;; Avoid raising the *Messages* buffer if anything is still without
+;; lexical bindings
+(setq warning-minimum-level :error)
+(setq warning-suppress-types '((lexical-binding)))
+
+
+(provide 'early-init)
+;;; early-init.el ends here
