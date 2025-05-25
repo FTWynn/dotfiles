@@ -1878,6 +1878,10 @@ and restart Flymake to apply the changes."
   (modus-themes-bold-constructs t)
   (modus-themes-mixed-fonts nil)
   (modus-themes-prompts '(bold intense))
+  (modus-themes-common-palette-overrides
+      `((bg-line-number-active unspecified)
+        (bg-line-number-inactive "#0d0e1c")
+        (fringe "#0d0e1c")))
   ;; (modus-themes-common-palette-overrides
   ;;  `((bg-main "#292D3E")
   ;;    (bg-active bg-main)
