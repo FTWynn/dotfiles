@@ -1523,6 +1523,8 @@ Still tinkering with the right binding command, since the typical advice of =C-c
           ))
 #+end_src
 
+#+RESULTS:
+
 ** Cause Babel runs to use minibuffer by default instead of inline
 
 Still inserts the Results header, but it's better than cleaning up /all/ the junk lines
@@ -2048,8 +2050,11 @@ For broader collaboration, I want to include a specific markdown mode, rather th
   (use-package markdown-mode
     :ensure t
     :commands (markdown-mode gfm-mode)
-    :mode (("README\\.md\\'" . gfm-mode)))
+    ;:mode 
+    ;(("README\\.md\\'" . gfm-mode))
+    )
 #+end_src
+
 * Magit
 
 It's magit. Enough said.
