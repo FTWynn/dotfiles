@@ -8,6 +8,7 @@ if status is-interactive
 	# Aliases, also known as abbreviations
 	abbr l eza
 	abbr ll eza --group --header --group-directories-first --long --icons=always --all --time-style=long-iso
+	abbr cat bat
 
 	# Nix exports and abbreviations
 	set -gx FLAKE "/home/david/dotfiles/nix"
