@@ -130,7 +130,7 @@
 
 	nixfmt-rfc-style
 	nushell
-	microsoft-edge
+	#microsoft-edge
 	lan-mouse
 	ghostty
 	chezmoi
