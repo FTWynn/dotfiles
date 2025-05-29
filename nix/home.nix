@@ -98,6 +98,7 @@
 	slack
 	poppler_utils
 	devcontainer
+	vlc
   ])
   ++
   (with pkgs-unstable; [
