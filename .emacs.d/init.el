@@ -1878,67 +1878,13 @@ and restart Flymake to apply the changes."
   (modus-themes-bold-constructs t)
   (modus-themes-mixed-fonts nil)
   (modus-themes-prompts '(bold intense))
-  ; I'm trying to re-add the solo ones, thinking maybe they're cached somewhere crazy
-  ; and causing display issues
-  ; Yep. That fixed it. I pulled the original modus values from here:
-  ; https://git.sr.ht/~protesilaos/modus-themes/tree/main/item/modus-vivendi-tinted-theme.el
-  ; I suspect it was holding over old values of bg-main and such somehow
-  ; Still doesn't fix the hibrenate issue, but it's a start.
   (modus-themes-common-palette-overrides
-   `((bg-main "#0d0e1c")
-     (bg-active bg-main)
-     (fg-main "#ffffff")
-     (fg-active fg-main)
-     (fg-mode-line-active "#ffffff")
-     (bg-mode-line-active "#484d67")
-     (fg-mode-line-inactive "#969696")
-     (bg-mode-line-inactive "#292d48")
-     (border-mode-line-active "#606270")
-     (border-mode-line-inactive bg-dim)
-     (border-mode-line-active nil)
-     (border-mode-line-inactive nil)
-     (bg-tab-bar      "#2c3045")
-     (bg-tab-current  bg-main)
-     (bg-tab-other    "#4a4f6a")
-     (fg-prompt cyan-cooler)
-     (bg-prompt unspecified)
-     (bg-hover-secondary "#654a39")
-     (bg-completion "#483d8a")
-     (fg-completion white)
-     (bg-region "#555a66")
-     (fg-region white)
-
-     (fg-line-number-active fg-main)
-     (fg-line-number-inactive fg-dim)
-     (bg-line-number-active unspecified)
-     (bg-line-number-inactive bg-main)
-     (fringe bg-main)
-
-     (fg-heading-0 cyan-cooler)
-     (fg-heading-1 fg-main)
-     (fg-heading-2 yellow-faint)
-     (fg-heading-3 blue-faint)
-     (fg-heading-4 magenta)
-
-     (fg-prose-verbatim magenta-warmer)
-     ;(bg-prose-block-contents "#232635")
-     ;(fg-prose-block-delimiter "#676E95")
-     ;(bg-prose-block-delimiter bg-prose-block-contents)
-
-     (accent-1 magenta-warmer)
-
-     (keyword magenta-cooler)
-     (builtin magenta-warmer)
-     (comment red-faint)
-     (string blue-warmer)
-     (fnname magenta)
-     (type cyan-cooler)
-     (variable cyan)
-     (docstring cyan-faint)
-     (constant blue-cooler)))
+   `((bg-line-number-active unspecified)
+     (bg-line-number-inactive "#0d0e1c")
+     (fringe "#0d0e1c")))
   :init
   (load-theme 'modus-vivendi-tinted t))
-(add-hook 'emacs-startup-hook (lambda () (loat-theme 'modus-vivendi-tinted t)))
+
 
 ;;; -------------------- NON TREESITTER AREA
 ;;; SASS-MODE

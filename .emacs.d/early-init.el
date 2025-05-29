@@ -26,7 +26,7 @@
   "Avoid flash of light when starting Emacs."
   (setq mode-line-format nil)
   ;; These colors should match your selected theme for maximum effect
-  (set-face-attribute 'default nil :background "#292D3E" :foreground "#292D3E"))
+  (set-face-attribute 'default nil :background "#0d0e1c" :foreground "#0d0e1c"))
 
 (defun emacs-solo/reset-default-foreground ()
   "Reset the foreground color of the default face."
