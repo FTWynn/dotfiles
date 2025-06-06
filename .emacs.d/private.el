@@ -271,7 +271,12 @@ Includes `ftwynn/org-projects-file` and any org files linked within it."
 
 ;; Set org-agenda-files to *call* our function dynamically
 ;(setq org-agenda-files #'ftwynn/org-get-dynamic-agenda-files)
-(setq org-agenda-files '("~/org-roam-repo/todo.org"))
+(setq org-agenda-files '("~/org-roam-repo/todo.org")) ;;... or don't
+
+;; But on Windows we're in WSL, with a different HOME var
+(when (and (eq system-type 'gnu/linux) (getenv "WSLENV"))
+  (setq org-agenda-files '("mnt/c/Users/Remix/org-roam-repo/todo.org"))
+)
 
 ;; Optional: Advise org-agenda-prepare-buffers to refresh if needed,
 ;; although calling the function directly usually suffices.
