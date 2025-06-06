@@ -699,3 +699,15 @@ Includes `ftwynn/org-projects-file` and any org files linked within it."
         ("e" "Evening Journal" entry (file+datetree "~/org-roam-repo/journal.org")
          (file "~/org-roam-repo/templates/evening_journal.org"))
         ))
+
+
+;; ===========================
+;; Markdown Mode
+;; ===========================
+(use-package markdown-mode
+  :ensure t
+  :defer t
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown")
+  :bind (:map markdown-mode-map
+         ("C-c C-e" . markdown-do)))
