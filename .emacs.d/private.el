@@ -275,7 +275,7 @@ Includes `ftwynn/org-projects-file` and any org files linked within it."
 
 ;; But on Windows we're in WSL, with a different HOME var
 (when (and (eq system-type 'gnu/linux) (getenv "WSLENV"))
-  (setq org-agenda-files '("mnt/c/Users/Remix/org-roam-repo/todo.org"))
+  (setq org-agenda-files '("/mnt/c/Users/Remix/org-roam-repo/todo.org"))
 )
 
 ;; Optional: Advise org-agenda-prepare-buffers to refresh if needed,
