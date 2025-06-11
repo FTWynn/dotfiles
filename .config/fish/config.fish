@@ -15,7 +15,7 @@ if status is-interactive
 
 	abbr nhs 'nh os switch -- --impure --option substitutors ''https://cache.nixos.org'''
 	abbr nhu 'nh os switch -u -- --impure --option substitutors ''https://cache.nixos.org'''
-	abbr nhc 'nh os clean all --keep 5'
+	abbr nhc 'nh clean all --keep 5'
 
 	# Setup zoxide
 	zoxide init fish | source
