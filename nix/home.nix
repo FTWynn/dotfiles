@@ -94,7 +94,7 @@
 	tree
 	podman-tui
 	k3s
-	input-leap
+	#input-leap
 	slack
 	poppler_utils
 	devcontainer
