@@ -99,6 +99,7 @@
 	poppler_utils
 	devcontainer
 	vlc
+	go
   ])
   ++
   (with pkgs-unstable; [
@@ -147,6 +148,7 @@
 	justbuild
 	mask
 	presenterm
+	claude-code
   ]);
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
