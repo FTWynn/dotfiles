@@ -67,7 +67,7 @@
 	btop
 	htop
 	krita
-	kdenlive
+	kdePackages.kdenlive
 	obs-studio
 	tortoisehg
 	verco
