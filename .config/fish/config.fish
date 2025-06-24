@@ -11,7 +11,7 @@ if status is-interactive
 	abbr cat bat
 
 	# Nix exports and abbreviations
-	set -gx FLAKE "/home/david/dotfiles/nix"
+	set -gx NH_FLAKE "/home/david/dotfiles/nix"
 
 	abbr nhs 'nh os switch -- --impure --option substitutors ''https://cache.nixos.org'''
 	abbr nhu 'nh os switch -u -- --impure --option substitutors ''https://cache.nixos.org'''
