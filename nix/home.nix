@@ -100,6 +100,7 @@
 	devcontainer
 	vlc
 	go
+	pkgs.gemini-cli
   ])
   ++
   (with pkgs-unstable; [
