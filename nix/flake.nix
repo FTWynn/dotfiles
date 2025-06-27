@@ -17,12 +17,6 @@
       system = "x86_64-linux";
       lib = nixpkgs.lib;
 
-      # 1. DEFINE THE OVERLAY
-      # This function tells Nix how to build our local package.
-      gemini-cli-overlay = final: prev: {
-        gemini-cli = final.callPackage ./pkgs/gemini-cli { };
-      };
-
       commonArgs = { inherit system; config.allowUnfree = true; };
       
       
@@ -40,8 +34,6 @@
           modules = [
             ./configuration.nix
             # inputs.home-manager.nixosModules.default
-
-            { nixpkgs.overlays = [ gemini-cli-overlay ]; }
 
             home-manager.nixosModules.home-manager
             {
@@ -67,8 +59,6 @@
           inherit system;
           modules = [
             /etc/nixos/configuration.nix
-
-            { nixpkgs.overlays = [ gemini-cli-overlay ]; }
 
             # inputs.home-manager.nixosModules.default
             home-manager.nixosModules.home-manager

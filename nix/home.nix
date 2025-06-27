@@ -100,7 +100,7 @@
 	devcontainer
 	vlc
 	go
-	pkgs.gemini-cli
+	nodejs_22
   ])
   ++
   (with pkgs-unstable; [

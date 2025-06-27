@@ -17,6 +17,9 @@ if status is-interactive
 	abbr nhu 'nh os switch -u -- --impure --option substitutors ''https://cache.nixos.org'''
 	abbr nhc 'nh clean all --keep 5'
 
+	# Add the different global npm path for NixOS
+	fish_add_path ~/.npm-global/bin
+
 	# Setup zoxide
 	zoxide init fish | source
 
