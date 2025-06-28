@@ -1,18 +1,19 @@
 format = """
-[╭](fg:current_line)\
-$os\
+$time\
+$hostname\
+$username\
+$line_break\
 $directory\
 $git_branch\
 $git_status\
-$fill\
+$hg_branch\
+$line_break\
+$shell\
+$cmd_duration\
 $nodejs\
 $bun\
 $deno\
 $aws\
-$cmd_duration\
-$shell\
-$time\
-$username\
 $line_break\
 $character\
 """
@@ -36,7 +37,7 @@ red = '#FF5555'
 yellow = '#F1FA8C'
 
 [os]
-format = '(fg:current_line)[](fg:red)[$symbol ](fg:primary bg:red)[](fg:red)'
+#format = '[─](fg:current_line)[](fg:red)[$symbol ](fg:primary bg:red)[](fg:red)'
 disabled = false
 
 [os.symbols]
@@ -74,34 +75,41 @@ Unknown = ''
 Windows = ''
 
 [directory]
-format = '[─](fg:current_line)[](fg:pink)[󰷏 ](fg:primary bg:pink)[](fg:pink bg:box)[ $read_only$truncation_symbol$path](fg:foreground bg:box)[](fg:box)'
-home_symbol = " ~/"
-truncation_symbol = ' '
-truncation_length = 2
-read_only = '󱧵 '
-read_only_style = ''
+#format = '[|](fg:current_line)[](fg:pink)[󰷏 ](fg:primary bg:pink)[](fg:pink bg:box)[ $read_only$truncation_symbol$path](fg:foreground bg:box)[](fg:box)'
+#home_symbol = " ~"
+#truncation_symbol = ' '
+#truncation_length = 20
+#read_only = '󱧵 '
+#read_only_style = ''
+truncate_to_repo = false
+truncation_length = 20
 
 [git_branch]
-format = '[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $branch](fg:foreground bg:box)'
-symbol = ' '
+#format = '[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $branch](fg:foreground bg:box)'
+format = 'on [$symbol$branch(:$remote_branch)]($style) '
+
+[hg_branch]
+#format = '[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $branch](fg:foreground bg:box)'
+format = 'on [$symbol$branch(:$topic)]($style)$line_break' 
 
 [git_status]
-format = '[( $all_status)](fg:foreground bg:box)[](fg:box)'
+#format = '[( $all_status)](fg:foreground bg:box)[](fg:box)'
+format = '([\[$all_status$ahead_behind\]]($style) )$line_break'
 
 [nodejs]
-format = '[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $version](fg:foreground bg:box)[](fg:box)'
+#format = '[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $version](fg:foreground bg:box)[](fg:box)'
 detect_files = ["package.json", ".node-version", "!bunfig.toml", "!bun.lockb"]
 
 [bun]
-format = '[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $version](fg:foreground bg:box)[](fg:box)'
+#format = '[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $version](fg:foreground bg:box)[](fg:box)'
 symbol = '🥟'
 
 [deno]
-format = '[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $version](fg:foreground bg:box)[](fg:box)'
+#format = '[─](fg:current_line)[](fg:green)[$symbol](fg:primary bg:green)[](fg:green bg:box)[ $version](fg:foreground bg:box)[](fg:box)'
 symbol = '🦕'
 
 [aws]
-format = '[─](fg:current_line)[](fg:purple)[$symbol](fg:primary bg:purple)[](fg:purple bg:box)[ $profile](fg:foreground bg:box)[](fg:box)'
+#format = '[─](fg:current_line)[](fg:purple)[$symbol](fg:primary bg:purple)[](fg:purple bg:box)[ $profile](fg:foreground bg:box)[](fg:box)'
 symbol = '☁️'
 
 [fill]
@@ -110,24 +118,35 @@ style = 'fg:current_line'
 
 [cmd_duration]
 min_time = 500
-format = '[─](fg:current_line)[](fg:orange)[ ](fg:primary bg:orange)[](fg:orange bg:box)[ $duration ](fg:foreground bg:box)[](fg:box)'
+#format = '[─](fg:current_line)[](fg:orange)[ ](fg:primary bg:orange)[](fg:orange bg:box)[ $duration ](fg:foreground bg:box)[](fg:box)'
+format = ' [ ](fg:orange)[$duration](fg:orange)'
 
 [shell]
-format = '[─](fg:current_line)[](fg:blue)[ ](fg:primary bg:blue)[](fg:blue bg:box)[ $indicator](fg:foreground bg:box)[](fg:box)'
+#format = '[|](fg:current_line)[](fg:blue)[ ](fg:primary bg:blue)[](fg:blue bg:box)[ $indicator](fg:foreground bg:box)[](fg:box)'
+format = ' [$indicator]($style)'
 disabled = false
 
 [time]
-format = '[─](fg:current_line)[](fg:purple)[󰦖 ](fg:primary bg:purple)[](fg:purple bg:box)[ $time](fg:foreground bg:box)[](fg:box)'
+#format = '(fg:current_line)[](fg:purple)[󰦖 ](fg:primary bg:purple)[](fg:purple bg:box)[ $time](fg:foreground bg:box)[](fg:box)'
+format = '[󰦖 ]($style)[$time]($style)'
 time_format = '%b %d %r'
 disabled = false
 
 [username]
-format = '[─](fg:current_line)[](fg:yellow)[ ](fg:primary bg:yellow)[](fg:yellow bg:box)[ $user](fg:foreground bg:box)[](fg:box) '
+#format = '[─](fg:current_line)[](fg:yellow)[ ](fg:primary bg:yellow)[](fg:yellow bg:box)[ $user](fg:foreground bg:box)[](fg:box) '
+style_user = 'bold purple'
+style_root = 'bold red'
+format = ' [ ]($style)[$user]($style)'
 show_always = true
 
+[hostname]
+ssh_only = false
+trim_at = ''
+format = ' [󰍹 ]($style)[$ssh_symbol$hostname]($style)'
+
 [character]
-format = """
-[│](fg:current_line)
-[╰─$symbol](fg:current_line) """
+#format = """
+#[│](fg:current_line)
+#[╰─$symbol](fg:current_line) """
 success_symbol = '[](fg:bold green)'
 error_symbol = '[](fg:bold red)'
