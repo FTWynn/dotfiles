@@ -114,7 +114,7 @@
 	# Trying to get some lang servers I see put around
 	vscode-langservers-extracted
 	typescript-language-server
-	tailwindcss-language-server
+	#tailwindcss-language-server
 	bash-language-server
 	nil
 	marksman
