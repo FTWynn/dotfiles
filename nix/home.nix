@@ -94,7 +94,6 @@
 	tree
 	podman-tui
 	k3s
-	#input-leap
 	slack
 	poppler_utils
 	devcontainer
@@ -135,6 +134,7 @@
 	nushell
 	#microsoft-edge
 	lan-mouse
+	input-leap
 	ghostty
 	chezmoi
 	stow
