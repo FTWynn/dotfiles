@@ -2505,3 +2505,9 @@ editor hx
 #: }}}
 
 #: }}}
+
+
+# BEGIN_KITTY_THEME
+# Argonaut
+include current-theme.conf
+# END_KITTY_THEME
