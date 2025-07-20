@@ -100,6 +100,7 @@
 	vlc
 	go
 	nodejs_22
+  harper
   ])
   ++
   (with pkgs-unstable; [
