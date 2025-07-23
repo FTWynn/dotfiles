@@ -2508,6 +2508,6 @@ editor hx
 
 
 # BEGIN_KITTY_THEME
-# 1984 Dark
+# Argonaut
 include current-theme.conf
 # END_KITTY_THEME
