@@ -101,6 +101,7 @@
 	go
 	nodejs_22
   harper
+  inter
   ])
   ++
   (with pkgs-unstable; [
