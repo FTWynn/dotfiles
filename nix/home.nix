@@ -42,7 +42,6 @@
 	obsidian
 	alacritty
 	kitty
-	ptyxis
 	fava
 	#atuin
 	lazygit
@@ -255,4 +254,5 @@
   # };
 
   services.flameshot.enable = true;
+  programs.ptyxis.enable = true;
 }
