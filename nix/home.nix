@@ -101,10 +101,11 @@
 	nodejs_22
   harper
   inter
+  baobab
+  uv
   ])
   ++
   (with pkgs-unstable; [
-	zed-editor
 	vscode
 	_1password-gui
 	gh
@@ -133,7 +134,7 @@
 
 	nixfmt-rfc-style
 	nushell
-	#microsoft-edge
+	#microsoft-edge # shifted to flatpak
 	lan-mouse
 	input-leap
 	ghostty
