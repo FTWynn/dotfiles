@@ -60,3 +60,4 @@ org.audacityteam.Audacity
 org.videolan.VLC
 com.calibre_ebook.calibre
 io.github.kolunmi.Bazaar
+com.github.marhkb.Pods
