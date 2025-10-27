@@ -85,6 +85,7 @@
 	]))
 	lsof
 	jdk
+  maven
 	clojure
 	boot
 	leiningen
@@ -148,13 +149,14 @@
 	dust
 	dua
 	yazi
-	justbuild
+	#justbuild
 	mask
 	presenterm
 	#claude-code
 	zellij
   neovim
   vivaldi
+  devpod
   ]);
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
