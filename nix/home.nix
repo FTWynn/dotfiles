@@ -104,6 +104,7 @@
   inter
   baobab
   uv
+  gnumake
   ])
   ++
   (with pkgs-unstable; [
@@ -129,7 +130,7 @@
 	elixir-ls
 	gopls
 	awk-language-server
-	dockerfile-language-server-nodejs
+	dockerfile-language-server
 	docker-compose-language-service
 	clojure-lsp
 

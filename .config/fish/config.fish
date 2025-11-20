@@ -20,6 +20,8 @@ if status is-interactive
 
     # Add the different global npm path for NixOS
     fish_add_path ~/.npm-global/bin
+    # ... and for uv tools
+    fish_add_path ~/.local/bin
 
     # Setup zoxide
     zoxide init fish | source
