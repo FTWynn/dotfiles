@@ -47,6 +47,7 @@ pcre2
 starship
 unzip
 zstd
+icu4c@77
 
 // FTWynn
 stow
@@ -60,3 +61,5 @@ yazi
 mask
 presenterm
 git
+gemini-cli
+devcontainer
