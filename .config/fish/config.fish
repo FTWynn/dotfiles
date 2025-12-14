@@ -9,6 +9,8 @@ if status is-interactive
     abbr l eza
     abbr ll eza --group --header --group-directories-first --long --icons=always --all --time-style=long-iso
     abbr cat bat
+    # This let's me ssh into devcontainers without adding te ever changing hosts to a hosts file
+    abbr sd ssh -p 2222 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no node@localhost
 
     # Nix exports and abbreviations
     set -gx NH_FLAKE /home/david/dotfiles/nix
