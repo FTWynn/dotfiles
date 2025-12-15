@@ -44,7 +44,7 @@ com.spotify.Client
 com.google.Chrome
 com.slack.Slack
 io.github.sigmasd.stimulator
-io.github.martchus.syncthingtray
+// io.github.martchus.syncthingtray
 dev.zed.Zed
 org.flameshot.Flameshot
 org.gnome.gitlab.johannesjh.favagtk
@@ -63,3 +63,4 @@ io.github.kolunmi.Bazaar
 com.github.marhkb.Pods
 org.gnome.meld
 org.gtk.Gtk3theme.Adwaita-dark
+com.github.zocker_160.SyncThingy
