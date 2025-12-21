@@ -63,3 +63,4 @@ presenterm
 git
 gemini-cli
 devcontainer
+zellij
