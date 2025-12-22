@@ -37,16 +37,12 @@
 	# (pkgs.writeShellScriptBin "my-hello" ''
 	#   echo "Hello, ${config.home.username}!"
 	# '')
-	thunderbird
 	#gnome-tweaks
-	obsidian
 	alacritty
 	kitty
-	fava
 	#atuin
 	lazygit
 	lazydocker
-	spotify
 	# Project Bluefin Suggestions
 	fd
 	fzf
@@ -57,22 +53,15 @@
 	zoxide
 	fastfetch
 	#qsyncthingtray
-	syncthingtray
+	#syncthingtray
 	k9s
 	#flameshot
 	quarto
-	caffeine-ng
-	xournalpp
+	#caffeine-ng
 	btop
 	htop
-	krita
-	kdePackages.kdenlive
-	obs-studio
 	tortoisehg
 	verco
-	scribus
-	pinta
-	lmms
 	fira
 	fira-code
 	source-sans-pro
@@ -95,14 +84,12 @@
 	podman-tui
 	k3s
 	slack
-	poppler_utils
+	poppler-utils
 	devcontainer
-	vlc
 	go
 	nodejs_22
   harper
   inter
-  baobab
   uv
   gnumake
   ])
@@ -142,7 +129,6 @@
 	ghostty
 	chezmoi
 	stow
-	calibre
 
 	bat
 	xh
@@ -156,8 +142,6 @@
 	#claude-code
 	zellij
   neovim
-  vivaldi
-  devpod
   ]);
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
