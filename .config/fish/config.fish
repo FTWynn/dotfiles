@@ -13,10 +13,10 @@ if status is-interactive
     abbr sd ssh -p 2222 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no node@localhost
 
     # Nix exports and abbreviations
-    set -gx NH_FLAKE /home/david/dotfiles/nix
+    # set -gx NH_FLAKE /home/david/dotfiles/nix
 
-    abbr nhs 'nh os switch -- --impure --option substitutors ''https://cache.nixos.org'''
-    abbr nhu 'nh os switch -u -- --impure --option substitutors ''https://cache.nixos.org'''
+    abbr nhs 'sudo nixos-rebuild switch --option substituters ''https://cache.nixos.org'''
+    abbr nhu 'sudo nixos-rebuild switch --option substituters ''https://cache.nixos.org'''
     abbr nhc 'nh clean all --keep 5'
     abbr lg lazygit
 
