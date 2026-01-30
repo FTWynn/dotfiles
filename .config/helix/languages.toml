@@ -5,3 +5,4 @@ args = ["--stdio"]
 [[language]]
 name = "markdown"
 language-servers = ["marksman", "markdown-oxide", "harper-ls"]
+comment-tokens = ["-", "+", "*", "- [ ]", ">"]
