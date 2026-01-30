@@ -24,3 +24,14 @@ source "~/.zoxide.nu"
 
 # Alises
 alias ll = ls -l
+alias y = yazi
+alias cat = bat
+alias lg = lazygit
+alias nhc = nh clean all --keep 5
+alias nhu = sudo nixos-rebuild switch --option substituters 'https://cache.nixos.org'
+
+# Using helix
+$env.config.buffer_editor = "hx"
+
+# Setting externally resolved commands to a new color set above. Might be very slow on WSL and non-Linux
+$env.config.highlight_resolved_externals = true
