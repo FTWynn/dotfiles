@@ -108,6 +108,7 @@ brew "presenterm"
 brew "stow"
 brew "yazi"
 brew "zellij"
+brew "nushell"
 
 # --- FLATPAK (GUI Apps) ---
 flatpak "com.calibre_ebook.calibre"
