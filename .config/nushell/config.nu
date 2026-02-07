@@ -23,10 +23,11 @@ $env.config = {
 # source "~/.zoxide.nu"
 
 # Alises
-alias ll = ls -l
+alias ll = ls -l -a
 alias y = yazi
 alias cat = bat
 alias lg = lazygit
+alias lzd = lazydocker
 alias nhc = nh clean all --keep 5
 alias nhu = sudo nixos-rebuild switch --option substituters 'https://cache.nixos.org'
 
