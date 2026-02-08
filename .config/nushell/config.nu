@@ -36,3 +36,6 @@ $env.config.buffer_editor = "hx"
 
 # Setting externally resolved commands to a new color set above. Might be very slow on WSL and non-Linux
 $env.config.highlight_resolved_externals = true
+
+# Forcing truecolor to help with certain access methods in docker
+$env.COLORTERM = "truecolor"
