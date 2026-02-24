@@ -155,7 +155,7 @@ error_symbol = '[](fg:bold red)'
 [custom.devcontainer]
 description = "Indicator for DevContainer environment"
 when = 'env | grep -q "DEVCONTAINER=true"'
-command = "echo 'via 🐋 '"
+command = "echo 'devcontainer 🐋 '"
 format = " [$output]($style)"
 style = "bold pink"
 
