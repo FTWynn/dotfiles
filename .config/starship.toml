@@ -1,5 +1,6 @@
 format = """
 $time\
+$custom.devcontainer\
 $hostname\
 $username\
 $line_break\
@@ -151,3 +152,9 @@ format = ' [󰍹 ]($style)[$ssh_symbol$hostname]($style)'
 success_symbol = '[](fg:bold green)'
 error_symbol = '[](fg:bold red)'
 
+[custom.devcontainer]
+description = "Indicator for DevContainer environment"
+when = 'test "$DEVCONTAINER" = "true"'
+command = "echo 'via 🐋 '"
+format = "[$output]($style)"
+style = "blue"
