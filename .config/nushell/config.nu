@@ -22,13 +22,28 @@ $env.config = {
 # Enable zoxide
 source "~/.zoxide.nu"
 
+# ==================
 # Alises
+# ==================
 alias ll = ls -l -a
 alias cat = bat
 alias lg = lazygit
 alias lzd = lazydocker
 alias nhc = nh clean all --keep 5
-alias nhu = sudo nix-channel --update -v; sudo nixos-rebuild switch --option substituters 'https://cache.nixos.org'
+def nhu [] {
+    sudo nix-channel --update -v
+    sudo nixos-rebuild switch --option substituters 'https://cache.nixos.org'
+}
+# Set up yazi so it changes the dir on exit
+def --env y [...args] {
+	let tmp = (mktemp -t "yazi-cwd.XXXXXX")
+	^yazi ...$args --cwd-file $tmp
+	let cwd = (open $tmp)
+	if $cwd != $env.PWD and ($cwd | path exists) {
+		cd $cwd
+	}
+	rm -fp $tmp
+}
 
 # Using helix
 $env.config.buffer_editor = "hx"
@@ -42,13 +57,4 @@ $env.COLORTERM = "truecolor"
 # Set a fossil museum environment variable
 $env.FOSSIL_MUSEUM = "/home/david/fossil"
 
-# Set up yazi so it changes the dir on exit
-def --env y [...args] {
-	let tmp = (mktemp -t "yazi-cwd.XXXXXX")
-	^yazi ...$args --cwd-file $tmp
-	let cwd = (open $tmp)
-	if $cwd != $env.PWD and ($cwd | path exists) {
-		cd $cwd
-	}
-	rm -fp $tmp
-}
+
