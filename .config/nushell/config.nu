@@ -47,6 +47,7 @@ def --env y [...args] {
 
 # Using helix
 $env.config.buffer_editor = "hx"
+$env.EDITOR = "hx"
 
 # Setting externally resolved commands to a new color set above. Might be very slow on WSL and non-Linux
 $env.config.highlight_resolved_externals = true
